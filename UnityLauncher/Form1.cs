@@ -16,6 +16,9 @@ namespace UnityLauncher
     {
         private string pathArg = "";
 
+        Dictionary<string, string> unityList = new Dictionary<string, string>();
+
+
         public Form1()
         {
             InitializeComponent();
@@ -23,6 +26,9 @@ namespace UnityLauncher
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // force scan
+            btn_setinstallfolder_Click(null, null);
+
             // TODO: setup window to scan for unity installations (give parent folder)
 
             // check if any arguments (that means, it should parse something)
@@ -61,11 +67,30 @@ namespace UnityLauncher
                             var version = GetProjectVersion(versionPath);
                             Console.WriteLine("Detected project version: " + version);
 
-                            bool installed = CheckInstalled("Unity " + version);
+                            bool installed = OpenWithSuitableVersion(version);
                             if (installed == true)
                             {
                                 // TODO: open?
                                 Console.WriteLine("Opening unity version " + version);
+
+                                try
+                                {
+                                    Process myProcess = new Process();
+
+                                    var cmd = "\"" + unityList[version] + "\"";
+                                    var pars = " -projectPath " + "\"" + pathArg + "\"";
+
+                                    Console.WriteLine("execute: " + cmd);
+
+                                    myProcess.StartInfo.FileName = cmd;
+                                    myProcess.StartInfo.Arguments = pars;
+                                    myProcess.Start();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex);
+                                }
+
                             }
                             else
                             {
@@ -97,6 +122,17 @@ namespace UnityLauncher
 
             // if not installed, offer download
 
+        }
+
+        bool OpenWithSuitableVersion(string version)
+        {
+            // check if got exact hit
+            Console.WriteLine("checking: '" + version + "'");
+
+            var installedExact = unityList.ContainsKey(version);
+            Console.WriteLine("have exact:" + installedExact);
+
+            return installedExact;
         }
 
 
@@ -134,51 +170,14 @@ namespace UnityLauncher
         }
 
 
-        // check installed apps from uninstall list in registry https://stackoverflow.com/a/16392220/5452781
-        // but unity doesnt write there
-        public static bool CheckInstalled(string appName)
-        {
-            string displayName;
-
-            string registryKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
-            RegistryKey key = Registry.LocalMachine.OpenSubKey(registryKey);
-            if (key != null)
-            {
-                foreach (RegistryKey subkey in key.GetSubKeyNames().Select(keyName => key.OpenSubKey(keyName)))
-                {
-                    displayName = subkey.GetValue("DisplayName") as string;
-                    if (displayName != null && displayName.Contains(appName))
-                    {
-                        return true;
-                    }
-                }
-                key.Close();
-            }
-
-            registryKey = @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall";
-            key = Registry.LocalMachine.OpenSubKey(registryKey);
-            if (key != null)
-            {
-                foreach (RegistryKey subkey in key.GetSubKeyNames().Select(keyName => key.OpenSubKey(keyName)))
-                {
-                    displayName = subkey.GetValue("DisplayName") as string;
-                    if (displayName != null && displayName.Contains(appName))
-                    {
-                        return true;
-                    }
-                }
-                key.Close();
-            }
-            return false;
-        }
-
         // set basefolder of all unity installations
         private void btn_setinstallfolder_Click(object sender, EventArgs e)
         {
-            Dictionary<string, string> unityList = new Dictionary<string, string>();
+            //var d = folderBrowserDialog1.ShowDialog();
+            //var root = folderBrowserDialog1.SelectedPath;
 
-            var d = folderBrowserDialog1.ShowDialog();
-            var root = folderBrowserDialog1.SelectedPath;
+            // override
+            var root = "D:/Program Files/";
 
             if (String.IsNullOrWhiteSpace(root) == false)
             {
@@ -190,10 +189,11 @@ namespace UnityLauncher
                     if (File.Exists(uninstallExe))
                     {
                         var unityExe = Path.Combine(directories[i], "Editor", "Unity.exe");
-                        var unityVersion = GetFileVersion(uninstallExe);
+                        var unityVersion = GetFileVersion(uninstallExe).Replace("Unity", "").Trim();
                         // TODO: check if exists, warn
                         unityList.Add(unityVersion, unityExe);
                         lst_unitys.Items.Add(unityVersion + " (" + unityExe + ")");
+                        //Console.WriteLine(unityVersion);
                     } // have uninstaller
                 } // got folders
             } // didnt select anything

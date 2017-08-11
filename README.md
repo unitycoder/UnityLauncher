@@ -21,3 +21,6 @@ https://github.com/unitycoder/UnityLauncher/releases
 
 ### Sources
 Project is created with VS2017 (and .net4.5)
+
+### Reporting Bugs / Requests
+https://github.com/unitycoder/UnityLauncher/issues

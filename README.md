@@ -4,8 +4,8 @@ Tool for automatically launching specific unity versions for each project
 
 # Features
 - Automatically launch correct Unity version for your recent projects
-- If correct version is not installed, UnityInstaller is downloaded or webpage for that version is opened
-- Display Recent projects list (with project version, last modified date and styled with green color if you have this version installed)
+- If correct version is not installed, UnityInstaller.exe is downloaded and started, or webpage for that version is opened
+- Display Recent projects list with project version, last modified date and highlighted with green if you have this version installed
 - Can be used from commandline to automatically open specific project or folder with correct version *to be updated
 
 ![UnityLauncher](https://user-images.githubusercontent.com/5438317/29217186-8b059f5c-7ee3-11e7-9cd4-0280e4b78dc4.jpg "UnityLauncher")

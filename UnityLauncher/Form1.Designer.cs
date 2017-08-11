@@ -134,7 +134,7 @@
             this.btn_openFolder.Name = "btn_openFolder";
             this.btn_openFolder.Size = new System.Drawing.Size(80, 35);
             this.btn_openFolder.TabIndex = 7;
-            this.btn_openFolder.Text = "Explorer";
+            this.btn_openFolder.Text = "Explore";
             this.btn_openFolder.UseVisualStyleBackColor = true;
             this.btn_openFolder.Click += new System.EventHandler(this.btn_openFolder_Click);
             // 

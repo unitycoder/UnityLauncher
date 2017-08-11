@@ -1,17 +1,16 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// TODO: starred projects (keep on top?)
-
+// TODO: FindNearestBestVersion(), so that no need to be exact match
+// TODO: starred projects (keep on top and save to own list?)
 
 namespace UnityLauncher
 {
@@ -61,18 +60,14 @@ namespace UnityLauncher
                 var pathArg = args[1];
                 Console.WriteLine("\nPATH: " + pathArg);
                 Console.WriteLine("");
-
                 LaunchProject(pathArg);
+            }
 
-            }
-            else // no args, just show window
-            {
-                UpdateRecentProjectsList();
-                return;
-            }
+            // this could be delayed, if it affects unity starting?
+            UpdateRecentProjectsList();
         }
 
-        bool OpenWithSuitableVersion(string version)
+        bool HaveExactVersionInstalled(string version)
         {
             // check if got exact hit
             Console.WriteLine("checking: '" + version + "'");
@@ -141,6 +136,8 @@ namespace UnityLauncher
 
         bool ScanUnityInstallations()
         {
+            unityList.Clear();
+
             var root = GetRootFolder();
 
             if (String.IsNullOrWhiteSpace(root) == false && Directory.Exists(root) == true)
@@ -156,7 +153,10 @@ namespace UnityLauncher
                         if (File.Exists(uninstallExe) == true)
                         {
                             var unityVersion = GetUnityVersion(uninstallExe).Replace("Unity", "").Trim();
-                            unityList.Add(unityVersion, unityExe);
+                            if (unityList.ContainsKey(unityVersion)==false)
+                            {
+                                unityList.Add(unityVersion, unityExe);
+                            }
                             //Console.WriteLine(unityVersion);
                         } // have unity.exe
                     } // have uninstaller.exe
@@ -207,26 +207,38 @@ namespace UnityLauncher
                     byte[] projectPathBytes = (byte[])key.GetValue(valueName);
                     string projectPath = Encoding.Default.GetString(projectPathBytes, 0, projectPathBytes.Length - 1);
                     string projectName = projectPath.Substring(projectPath.LastIndexOf("/") + 1);
-                    string lastUpdated = GetLastUpdatedTime(Path.Combine(projectPath, projectName + ".csproj"));
+
+                    string csprojFile = Path.Combine(projectPath, projectName + ".csproj");
+
+                    // editor only project
+                    if (File.Exists(csprojFile)==false)
+                    {
+                        csprojFile = Path.Combine(projectPath, projectName + ".Editor.csproj");
+                    }
+
+                    DateTime? lastUpdated = GetLastUpdatedTime(csprojFile);
 
                     string projectVersion = GetProjectVersion(projectPath);
                     // TODO: could display "Today", "Yesterday", "Last week"..
 
                     gridRecent.Rows.Add(projectName, projectVersion, projectPath, lastUpdated);
+                    //gridRecent.Rows[gridRecent.Rows.Count-1].Cells[1].Style.BackColor = HaveExactVersionInstalled(projectVersion) ?Color.Green:Color.Red;
+                    gridRecent.Rows[gridRecent.Rows.Count-1].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ?Color.Green:Color.Red;
                 }
             }
         }
 
-        string GetLastUpdatedTime(string path)
+        DateTime? GetLastUpdatedTime(string path)
         {
             if (File.Exists(path) == true)
             {
                 DateTime modification = File.GetLastWriteTime(path);
-                return modification.ToShortDateString();
+                //return modification.ToShortDateString();
+                return modification;
             }
             else
             {
-                return "-";
+                return null;
             }
         }
 
@@ -237,8 +249,6 @@ namespace UnityLauncher
             {
                 LaunchProject(gridRecent.Rows[selected].Cells["_path"].Value.ToString());
             }
-            //Console.WriteLine(selected);
-
         }
 
         void LaunchProject(string pathArg)
@@ -252,7 +262,7 @@ namespace UnityLauncher
                     var version = GetProjectVersion(pathArg);
                     Console.WriteLine("Detected project version: " + version);
 
-                    bool installed = OpenWithSuitableVersion(version);
+                    bool installed = HaveExactVersionInstalled(version);
                     if (installed == true)
                     {
                         // TODO: open?
@@ -279,36 +289,119 @@ namespace UnityLauncher
                     }
                     else
                     {
-                        //throw new Exception("Unity version " + version + " is not installed!");
-                        var yesno = MessageBox.Show("Unity version " + version + " is not installed!", "UnityLauncher", MessageBoxButtons.YesNo);
+                        // TODO: offer to download and run installer from that page!
+
+                        var yesno = MessageBox.Show("Unity version " + version + " is not installed! Yes = Download, No = Open Webpage", "UnityLauncher", MessageBoxButtons.YesNoCancel);
+                        string url = "";
+
+                        if (version.Contains("f")) // archived
+                        {
+                            url = "https://unity3d.com/unity/whats-new/unity-" + version.Replace("f1", "");
+                        }
+                        if (version.Contains("p")) // patch version
+                        {
+                            url = "https://unity3d.com/unity/qa/patch-releases/" + version;
+                        }
+                        if (version.Contains("b")) // beta version
+                        {
+                            url = "https://unity3d.com/unity/beta/unity" + version;
+                        }
+
                         if (yesno == DialogResult.Yes)
                         {
-                            Console.WriteLine("download unity..");
-                            if (version.Contains("f")) // archived
+                            Console.WriteLine("download unity: " + url);
+                            if (string.IsNullOrEmpty(url) == false)
                             {
-                                Process.Start("https://unity3d.com/unity/whats-new/unity-" + version.Replace("f1", ""));
+                                DownloadAndRun(url);
                             }
-                            if (version.Contains("p")) // patch version
+                        }
+
+                        if (yesno == DialogResult.No)
+                        {
+                            if (string.IsNullOrEmpty(url) == false)
                             {
-                                Process.Start("https://unity3d.com/unity/qa/patch-releases/" + version);
-                            }
-                            if (version.Contains("b")) // beta version
-                            {
-                                Process.Start("https://unity3d.com/unity/beta/unity" + version);
+                                Process.Start(url);
                             }
                         }
                     }
                 }
                 else
                 {
+                    // TODO: display error in ui
                     throw new DirectoryNotFoundException("No Assets folder founded in: " + pathArg);
                 }
             }
             else // given path doesnt exists, strange
             {
+                // TODO: display error in ui
                 throw new DirectoryNotFoundException("Invalid Path:" + pathArg);
             }
 
+        }
+
+
+        void DownloadAndRun(string url)
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            using (WebClient client = new WebClient())
+            {
+                string html = client.DownloadString(url);
+
+                string foundedURL = "";
+                var allLines = html.Split('\n');
+                for (int i = 0, length = allLines.Length; i < length; i++)
+                {
+                    if (allLines[i].Contains("UnityDownloadAssistant") && allLines[i].Contains(".exe"))
+                    {
+                        var dlURL = allLines[i].Split('\"');
+                        if (dlURL.Length > 1)
+                        {
+                            Console.WriteLine(dlURL[1]);
+                            foundedURL = dlURL[1];
+                            break;
+                        }
+                        break;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(foundedURL) == false)
+                {
+                    // download temp file
+                    using (WebClient downloader = new WebClient())
+                    {
+                        var f = GetFileNameFromUrl(foundedURL);
+                        FileInfo fileInfo = new FileInfo(f);
+                        downloader.DownloadFile(foundedURL, f);
+                        if (File.Exists(fileInfo.FullName))
+                        {
+                            try
+                            {
+                                Process myProcess = new Process();
+                                myProcess.StartInfo.FileName = fileInfo.FullName;
+                                myProcess.Start();
+                                myProcess.WaitForExit();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+
+                        }
+                    }
+                }
+                else // not found
+                {
+                    Process.Start(url);
+                    Console.WriteLine("Cannot parse exe.. opening website instead");
+                }
+            }
+        }
+
+        string GetFileNameFromUrl(string url)
+        {
+            var uri = new Uri(url);
+            var filename = uri.Segments.Last();
+            return filename;
         }
 
         string GetRootFolder()
@@ -316,6 +409,34 @@ namespace UnityLauncher
             return Properties.Settings.Default[_rootFolderKey].ToString();
         }
 
+        private void btn_openFolder_Click(object sender, EventArgs e)
+        {
+            var selected = gridRecent.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                LaunchExplorer(gridRecent.Rows[selected].Cells["_path"].Value.ToString());
+            }
+        }
 
+        void LaunchExplorer(string folder)
+        {
+            if (Directory.Exists(folder)==true)
+            {
+                Process.Start(folder);
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            ScanUnityInstallations();
+        }
+
+
+        /*
+        private void gridRecent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Console.WriteLine("asdfasdfasdfas");
+            LaunchProject(gridRecent.Rows[e.RowIndex].Cells["_path"].Value.ToString());
+        }*/
     }
 }

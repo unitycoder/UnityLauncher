@@ -1,6 +1,6 @@
 # UnityLauncher
 
-Tool for automatically launching specific unity versions for each project
+Tool for automatically launching specific unity versions for each project (Windows only)
 
 # Features
 - Automatically launch correct Unity version for your recent projects

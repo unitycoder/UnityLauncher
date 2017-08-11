@@ -19,8 +19,8 @@ Tool for automatically launching specific unity versions for each project
 # Download
 https://github.com/unitycoder/UnityLauncher/releases
 
-### Sources
+# Sources
 Project is created with VS2017 (and .net4.5)
 
-### Reporting Bugs / Requests
+# Reporting Bugs / Requests
 https://github.com/unitycoder/UnityLauncher/issues

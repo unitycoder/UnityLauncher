@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("UnityLauncher")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Unity Version Selected and Automatic Launcher")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("UnityCoder.com")]
 [assembly: AssemblyProduct("UnityLauncher")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]

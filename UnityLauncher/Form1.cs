@@ -53,14 +53,24 @@ namespace UnityLauncher
                 return;
             }
 
-            // check if received any arguments (that means, should try open the project)
+            // test: -projectPath "D:\download\Swarm-master(1)\Swarm-master"
+
+            // check if received -projectPath argument (that means, should try open the project)
             string[] args = Environment.GetCommandLineArgs();
-            if (args != null && args.Length > 1)
+            if (args != null && args.Length > 2)
             {
-                var pathArg = args[1];
-                Console.WriteLine("\nPATH: " + pathArg);
-                Console.WriteLine("");
-                LaunchProject(pathArg);
+                var commandArg = args[1];
+                if (commandArg == "-projectPath")
+                {
+                    var pathArg = args[2];
+                    Console.WriteLine("\nPATH: " + pathArg);
+                    LaunchProject(pathArg);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid arguments:" + args[1]);
+                }
+
             }
 
             // this could be delayed, if it affects unity starting?
@@ -153,7 +163,7 @@ namespace UnityLauncher
                         if (File.Exists(uninstallExe) == true)
                         {
                             var unityVersion = GetUnityVersion(uninstallExe).Replace("Unity", "").Trim();
-                            if (unityList.ContainsKey(unityVersion)==false)
+                            if (unityList.ContainsKey(unityVersion) == false)
                             {
                                 unityList.Add(unityVersion, unityExe);
                             }
@@ -211,7 +221,7 @@ namespace UnityLauncher
                     string csprojFile = Path.Combine(projectPath, projectName + ".csproj");
 
                     // editor only project
-                    if (File.Exists(csprojFile)==false)
+                    if (File.Exists(csprojFile) == false)
                     {
                         csprojFile = Path.Combine(projectPath, projectName + ".Editor.csproj");
                     }
@@ -223,7 +233,7 @@ namespace UnityLauncher
 
                     gridRecent.Rows.Add(projectName, projectVersion, projectPath, lastUpdated);
                     //gridRecent.Rows[gridRecent.Rows.Count-1].Cells[1].Style.BackColor = HaveExactVersionInstalled(projectVersion) ?Color.Green:Color.Red;
-                    gridRecent.Rows[gridRecent.Rows.Count-1].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ?Color.Green:Color.Red;
+                    gridRecent.Rows[gridRecent.Rows.Count - 1].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ? Color.Green : Color.Red;
                 }
             }
         }
@@ -420,7 +430,7 @@ namespace UnityLauncher
 
         void LaunchExplorer(string folder)
         {
-            if (Directory.Exists(folder)==true)
+            if (Directory.Exists(folder) == true)
             {
                 Process.Start(folder);
             }

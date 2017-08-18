@@ -29,3 +29,7 @@ Project is created with VS2017 (and .net4.5)
 
 # Reporting Bugs / Requests
 https://github.com/unitycoder/UnityLauncher/issues
+
+
+# Unity Forum Thread
+https://forum.unity3d.com/threads/unitylauncher-launch-correct-unity-versions-for-each-project-automatically.488718/

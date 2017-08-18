@@ -34,7 +34,6 @@ namespace UnityLauncher
 
             var root = GetRootFolder();
 
-            Console.WriteLine(root);
             if (string.IsNullOrEmpty(root) == true)
             {
                 SetStatus("Missing root folder..");
@@ -151,7 +150,11 @@ namespace UnityLauncher
         {
             SetStatus("Scanning unity installations..");
 
+            // dictionary
             unityList.Clear();
+
+            // unitylist in other tab
+            unityGridView.Rows.Clear();
 
             var root = GetRootFolder();
 
@@ -171,6 +174,9 @@ namespace UnityLauncher
                             if (unityList.ContainsKey(unityVersion) == false)
                             {
                                 unityList.Add(unityVersion, unityExe);
+
+                                unityGridView.Rows.Add(unityVersion, unityExe);
+
                             }
                             //Console.WriteLine(unityVersion);
                         } // have unity.exe
@@ -271,7 +277,7 @@ namespace UnityLauncher
             LaunchSelectedProject();
         }
 
-        void LaunchProject(string pathArg)
+        void LaunchProject(string pathArg=null)
         {
             // check if path is unity project folder
             if (Directory.Exists(pathArg) == true)
@@ -291,12 +297,8 @@ namespace UnityLauncher
                         try
                         {
                             Process myProcess = new Process();
-
                             var cmd = "\"" + unityList[version] + "\"";
                             var pars = " -projectPath " + "\"" + pathArg + "\"";
-
-                            Console.WriteLine("execute: " + cmd);
-
                             myProcess.StartInfo.FileName = cmd;
                             myProcess.StartInfo.Arguments = pars;
                             myProcess.Start();
@@ -482,6 +484,7 @@ namespace UnityLauncher
         void SetStatus(string msg)
         {
             toolStripStatusLabel1.Text = msg;
+            this.Refresh();
         }
 
 
@@ -521,20 +524,93 @@ namespace UnityLauncher
             }
         }
 
+        /// <summary>
+        /// grid keys
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gridRecent_KeyDown(object sender, KeyEventArgs e)
         {
+            //Console.WriteLine(e.KeyValue);
             switch (e.KeyCode)
             {
-                case Keys.Return: // launch selected
+                case Keys.Return: // launch selected project
                     e.SuppressKeyPress = true;
                     LaunchSelectedProject();
                     break;
-                case Keys.F5: // refresh recent list
+                case Keys.F5: // refresh recent projects list
                     UpdateRecentProjectsList();
                     break;
                 default:
                     break;
             }
         }
+
+        /// <summary>
+        /// global keys
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case '1':
+                    tabControl1.SelectedIndex = 0;
+                    break;
+                case '2':
+                    tabControl1.SelectedIndex = 1;
+                    break;
+                case '3':
+                    tabControl1.SelectedIndex = 2;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void unityGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Return: // launch selected unity
+                    e.SuppressKeyPress = true;
+                    LaunchSelectedUnity();
+                    break;
+                case Keys.F5: // refresh installed unitys list
+                    UpdateInstalledUnitysList();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void LaunchSelectedUnity()
+        {
+            var selected = unityGridView.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                SetStatus("Launching Unity..");
+                var version = unityGridView.Rows[selected].Cells["_unityVersion"].Value.ToString();
+                try
+                {
+                    Process myProcess = new Process();
+                    var cmd = "\"" + unityList[version] + "\"";
+                    myProcess.StartInfo.FileName = cmd;
+                    myProcess.Start();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                SetStatus("Ready");
+            }
+        }
+
+        void UpdateInstalledUnitysList()
+        {
+            ScanUnityInstallations();
+        }
+
     }
 }

@@ -30,30 +30,27 @@ namespace UnityLauncher
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            var root = GetRootFolder();
-            txtRootFolder.Text = root;
+            SetStatus("Initializing..");
 
+            var root = GetRootFolder();
+
+            Console.WriteLine(root);
             if (string.IsNullOrEmpty(root) == true)
             {
-                // we dont have root folder set, ask to set, TODO: no alert boxes
-                var confirmResult = MessageBox.Show("Installation root folder is not set..", "UnityLauncher", MessageBoxButtons.OK);
-                return;
+                SetStatus("Missing root folder..");
+                SetRootFolder();
+                SetStatus("Ready");
             }
+
+            txtRootFolder.Text = root;
 
             // scan installed unitys, TODO: could cache results, at least fileinfo's
             bool foundedUnitys = ScanUnityInstallations();
-            if (foundedUnitys == true)
+            if (foundedUnitys == false)
             {
-                // ok
-            }
-            else
-            {
-                // TODO: no alert box..just message in the form
-                var confirmResult = MessageBox.Show("Did not found any Unity installations, try setting correct root folder..", "UnityLauncher", MessageBoxButtons.OK);
+                SetStatus("Error> Did not found any Unity installations, try setting correct root folder..");
                 return;
             }
-
-            // test: -projectPath "D:\download\Swarm-master(1)\Swarm-master"
 
             // check if received -projectPath argument (that means, should try open the project)
             string[] args = Environment.GetCommandLineArgs();
@@ -62,13 +59,17 @@ namespace UnityLauncher
                 var commandArg = args[1];
                 if (commandArg == "-projectPath")
                 {
+                    SetStatus("Launching from commandline..");
+
                     var pathArg = args[2];
-                    Console.WriteLine("\nPATH: " + pathArg);
+                    //                  Console.WriteLine("\nPATH: " + pathArg);
                     LaunchProject(pathArg);
+                    SetStatus("Ready");
                 }
                 else
                 {
-                    Console.WriteLine("Invalid arguments:" + args[1]);
+                    //                    Console.WriteLine("Invalid arguments:" + args[1]);
+                    SetStatus("Error> Invalid arguments:" + args[1]);
                 }
 
             }
@@ -77,14 +78,16 @@ namespace UnityLauncher
             UpdateRecentProjectsList();
         }
 
+        /// <summary>
+        /// returns true if we have exact version installed
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
         bool HaveExactVersionInstalled(string version)
         {
-            // check if got exact hit
-            Console.WriteLine("checking: '" + version + "'");
-
+            //Console.WriteLine("checking: '" + version + "'");
             var installedExact = unityList.ContainsKey(version);
-            Console.WriteLine("have exact:" + installedExact);
-
+            //Console.WriteLine("have exact:" + installedExact);
             return installedExact;
         }
 
@@ -146,6 +149,8 @@ namespace UnityLauncher
 
         bool ScanUnityInstallations()
         {
+            SetStatus("Scanning unity installations..");
+
             unityList.Clear();
 
             var root = GetRootFolder();
@@ -176,6 +181,8 @@ namespace UnityLauncher
 
             lbl_unityCount.Text = "Founded " + unityList.Count.ToString() + " versions";
 
+            SetStatus("Finished scanning");
+
             // founded any unity installations?
             return unityList.Count > 0;
         }
@@ -186,6 +193,7 @@ namespace UnityLauncher
         {
             SetRootFolder();
             ScanUnityInstallations();
+            UpdateRecentProjectsList();
         }
 
         private string GetUnityVersion(string path)
@@ -199,6 +207,8 @@ namespace UnityLauncher
         // returns already sorted list of recent entries
         void UpdateRecentProjectsList()
         {
+            SetStatus("Updating recent projects list..");
+
             var hklm = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
             RegistryKey key = hklm.OpenSubKey(@"SOFTWARE\Unity Technologies\Unity Editor 5.x");
 
@@ -209,6 +219,8 @@ namespace UnityLauncher
                 Console.WriteLine("No recent projects list founded");
                 return;
             }
+
+            gridRecent.Rows.Clear();
 
             foreach (var valueName in key.GetValueNames())
             {
@@ -236,6 +248,8 @@ namespace UnityLauncher
                     gridRecent.Rows[gridRecent.Rows.Count - 1].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ? Color.Green : Color.Red;
                 }
             }
+
+            SetStatus("Ready");
         }
 
         DateTime? GetLastUpdatedTime(string path)
@@ -254,11 +268,7 @@ namespace UnityLauncher
 
         private void btnLaunch_Click(object sender, EventArgs e)
         {
-            var selected = gridRecent.CurrentCell.RowIndex;
-            if (selected > -1)
-            {
-                LaunchProject(gridRecent.Rows[selected].Cells["_path"].Value.ToString());
-            }
+            LaunchSelectedProject();
         }
 
         void LaunchProject(string pathArg)
@@ -299,8 +309,6 @@ namespace UnityLauncher
                     }
                     else
                     {
-                        // TODO: offer to download and run installer from that page!
-
                         var yesno = MessageBox.Show("Unity version " + version + " is not installed! Yes = Download, No = Open Webpage", "UnityLauncher", MessageBoxButtons.YesNoCancel);
                         string url = "";
 
@@ -317,6 +325,7 @@ namespace UnityLauncher
                             url = "https://unity3d.com/unity/beta/unity" + version;
                         }
 
+                        // download file
                         if (yesno == DialogResult.Yes)
                         {
                             Console.WriteLine("download unity: " + url);
@@ -326,6 +335,7 @@ namespace UnityLauncher
                             }
                         }
 
+                        // open page
                         if (yesno == DialogResult.No)
                         {
                             if (string.IsNullOrEmpty(url) == false)
@@ -337,19 +347,19 @@ namespace UnityLauncher
                 }
                 else
                 {
-                    // TODO: display error in ui
-                    throw new DirectoryNotFoundException("No Assets folder founded in: " + pathArg);
+                    SetStatus("No Assets folder founded in: " + pathArg);
                 }
             }
             else // given path doesnt exists, strange
             {
-                // TODO: display error in ui
-                throw new DirectoryNotFoundException("Invalid Path:" + pathArg);
+                SetStatus("Invalid Path:" + pathArg);
             }
-
         }
 
-
+        /// <summary>
+        /// downloads unity installer and launches it
+        /// </summary>
+        /// <param name="url"></param>
         void DownloadAndRun(string url)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -401,12 +411,17 @@ namespace UnityLauncher
                 }
                 else // not found
                 {
-                    Process.Start(url);
                     Console.WriteLine("Cannot parse exe.. opening website instead");
+                    Process.Start(url);
                 }
             }
         }
 
+        /// <summary>
+        /// parse unity installer filename from url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         string GetFileNameFromUrl(string url)
         {
             var uri = new Uri(url);
@@ -414,9 +429,27 @@ namespace UnityLauncher
             return filename;
         }
 
+        /// <summary>
+        /// get rootfolder from settings, default is c:\program files\
+        /// </summary>
+        /// <returns></returns>
         string GetRootFolder()
         {
-            return Properties.Settings.Default[_rootFolderKey].ToString();
+            string conf = null;
+
+            // rebuild config file, since we dont want to ship it
+            try
+            {
+                // if settings exists, use that
+                conf = Properties.Settings.Default[_rootFolderKey].ToString();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                // doesnt work yet?
+                Properties.Settings.Default.Reset();
+            }
+            return conf;
         }
 
         private void btn_openFolder_Click(object sender, EventArgs e)
@@ -428,6 +461,10 @@ namespace UnityLauncher
             }
         }
 
+        /// <summary>
+        /// launch windows explorer to selected project folder
+        /// </summary>
+        /// <param name="folder"></param>
         void LaunchExplorer(string folder)
         {
             if (Directory.Exists(folder) == true)
@@ -442,11 +479,62 @@ namespace UnityLauncher
         }
 
 
-        /*
-        private void gridRecent_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        void SetStatus(string msg)
         {
-            Console.WriteLine("asdfasdfasdfas");
-            LaunchProject(gridRecent.Rows[e.RowIndex].Cells["_path"].Value.ToString());
-        }*/
+            toolStripStatusLabel1.Text = msg;
+        }
+
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            if (FormWindowState.Minimized == this.WindowState)
+            {
+                notifyIcon.Visible = true;
+                this.Hide();
+            }
+            else if (FormWindowState.Normal == this.WindowState)
+            {
+                notifyIcon.Visible = false;
+            }
+        }
+
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            ShowForm();
+        }
+
+        private void ShowForm()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+            notifyIcon.Visible = false;
+        }
+
+        void LaunchSelectedProject()
+        {
+            var selected = gridRecent.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                SetStatus("Launching project..");
+                LaunchProject(gridRecent.Rows[selected].Cells["_path"].Value.ToString());
+                SetStatus("Ready");
+            }
+        }
+
+        private void gridRecent_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Return: // launch selected
+                    e.SuppressKeyPress = true;
+                    LaunchSelectedProject();
+                    break;
+                case Keys.F5: // refresh recent list
+                    UpdateRecentProjectsList();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

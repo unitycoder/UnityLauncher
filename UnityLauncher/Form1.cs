@@ -22,7 +22,6 @@ namespace UnityLauncher
         // version,exe path (example: 5.6.1f1,c:\prog\unity561\editor\unity.exe)
         Dictionary<string, string> unityList = new Dictionary<string, string>();
 
-
         public Form1()
         {
             InitializeComponent();
@@ -41,7 +40,8 @@ namespace UnityLauncher
                 SetStatus("Ready");
             }
 
-            txtRootFolder.Text = root;
+            // update listbox
+            lstRootFolders.Items.AddRange(Properties.Settings.Default.rootFolders.Cast<string>().ToArray());
 
             // scan installed unitys, TODO: could cache results, at least fileinfo's
             bool foundedUnitys = ScanUnityInstallations();
@@ -140,9 +140,13 @@ namespace UnityLauncher
 
             if (String.IsNullOrWhiteSpace(newRoot) == false && Directory.Exists(newRoot) == true)
             {
-                txtRootFolder.Text = newRoot;
                 Properties.Settings.Default[_rootFolderKey] = newRoot;
                 Properties.Settings.Default.Save();
+
+                // listbox
+                lstRootFolders.Items.Add(newRoot);
+
+                SaveSettingsRootFolders();
             }
         }
 
@@ -150,39 +154,40 @@ namespace UnityLauncher
         {
             SetStatus("Scanning unity installations..");
 
-            // dictionary
+            // dictionary to keep version and path
             unityList.Clear();
 
-            // unitylist in other tab
-            unityGridView.Rows.Clear();
+            // installed unitys list in other tab
+            gridUnityList.Rows.Clear();
 
-            var root = GetRootFolder();
-
-            if (String.IsNullOrWhiteSpace(root) == false && Directory.Exists(root) == true)
+            // iterate all root folders
+            foreach (string root in lstRootFolders.Items)
             {
-                // parse all folders here, and search for unity editor files
-                var directories = Directory.GetDirectories(root);
-                for (int i = 0, length = directories.Length; i < length; i++)
+                //                var root = GetRootFolder();
+                if (String.IsNullOrWhiteSpace(root) == false && Directory.Exists(root) == true)
                 {
-                    var uninstallExe = Path.Combine(directories[i], "Editor", "Uninstall.exe");
-                    if (File.Exists(uninstallExe) == true)
+                    // parse all folders here, and search for unity editor files
+                    var directories = Directory.GetDirectories(root);
+                    for (int i = 0, length = directories.Length; i < length; i++)
                     {
-                        var unityExe = Path.Combine(directories[i], "Editor", "Unity.exe");
+                        var uninstallExe = Path.Combine(directories[i], "Editor", "Uninstall.exe");
                         if (File.Exists(uninstallExe) == true)
                         {
-                            var unityVersion = GetUnityVersion(uninstallExe).Replace("Unity", "").Trim();
-                            if (unityList.ContainsKey(unityVersion) == false)
+                            var unityExe = Path.Combine(directories[i], "Editor", "Unity.exe");
+                            if (File.Exists(uninstallExe) == true)
                             {
-                                unityList.Add(unityVersion, unityExe);
-
-                                unityGridView.Rows.Add(unityVersion, unityExe);
-
-                            }
-                            //Console.WriteLine(unityVersion);
-                        } // have unity.exe
-                    } // have uninstaller.exe
-                } // got folders
-            } // didnt select anything
+                                var unityVersion = GetUnityVersion(uninstallExe).Replace("Unity", "").Trim();
+                                if (unityList.ContainsKey(unityVersion) == false)
+                                {
+                                    unityList.Add(unityVersion, unityExe);
+                                    gridUnityList.Rows.Add(unityVersion, unityExe);
+                                }
+                                //Console.WriteLine(unityVersion);
+                            } // have unity.exe
+                        } // have uninstaller.exe
+                    } // got folders
+                } // failed check
+            } // all root folders
 
 
             lbl_unityCount.Text = "Founded " + unityList.Count.ToString() + " versions";
@@ -277,7 +282,7 @@ namespace UnityLauncher
             LaunchSelectedProject();
         }
 
-        void LaunchProject(string pathArg=null)
+        void LaunchProject(string pathArg = null)
         {
             // check if path is unity project folder
             if (Directory.Exists(pathArg) == true)
@@ -450,6 +455,7 @@ namespace UnityLauncher
                 Console.WriteLine(e);
                 // doesnt work yet?
                 Properties.Settings.Default.Reset();
+                Properties.Settings.Default.Save();
             }
             return conf;
         }
@@ -587,11 +593,11 @@ namespace UnityLauncher
 
         void LaunchSelectedUnity()
         {
-            var selected = unityGridView.CurrentCell.RowIndex;
+            var selected = gridUnityList.CurrentCell.RowIndex;
             if (selected > -1)
             {
                 SetStatus("Launching Unity..");
-                var version = unityGridView.Rows[selected].Cells["_unityVersion"].Value.ToString();
+                var version = gridUnityList.Rows[selected].Cells["_unityVersion"].Value.ToString();
                 try
                 {
                     Process myProcess = new Process();
@@ -612,5 +618,43 @@ namespace UnityLauncher
             ScanUnityInstallations();
         }
 
+        private void btnAddFolder_Click(object sender, EventArgs e)
+        {
+            SetRootFolder();
+            ScanUnityInstallations();
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            if (lstRootFolders.SelectedIndex > -1)
+            {
+                lstRootFolders.Items.RemoveAt(lstRootFolders.SelectedIndex);
+                SaveSettingsRootFolders();
+                ScanUnityInstallations();
+            }
+
+        }
+
+        void SaveSettingsRootFolders()
+        {
+            Properties.Settings.Default.rootFolders.Clear();
+            Properties.Settings.Default.rootFolders.AddRange(lstRootFolders.Items.OfType<string>().ToArray());
+            Properties.Settings.Default.Save();
+        }
+
+        private void btnLaunchUnity_Click(object sender, EventArgs e)
+        {
+            LaunchSelectedUnity();
+        }
+
+        private void btnExploreUnity_Click(object sender, EventArgs e)
+        {
+            var selected = gridUnityList.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                var unityPath = Path.GetDirectoryName(gridUnityList.Rows[selected].Cells["_unityPath"].Value.ToString());
+                LaunchExplorer(unityPath);
+            }
+        }
     }
 }

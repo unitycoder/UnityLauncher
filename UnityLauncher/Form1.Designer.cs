@@ -34,7 +34,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.btn_openFolder = new System.Windows.Forms.Button();
+            this.btnOpenUnityFolder = new System.Windows.Forms.Button();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.gridRecent = new System.Windows.Forms.DataGridView();
             this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -42,15 +42,16 @@
             this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.unityGridView = new System.Windows.Forms.DataGridView();
+            this.btnExploreUnity = new System.Windows.Forms.Button();
+            this.btnLaunchUnity = new System.Windows.Forms.Button();
+            this.gridUnityList = new System.Windows.Forms.DataGridView();
             this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnAddFolder = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.lstRootFolders = new System.Windows.Forms.ListBox();
             this.lbl_unityCount = new System.Windows.Forms.Label();
-            this.btn_setinstallfolder = new System.Windows.Forms.Button();
-            this.txtRootFolder = new System.Windows.Forms.TextBox();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -60,7 +61,7 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.unityGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,7 +94,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.btn_openFolder);
+            this.tabPage1.Controls.Add(this.btnOpenUnityFolder);
             this.tabPage1.Controls.Add(this.btnLaunch);
             this.tabPage1.Controls.Add(this.gridRecent);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -103,16 +104,15 @@
             this.tabPage1.Text = "Projects";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // btn_openFolder
+            // btnOpenUnityFolder
             // 
-            this.btn_openFolder.Location = new System.Drawing.Point(453, 511);
-            this.btn_openFolder.Name = "btn_openFolder";
-            this.btn_openFolder.Size = new System.Drawing.Size(80, 35);
-            this.btn_openFolder.TabIndex = 14;
-            this.btn_openFolder.Text = "Explore";
-            this.toolTip1.SetToolTip(this.btn_openFolder, "Open File Explorer");
-            this.btn_openFolder.UseVisualStyleBackColor = true;
-            this.btn_openFolder.Click += new System.EventHandler(this.btn_openFolder_Click);
+            this.btnOpenUnityFolder.Location = new System.Drawing.Point(453, 511);
+            this.btnOpenUnityFolder.Name = "btnOpenUnityFolder";
+            this.btnOpenUnityFolder.Size = new System.Drawing.Size(80, 35);
+            this.btnOpenUnityFolder.TabIndex = 14;
+            this.btnOpenUnityFolder.Text = "Explore";
+            this.toolTip1.SetToolTip(this.btnOpenUnityFolder, "Open File Explorer");
+            this.btnOpenUnityFolder.UseVisualStyleBackColor = true;
             // 
             // btnLaunch
             // 
@@ -150,7 +150,7 @@
             this.gridRecent.ShowCellToolTips = false;
             this.gridRecent.ShowEditingIcon = false;
             this.gridRecent.Size = new System.Drawing.Size(530, 502);
-            this.gridRecent.TabIndex = 9;
+            this.gridRecent.TabIndex = 0;
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
             // 
             // _project
@@ -186,9 +186,9 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button1);
-            this.tabPage2.Controls.Add(this.button2);
-            this.tabPage2.Controls.Add(this.unityGridView);
+            this.tabPage2.Controls.Add(this.btnExploreUnity);
+            this.tabPage2.Controls.Add(this.btnLaunchUnity);
+            this.tabPage2.Controls.Add(this.gridUnityList);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Size = new System.Drawing.Size(536, 549);
@@ -196,51 +196,53 @@
             this.tabPage2.Text = "Unity\'s";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnExploreUnity
             // 
-            this.button1.Location = new System.Drawing.Point(453, 511);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(80, 35);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "Explore";
-            this.toolTip1.SetToolTip(this.button1, "Open File Explorer");
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnExploreUnity.Location = new System.Drawing.Point(453, 511);
+            this.btnExploreUnity.Name = "btnExploreUnity";
+            this.btnExploreUnity.Size = new System.Drawing.Size(80, 35);
+            this.btnExploreUnity.TabIndex = 16;
+            this.btnExploreUnity.Text = "Explore";
+            this.toolTip1.SetToolTip(this.btnExploreUnity, "Open File Explorer");
+            this.btnExploreUnity.UseVisualStyleBackColor = true;
+            this.btnExploreUnity.Click += new System.EventHandler(this.btnExploreUnity_Click);
             // 
-            // button2
+            // btnLaunchUnity
             // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(3, 511);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(444, 35);
-            this.button2.TabIndex = 15;
-            this.button2.Text = "Run Unity";
-            this.toolTip1.SetToolTip(this.button2, "Launch selected project");
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnLaunchUnity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLaunchUnity.Location = new System.Drawing.Point(3, 511);
+            this.btnLaunchUnity.Name = "btnLaunchUnity";
+            this.btnLaunchUnity.Size = new System.Drawing.Size(444, 35);
+            this.btnLaunchUnity.TabIndex = 15;
+            this.btnLaunchUnity.Text = "Run Unity";
+            this.toolTip1.SetToolTip(this.btnLaunchUnity, "Launch selected project");
+            this.btnLaunchUnity.UseVisualStyleBackColor = true;
+            this.btnLaunchUnity.Click += new System.EventHandler(this.btnLaunchUnity_Click);
             // 
-            // unityGridView
+            // gridUnityList
             // 
-            this.unityGridView.AllowUserToAddRows = false;
-            this.unityGridView.AllowUserToDeleteRows = false;
-            this.unityGridView.AllowUserToResizeColumns = false;
-            this.unityGridView.AllowUserToResizeRows = false;
-            this.unityGridView.CausesValidation = false;
-            this.unityGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.unityGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.gridUnityList.AllowUserToAddRows = false;
+            this.gridUnityList.AllowUserToDeleteRows = false;
+            this.gridUnityList.AllowUserToResizeColumns = false;
+            this.gridUnityList.AllowUserToResizeRows = false;
+            this.gridUnityList.CausesValidation = false;
+            this.gridUnityList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridUnityList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._unityVersion,
             this._unityPath});
-            this.unityGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.unityGridView.Location = new System.Drawing.Point(3, 3);
-            this.unityGridView.MultiSelect = false;
-            this.unityGridView.Name = "unityGridView";
-            this.unityGridView.ReadOnly = true;
-            this.unityGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.unityGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.unityGridView.ShowCellErrors = false;
-            this.unityGridView.ShowCellToolTips = false;
-            this.unityGridView.ShowEditingIcon = false;
-            this.unityGridView.Size = new System.Drawing.Size(530, 502);
-            this.unityGridView.TabIndex = 10;
-            this.unityGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.unityGridView_KeyDown);
+            this.gridUnityList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.gridUnityList.Location = new System.Drawing.Point(3, 3);
+            this.gridUnityList.MultiSelect = false;
+            this.gridUnityList.Name = "gridUnityList";
+            this.gridUnityList.ReadOnly = true;
+            this.gridUnityList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gridUnityList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridUnityList.ShowCellErrors = false;
+            this.gridUnityList.ShowCellToolTips = false;
+            this.gridUnityList.ShowEditingIcon = false;
+            this.gridUnityList.Size = new System.Drawing.Size(530, 502);
+            this.gridUnityList.TabIndex = 10;
+            this.gridUnityList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.unityGridView_KeyDown);
             // 
             // _unityVersion
             // 
@@ -261,9 +263,10 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btnAddFolder);
+            this.tabPage3.Controls.Add(this.btnRemove);
+            this.tabPage3.Controls.Add(this.lstRootFolders);
             this.tabPage3.Controls.Add(this.lbl_unityCount);
-            this.tabPage3.Controls.Add(this.btn_setinstallfolder);
-            this.tabPage3.Controls.Add(this.txtRootFolder);
             this.tabPage3.Controls.Add(this.btnRefresh);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -272,43 +275,51 @@
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // btnAddFolder
+            // 
+            this.btnAddFolder.Location = new System.Drawing.Point(20, 223);
+            this.btnAddFolder.Name = "btnAddFolder";
+            this.btnAddFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnAddFolder.TabIndex = 23;
+            this.btnAddFolder.Text = "Add Folder";
+            this.btnAddFolder.UseVisualStyleBackColor = true;
+            this.btnAddFolder.Click += new System.EventHandler(this.btnAddFolder_Click);
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Location = new System.Drawing.Point(101, 223);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnRemove.TabIndex = 22;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // lstRootFolders
+            // 
+            this.lstRootFolders.FormattingEnabled = true;
+            this.lstRootFolders.Location = new System.Drawing.Point(20, 31);
+            this.lstRootFolders.Name = "lstRootFolders";
+            this.lstRootFolders.Size = new System.Drawing.Size(495, 186);
+            this.lstRootFolders.TabIndex = 20;
+            // 
             // lbl_unityCount
             // 
             this.lbl_unityCount.AutoSize = true;
             this.lbl_unityCount.Enabled = false;
-            this.lbl_unityCount.Location = new System.Drawing.Point(280, 19);
+            this.lbl_unityCount.Location = new System.Drawing.Point(418, 15);
             this.lbl_unityCount.Name = "lbl_unityCount";
             this.lbl_unityCount.Size = new System.Drawing.Size(97, 13);
             this.lbl_unityCount.TabIndex = 18;
             this.lbl_unityCount.Text = "Founded - versions";
             // 
-            // btn_setinstallfolder
-            // 
-            this.btn_setinstallfolder.Location = new System.Drawing.Point(19, 17);
-            this.btn_setinstallfolder.Name = "btn_setinstallfolder";
-            this.btn_setinstallfolder.Size = new System.Drawing.Size(228, 23);
-            this.btn_setinstallfolder.TabIndex = 17;
-            this.btn_setinstallfolder.Text = "Set root Unity installations folder";
-            this.toolTip1.SetToolTip(this.btn_setinstallfolder, "Basefolder where all your Unity installations are");
-            this.btn_setinstallfolder.UseVisualStyleBackColor = true;
-            this.btn_setinstallfolder.Click += new System.EventHandler(this.btn_setinstallfolder_Click);
-            // 
-            // txtRootFolder
-            // 
-            this.txtRootFolder.Enabled = false;
-            this.txtRootFolder.Location = new System.Drawing.Point(19, 41);
-            this.txtRootFolder.Name = "txtRootFolder";
-            this.txtRootFolder.Size = new System.Drawing.Size(228, 20);
-            this.txtRootFolder.TabIndex = 16;
-            this.txtRootFolder.Text = "C:\\Program Files\\";
-            // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(253, 17);
+            this.btnRefresh.Location = new System.Drawing.Point(421, 223);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(24, 23);
+            this.btnRefresh.Size = new System.Drawing.Size(94, 23);
             this.btnRefresh.TabIndex = 19;
-            this.btnRefresh.Text = "R";
+            this.btnRefresh.Text = "Refresh List";
             this.toolTip1.SetToolTip(this.btnRefresh, "Refresh Unity Installations List");
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
@@ -348,7 +359,7 @@
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.unityGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
@@ -361,7 +372,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Button btn_openFolder;
+        private System.Windows.Forms.Button btnOpenUnityFolder;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnLaunch;
         private System.Windows.Forms.DataGridView gridRecent;
@@ -374,14 +385,15 @@
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Label lbl_unityCount;
-        private System.Windows.Forms.Button btn_setinstallfolder;
-        private System.Windows.Forms.TextBox txtRootFolder;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.DataGridView unityGridView;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridView gridUnityList;
+        private System.Windows.Forms.Button btnExploreUnity;
+        private System.Windows.Forms.Button btnLaunchUnity;
         private System.Windows.Forms.DataGridViewTextBoxColumn _unityVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn _unityPath;
+        private System.Windows.Forms.ListBox lstRootFolders;
+        private System.Windows.Forms.Button btnAddFolder;
+        private System.Windows.Forms.Button btnRemove;
     }
 }
 

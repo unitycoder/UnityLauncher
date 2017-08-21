@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 // TODO: FindNearestBestVersion(), so that no need to be exact match
@@ -31,8 +32,8 @@ namespace UnityLauncher
         {
             SetStatus("Initializing..");
 
+            // check installations folder
             var root = GetRootFolder();
-
             if (string.IsNullOrEmpty(root) == true)
             {
                 SetStatus("Missing root folder..");
@@ -40,7 +41,10 @@ namespace UnityLauncher
                 SetStatus("Ready");
             }
 
-            // update listbox
+            // update settings window
+            chkMinimizeToTaskbar.Checked = Properties.Settings.Default.minimizeToTaskbar;
+
+            // update installations folder listbox
             lstRootFolders.Items.AddRange(Properties.Settings.Default.rootFolders.Cast<string>().ToArray());
 
             // scan installed unitys, TODO: could cache results, at least fileinfo's
@@ -48,6 +52,8 @@ namespace UnityLauncher
             if (foundedUnitys == false)
             {
                 SetStatus("Error> Did not found any Unity installations, try setting correct root folder..");
+                UpdateRecentProjectsList();
+                tabControl1.SelectedIndex = 2; // settings tab
                 return;
             }
 
@@ -73,7 +79,6 @@ namespace UnityLauncher
 
             }
 
-            // this could be delayed, if it affects unity starting?
             UpdateRecentProjectsList();
         }
 
@@ -317,20 +322,8 @@ namespace UnityLauncher
                     else
                     {
                         var yesno = MessageBox.Show("Unity version " + version + " is not installed! Yes = Download, No = Open Webpage", "UnityLauncher", MessageBoxButtons.YesNoCancel);
-                        string url = "";
 
-                        if (version.Contains("f")) // archived
-                        {
-                            url = "https://unity3d.com/unity/whats-new/unity-" + version.Replace("f1", "");
-                        }
-                        if (version.Contains("p")) // patch version
-                        {
-                            url = "https://unity3d.com/unity/qa/patch-releases/" + version;
-                        }
-                        if (version.Contains("b")) // beta version
-                        {
-                            url = "https://unity3d.com/unity/beta/unity" + version;
-                        }
+                        string url = GetUnityReleaseURL(version);
 
                         // download file
                         if (yesno == DialogResult.Yes)
@@ -496,14 +489,17 @@ namespace UnityLauncher
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            if (FormWindowState.Minimized == this.WindowState)
+            if (chkMinimizeToTaskbar.Checked == true)
             {
-                notifyIcon.Visible = true;
-                this.Hide();
-            }
-            else if (FormWindowState.Normal == this.WindowState)
-            {
-                notifyIcon.Visible = false;
+                if (FormWindowState.Minimized == this.WindowState)
+                {
+                    notifyIcon.Visible = true;
+                    this.Hide();
+                }
+                else if (FormWindowState.Normal == this.WindowState)
+                {
+                    notifyIcon.Visible = false;
+                }
             }
         }
 
@@ -655,6 +651,45 @@ namespace UnityLauncher
                 var unityPath = Path.GetDirectoryName(gridUnityList.Rows[selected].Cells["_unityPath"].Value.ToString());
                 LaunchExplorer(unityPath);
             }
+        }
+
+        string GetUnityReleaseURL(string version)
+        {
+            string url = "";
+            if (version.Contains("f")) // archived
+            {
+                version = Regex.Replace(version, @"f.", "", RegexOptions.IgnoreCase);
+                url = "https://unity3d.com/unity/whats-new/unity-" + version;
+            }
+            if (version.Contains("p")) // patch version
+            {
+                url = "https://unity3d.com/unity/qa/patch-releases/" + version;
+            }
+            if (version.Contains("b")) // beta version
+            {
+                url = "https://unity3d.com/unity/beta/unity" + version;
+            }
+            return url;
+        }
+
+        private void btnOpenReleasePage_Click(object sender, EventArgs e)
+        {
+            var selected = gridUnityList.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                var version = gridUnityList.Rows[selected].Cells["_unityVersion"].Value.ToString();
+                var url = GetUnityReleaseURL(version);
+                if (string.IsNullOrEmpty(url) == false)
+                {
+                    Process.Start(url);
+                }
+            }
+        }
+
+        private void chkMinimizeToTaskbar_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.minimizeToTaskbar = chkMinimizeToTaskbar.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

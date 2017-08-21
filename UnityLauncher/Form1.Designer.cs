@@ -56,6 +56,10 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnOpenReleasePage = new System.Windows.Forms.Button();
+            this.chkMinimizeToTaskbar = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -186,6 +190,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btnOpenReleasePage);
             this.tabPage2.Controls.Add(this.btnExploreUnity);
             this.tabPage2.Controls.Add(this.btnLaunchUnity);
             this.tabPage2.Controls.Add(this.gridUnityList);
@@ -212,7 +217,7 @@
             this.btnLaunchUnity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLaunchUnity.Location = new System.Drawing.Point(3, 511);
             this.btnLaunchUnity.Name = "btnLaunchUnity";
-            this.btnLaunchUnity.Size = new System.Drawing.Size(444, 35);
+            this.btnLaunchUnity.Size = new System.Drawing.Size(358, 35);
             this.btnLaunchUnity.TabIndex = 15;
             this.btnLaunchUnity.Text = "Run Unity";
             this.toolTip1.SetToolTip(this.btnLaunchUnity, "Launch selected project");
@@ -263,6 +268,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label2);
+            this.tabPage3.Controls.Add(this.chkMinimizeToTaskbar);
+            this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Controls.Add(this.btnAddFolder);
             this.tabPage3.Controls.Add(this.btnRemove);
             this.tabPage3.Controls.Add(this.lstRootFolders);
@@ -336,6 +344,48 @@
             this.notifyIcon.Text = "UnityLauncher";
             this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Enabled = false;
+            this.label1.Location = new System.Drawing.Point(17, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(102, 13);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Unity Parent Folders";
+            // 
+            // btnOpenReleasePage
+            // 
+            this.btnOpenReleasePage.Location = new System.Drawing.Point(367, 511);
+            this.btnOpenReleasePage.Name = "btnOpenReleasePage";
+            this.btnOpenReleasePage.Size = new System.Drawing.Size(80, 35);
+            this.btnOpenReleasePage.TabIndex = 17;
+            this.btnOpenReleasePage.Text = "Release Notes";
+            this.toolTip1.SetToolTip(this.btnOpenReleasePage, "Open File Explorer");
+            this.btnOpenReleasePage.UseVisualStyleBackColor = true;
+            this.btnOpenReleasePage.Click += new System.EventHandler(this.btnOpenReleasePage_Click);
+            // 
+            // chkMinimizeToTaskbar
+            // 
+            this.chkMinimizeToTaskbar.AutoSize = true;
+            this.chkMinimizeToTaskbar.Location = new System.Drawing.Point(20, 386);
+            this.chkMinimizeToTaskbar.Name = "chkMinimizeToTaskbar";
+            this.chkMinimizeToTaskbar.Size = new System.Drawing.Size(116, 17);
+            this.chkMinimizeToTaskbar.TabIndex = 25;
+            this.chkMinimizeToTaskbar.Text = "Minimize to taskbar";
+            this.chkMinimizeToTaskbar.UseVisualStyleBackColor = true;
+            this.chkMinimizeToTaskbar.CheckedChanged += new System.EventHandler(this.chkMinimizeToTaskbar_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Enabled = false;
+            this.label2.Location = new System.Drawing.Point(17, 361);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(74, 13);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "Other Settings";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -349,7 +399,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Potato Edition 3";
+            this.Text = "UnityLauncher - Potato Edition 4";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -394,6 +444,10 @@
         private System.Windows.Forms.ListBox lstRootFolders;
         private System.Windows.Forms.Button btnAddFolder;
         private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnOpenReleasePage;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chkMinimizeToTaskbar;
     }
 }
 

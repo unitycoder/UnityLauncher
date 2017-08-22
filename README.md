@@ -7,9 +7,10 @@ Tool for automatically launching specific unity versions for each project (Windo
 - Option to download missing unity version installation or open webpage
 - Display Recent projects list with project version, last modified date
 - Highlight project version with green if correct unity is installed
-- Open project folder in explorer
+- Easily open project folder in explorer
+- List of installed Unity versions, can easily run, explore, view release notes
 - Can be used in commandline `UnityLauncher.exe -projectPath "c:/project/path/"`
-- Can ad custom Explorer context menu item to launch folder as a project: https://github.com/unitycoder/UnityLauncher/wiki/Adding-Explorer-Context-Menu
+- Can add custom Explorer context menu item to launch folder as a project: https://github.com/unitycoder/UnityLauncher/wiki/Adding-Explorer-Context-Menu
 
 # Instructions
 - Download, Run

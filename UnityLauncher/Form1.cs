@@ -10,16 +10,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-// TODO: FindNearestBestVersion(), so that no need to be exact match
-// TODO: starred projects (keep on top and save to own list?)
-
 namespace UnityLauncher
 {
     public partial class Form1 : Form
     {
-        // settings keys
-        readonly static string _rootFolderKey = "rootFolder";
-
         // version,exe path (example: 5.6.1f1,c:\prog\unity561\editor\unity.exe)
         Dictionary<string, string> unityList = new Dictionary<string, string>();
 
@@ -34,10 +28,10 @@ namespace UnityLauncher
 
             // check installations folder
             var root = GetRootFolder();
-            if (string.IsNullOrEmpty(root) == true)
+            if (root == null || root.Length == 0)
             {
                 SetStatus("Missing root folder..");
-                SetRootFolder();
+                AddRootFolder();
                 SetStatus("Ready");
             }
 
@@ -46,6 +40,8 @@ namespace UnityLauncher
 
             // update installations folder listbox
             lstRootFolders.Items.AddRange(Properties.Settings.Default.rootFolders.Cast<string>().ToArray());
+            // update packages folder listbox
+            lstPackageFolders.Items.AddRange(Properties.Settings.Default.packageFolders.Cast<string>().ToArray());
 
             // scan installed unitys, TODO: could cache results, at least fileinfo's
             bool foundedUnitys = ScanUnityInstallations();
@@ -80,6 +76,9 @@ namespace UnityLauncher
             }
 
             UpdateRecentProjectsList();
+
+            // preselect grid
+            gridRecent.Select();
         }
 
         /// <summary>
@@ -138,20 +137,17 @@ namespace UnityLauncher
         }
 
 
-        void SetRootFolder()
+        void AddRootFolder()
         {
+            folderBrowserDialog1.Description = "Select root folder";
             var d = folderBrowserDialog1.ShowDialog();
             var newRoot = folderBrowserDialog1.SelectedPath;
 
             if (String.IsNullOrWhiteSpace(newRoot) == false && Directory.Exists(newRoot) == true)
             {
-                Properties.Settings.Default[_rootFolderKey] = newRoot;
-                Properties.Settings.Default.Save();
-
-                // listbox
                 lstRootFolders.Items.Add(newRoot);
-
-                SaveSettingsRootFolders();
+                Properties.Settings.Default.rootFolders.Add(newRoot);
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -203,14 +199,6 @@ namespace UnityLauncher
             return unityList.Count > 0;
         }
 
-
-        // set basefolder of all unity installations
-        private void btn_setinstallfolder_Click(object sender, EventArgs e)
-        {
-            SetRootFolder();
-            ScanUnityInstallations();
-            UpdateRecentProjectsList();
-        }
 
         private string GetUnityVersion(string path)
         {
@@ -280,11 +268,6 @@ namespace UnityLauncher
             {
                 return null;
             }
-        }
-
-        private void btnLaunch_Click(object sender, EventArgs e)
-        {
-            LaunchSelectedProject();
         }
 
         void LaunchProject(string pathArg = null)
@@ -433,33 +416,23 @@ namespace UnityLauncher
         /// get rootfolder from settings, default is c:\program files\
         /// </summary>
         /// <returns></returns>
-        string GetRootFolder()
+        string[] GetRootFolder()
         {
-            string conf = null;
-
-            // rebuild config file, since we dont want to ship it
+            string[] rootFolders = null;
             try
             {
                 // if settings exists, use that
-                conf = Properties.Settings.Default[_rootFolderKey].ToString();
+                rootFolders = new string[Properties.Settings.Default.rootFolders.Count];
+                Properties.Settings.Default.rootFolders.CopyTo(rootFolders, 0);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                // doesnt work yet?
+                // this doesnt work?
                 Properties.Settings.Default.Reset();
                 Properties.Settings.Default.Save();
             }
-            return conf;
-        }
-
-        private void btn_openFolder_Click(object sender, EventArgs e)
-        {
-            var selected = gridRecent.CurrentCell.RowIndex;
-            if (selected > -1)
-            {
-                LaunchExplorer(gridRecent.Rows[selected].Cells["_path"].Value.ToString());
-            }
+            return rootFolders;
         }
 
         /// <summary>
@@ -472,40 +445,16 @@ namespace UnityLauncher
             {
                 Process.Start(folder);
             }
+            else
+            {
+                SetStatus("Error> Directory not found: " + folder);
+            }
         }
-
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            ScanUnityInstallations();
-        }
-
 
         void SetStatus(string msg)
         {
             toolStripStatusLabel1.Text = msg;
             this.Refresh();
-        }
-
-
-        private void Form1_Resize(object sender, EventArgs e)
-        {
-            if (chkMinimizeToTaskbar.Checked == true)
-            {
-                if (FormWindowState.Minimized == this.WindowState)
-                {
-                    notifyIcon.Visible = true;
-                    this.Hide();
-                }
-                else if (FormWindowState.Normal == this.WindowState)
-                {
-                    notifyIcon.Visible = false;
-                }
-            }
-        }
-
-        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
-        {
-            ShowForm();
         }
 
         private void ShowForm()
@@ -523,67 +472,6 @@ namespace UnityLauncher
                 SetStatus("Launching project..");
                 LaunchProject(gridRecent.Rows[selected].Cells["_path"].Value.ToString());
                 SetStatus("Ready");
-            }
-        }
-
-        /// <summary>
-        /// grid keys
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void gridRecent_KeyDown(object sender, KeyEventArgs e)
-        {
-            //Console.WriteLine(e.KeyValue);
-            switch (e.KeyCode)
-            {
-                case Keys.Return: // launch selected project
-                    e.SuppressKeyPress = true;
-                    LaunchSelectedProject();
-                    break;
-                case Keys.F5: // refresh recent projects list
-                    UpdateRecentProjectsList();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// global keys
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            switch (e.KeyChar)
-            {
-                case '1':
-                    tabControl1.SelectedIndex = 0;
-                    break;
-                case '2':
-                    tabControl1.SelectedIndex = 1;
-                    break;
-                case '3':
-                    tabControl1.SelectedIndex = 2;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void unityGridView_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Return: // launch selected unity
-                    e.SuppressKeyPress = true;
-                    LaunchSelectedUnity();
-                    break;
-                case Keys.F5: // refresh installed unitys list
-                    UpdateInstalledUnitysList();
-                    break;
-                default:
-                    break;
             }
         }
 
@@ -609,49 +497,6 @@ namespace UnityLauncher
             }
         }
 
-        void UpdateInstalledUnitysList()
-        {
-            ScanUnityInstallations();
-        }
-
-        private void btnAddFolder_Click(object sender, EventArgs e)
-        {
-            SetRootFolder();
-            ScanUnityInstallations();
-        }
-
-        private void btnRemove_Click(object sender, EventArgs e)
-        {
-            if (lstRootFolders.SelectedIndex > -1)
-            {
-                lstRootFolders.Items.RemoveAt(lstRootFolders.SelectedIndex);
-                SaveSettingsRootFolders();
-                ScanUnityInstallations();
-            }
-
-        }
-
-        void SaveSettingsRootFolders()
-        {
-            Properties.Settings.Default.rootFolders.Clear();
-            Properties.Settings.Default.rootFolders.AddRange(lstRootFolders.Items.OfType<string>().ToArray());
-            Properties.Settings.Default.Save();
-        }
-
-        private void btnLaunchUnity_Click(object sender, EventArgs e)
-        {
-            LaunchSelectedUnity();
-        }
-
-        private void btnExploreUnity_Click(object sender, EventArgs e)
-        {
-            var selected = gridUnityList.CurrentCell.RowIndex;
-            if (selected > -1)
-            {
-                var unityPath = Path.GetDirectoryName(gridUnityList.Rows[selected].Cells["_unityPath"].Value.ToString());
-                LaunchExplorer(unityPath);
-            }
-        }
 
         string GetUnityReleaseURL(string version)
         {
@@ -672,6 +517,43 @@ namespace UnityLauncher
             return url;
         }
 
+        void AddPackageFolder()
+        {
+            folderBrowserDialog1.Description = "Select package folder";
+            var d = folderBrowserDialog1.ShowDialog();
+            var newPackageFolder = folderBrowserDialog1.SelectedPath;
+
+            if (String.IsNullOrWhiteSpace(newPackageFolder) == false && Directory.Exists(newPackageFolder) == true)
+            {
+                lstPackageFolders.Items.Add(newPackageFolder);
+                Properties.Settings.Default.packageFolders.Add(newPackageFolder);
+                Properties.Settings.Default.Save();
+            }
+        }
+
+
+
+        #region Buttons and UI events
+
+        private void chkMinimizeToTaskbar_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.minimizeToTaskbar = chkMinimizeToTaskbar.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void btnAddPackageFolder_Click(object sender, EventArgs e)
+        {
+            AddPackageFolder();
+        }
+
+        private void btnRemovePackFolder_Click(object sender, EventArgs e)
+        {
+            if (lstPackageFolders.SelectedIndex > -1)
+            {
+                lstPackageFolders.Items.RemoveAt(lstPackageFolders.SelectedIndex);
+            }
+        }
+
         private void btnOpenReleasePage_Click(object sender, EventArgs e)
         {
             var selected = gridUnityList.CurrentCell.RowIndex;
@@ -686,10 +568,177 @@ namespace UnityLauncher
             }
         }
 
-        private void chkMinimizeToTaskbar_CheckedChanged(object sender, EventArgs e)
+        private void btnLaunchUnity_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.minimizeToTaskbar = chkMinimizeToTaskbar.Checked;
-            Properties.Settings.Default.Save();
+            LaunchSelectedUnity();
         }
+
+        private void btnExploreUnity_Click(object sender, EventArgs e)
+        {
+            var selected = gridUnityList.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                var unityPath = Path.GetDirectoryName(gridUnityList.Rows[selected].Cells["_unityPath"].Value.ToString());
+                LaunchExplorer(unityPath);
+            }
+        }
+
+        private void btnAddUnityFolder_Click(object sender, EventArgs e)
+        {
+            AddRootFolder();
+            ScanUnityInstallations();
+        }
+
+        private void btnRemoveInstallFolder_Click(object sender, EventArgs e)
+        {
+            if (lstRootFolders.SelectedIndex > -1)
+            {
+                Properties.Settings.Default.rootFolders.Remove(lstRootFolders.Items[lstRootFolders.SelectedIndex].ToString());
+                Properties.Settings.Default.Save();
+                lstRootFolders.Items.RemoveAt(lstRootFolders.SelectedIndex);
+                ScanUnityInstallations();
+            }
+        }
+
+        private void unityGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Return: // launch selected unity
+                    e.SuppressKeyPress = true;
+                    LaunchSelectedUnity();
+                    break;
+                case Keys.F5: // refresh installed unitys list
+                    ScanUnityInstallations();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// global keys
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case '1':
+                    tabControl1.SelectedIndex = 0;
+                    break;
+                case '2':
+                    tabControl1.SelectedIndex = 1;
+                    break;
+                case '3':
+                    tabControl1.SelectedIndex = 2;
+                    break;
+                case '4':
+                    tabControl1.SelectedIndex = 3;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// grid keys
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void gridRecent_KeyDown(object sender, KeyEventArgs e)
+        {
+            //Console.WriteLine(e.KeyValue);
+            switch (e.KeyCode)
+            {
+                case Keys.Return: // launch selected project
+                    e.SuppressKeyPress = true;
+                    LaunchSelectedProject();
+                    break;
+                case Keys.F5: // refresh recent projects list
+                    UpdateRecentProjectsList();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // set basefolder of all unity installations
+        private void btn_setinstallfolder_Click(object sender, EventArgs e)
+        {
+            AddRootFolder();
+            ScanUnityInstallations();
+            UpdateRecentProjectsList();
+        }
+
+        private void btnLaunch_Click(object sender, EventArgs e)
+        {
+            LaunchSelectedProject();
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            if (chkMinimizeToTaskbar.Checked == true)
+            {
+                if (FormWindowState.Minimized == this.WindowState)
+                {
+                    notifyIcon.Visible = true;
+                    this.Hide();
+                }
+                else if (FormWindowState.Normal == this.WindowState)
+                {
+                    notifyIcon.Visible = false;
+                }
+            }
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            ScanUnityInstallations();
+        }
+
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            ShowForm();
+        }
+
+        private void btn_openFolder_Click(object sender, EventArgs e)
+        {
+            var selected = gridRecent.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                LaunchExplorer(gridRecent.Rows[selected].Cells["_path"].Value.ToString());
+            }
+        }
+
+        private void btnExplorePackageFolder_Click(object sender, EventArgs e)
+        {
+            var selected = lstPackageFolders.SelectedIndex;
+            Console.WriteLine(lstPackageFolders.Items[selected].ToString());
+            if (selected > -1)
+            {
+                var path = lstPackageFolders.Items[selected].ToString();
+                LaunchExplorer(path);
+            }
+        }
+
+        private void btnAddAssetStoreFolder_Click(object sender, EventArgs e)
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Unity", "Asset Store-5.x");
+            if (Directory.Exists(path) == true)
+            {
+                if (lstPackageFolders.Items.Contains(path) == false)
+                {
+                    lstPackageFolders.Items.Add(path);
+                    Properties.Settings.Default.packageFolders.Add(path);
+                    Properties.Settings.Default.Save();
+                }
+            }
+        }
+
+
+
+        #endregion
     }
 }

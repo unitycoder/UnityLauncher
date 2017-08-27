@@ -42,30 +42,39 @@
             this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnOpenReleasePage = new System.Windows.Forms.Button();
             this.btnExploreUnity = new System.Windows.Forms.Button();
             this.btnLaunchUnity = new System.Windows.Forms.Button();
             this.gridUnityList = new System.Windows.Forms.DataGridView();
             this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPackages = new System.Windows.Forms.TabPage();
+            this.btnExplorePackageFolder = new System.Windows.Forms.Button();
+            this.btnAddPackageFolder = new System.Windows.Forms.Button();
+            this.btnRemovePackFolder = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lstPackageFolders = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.btnAddFolder = new System.Windows.Forms.Button();
-            this.btnRemove = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.chkMinimizeToTaskbar = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnAddUnityFolder = new System.Windows.Forms.Button();
+            this.btnRemoveInstallFolder = new System.Windows.Forms.Button();
             this.lstRootFolders = new System.Windows.Forms.ListBox();
             this.lbl_unityCount = new System.Windows.Forms.Label();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnOpenReleasePage = new System.Windows.Forms.Button();
-            this.chkMinimizeToTaskbar = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.btnAddPackFolder = new System.Windows.Forms.Button();
+            this.btnAddAssetStoreFolder = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).BeginInit();
+            this.tabPackages.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,12 +98,13 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPackages);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(0, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(544, 575);
-            this.tabControl1.TabIndex = 9;
+            this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
@@ -201,6 +211,17 @@
             this.tabPage2.Text = "Unity\'s";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // btnOpenReleasePage
+            // 
+            this.btnOpenReleasePage.Location = new System.Drawing.Point(367, 511);
+            this.btnOpenReleasePage.Name = "btnOpenReleasePage";
+            this.btnOpenReleasePage.Size = new System.Drawing.Size(80, 35);
+            this.btnOpenReleasePage.TabIndex = 17;
+            this.btnOpenReleasePage.Text = "Release Notes";
+            this.toolTip1.SetToolTip(this.btnOpenReleasePage, "Open File Explorer");
+            this.btnOpenReleasePage.UseVisualStyleBackColor = true;
+            this.btnOpenReleasePage.Click += new System.EventHandler(this.btnOpenReleasePage_Click);
+            // 
             // btnExploreUnity
             // 
             this.btnExploreUnity.Location = new System.Drawing.Point(453, 511);
@@ -266,13 +287,78 @@
             this._unityPath.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this._unityPath.Width = 300;
             // 
+            // tabPackages
+            // 
+            this.tabPackages.Controls.Add(this.btnAddAssetStoreFolder);
+            this.tabPackages.Controls.Add(this.btnExplorePackageFolder);
+            this.tabPackages.Controls.Add(this.btnAddPackageFolder);
+            this.tabPackages.Controls.Add(this.btnRemovePackFolder);
+            this.tabPackages.Controls.Add(this.label3);
+            this.tabPackages.Controls.Add(this.lstPackageFolders);
+            this.tabPackages.Location = new System.Drawing.Point(4, 22);
+            this.tabPackages.Name = "tabPackages";
+            this.tabPackages.Size = new System.Drawing.Size(536, 549);
+            this.tabPackages.TabIndex = 4;
+            this.tabPackages.Text = "My Packages";
+            this.tabPackages.UseVisualStyleBackColor = true;
+            // 
+            // btnExplorePackageFolder
+            // 
+            this.btnExplorePackageFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExplorePackageFolder.Location = new System.Drawing.Point(3, 511);
+            this.btnExplorePackageFolder.Name = "btnExplorePackageFolder";
+            this.btnExplorePackageFolder.Size = new System.Drawing.Size(530, 35);
+            this.btnExplorePackageFolder.TabIndex = 28;
+            this.btnExplorePackageFolder.Text = "Explore";
+            this.toolTip1.SetToolTip(this.btnExplorePackageFolder, "Open File Explorer");
+            this.btnExplorePackageFolder.UseVisualStyleBackColor = true;
+            this.btnExplorePackageFolder.Click += new System.EventHandler(this.btnExplorePackageFolder_Click);
+            // 
+            // btnAddPackageFolder
+            // 
+            this.btnAddPackageFolder.Location = new System.Drawing.Point(19, 232);
+            this.btnAddPackageFolder.Name = "btnAddPackageFolder";
+            this.btnAddPackageFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnAddPackageFolder.TabIndex = 27;
+            this.btnAddPackageFolder.Text = "Add Folder";
+            this.btnAddPackageFolder.UseVisualStyleBackColor = true;
+            this.btnAddPackageFolder.Click += new System.EventHandler(this.btnAddPackageFolder_Click);
+            // 
+            // btnRemovePackFolder
+            // 
+            this.btnRemovePackFolder.Location = new System.Drawing.Point(100, 232);
+            this.btnRemovePackFolder.Name = "btnRemovePackFolder";
+            this.btnRemovePackFolder.Size = new System.Drawing.Size(104, 23);
+            this.btnRemovePackFolder.TabIndex = 26;
+            this.btnRemovePackFolder.Text = "Remove Folder";
+            this.btnRemovePackFolder.UseVisualStyleBackColor = true;
+            this.btnRemovePackFolder.Click += new System.EventHandler(this.btnRemovePackFolder_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Enabled = false;
+            this.label3.Location = new System.Drawing.Point(16, 24);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(104, 13);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "My Package Folders";
+            // 
+            // lstPackageFolders
+            // 
+            this.lstPackageFolders.FormattingEnabled = true;
+            this.lstPackageFolders.Location = new System.Drawing.Point(19, 40);
+            this.lstPackageFolders.Name = "lstPackageFolders";
+            this.lstPackageFolders.Size = new System.Drawing.Size(495, 186);
+            this.lstPackageFolders.TabIndex = 21;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.label2);
             this.tabPage3.Controls.Add(this.chkMinimizeToTaskbar);
             this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Controls.Add(this.btnAddFolder);
-            this.tabPage3.Controls.Add(this.btnRemove);
+            this.tabPage3.Controls.Add(this.btnAddUnityFolder);
+            this.tabPage3.Controls.Add(this.btnRemoveInstallFolder);
             this.tabPage3.Controls.Add(this.lstRootFolders);
             this.tabPage3.Controls.Add(this.lbl_unityCount);
             this.tabPage3.Controls.Add(this.btnRefresh);
@@ -283,25 +369,56 @@
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // btnAddFolder
+            // label2
             // 
-            this.btnAddFolder.Location = new System.Drawing.Point(20, 223);
-            this.btnAddFolder.Name = "btnAddFolder";
-            this.btnAddFolder.Size = new System.Drawing.Size(75, 23);
-            this.btnAddFolder.TabIndex = 23;
-            this.btnAddFolder.Text = "Add Folder";
-            this.btnAddFolder.UseVisualStyleBackColor = true;
-            this.btnAddFolder.Click += new System.EventHandler(this.btnAddFolder_Click);
+            this.label2.AutoSize = true;
+            this.label2.Enabled = false;
+            this.label2.Location = new System.Drawing.Point(17, 361);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(74, 13);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "Other Settings";
             // 
-            // btnRemove
+            // chkMinimizeToTaskbar
             // 
-            this.btnRemove.Location = new System.Drawing.Point(101, 223);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(75, 23);
-            this.btnRemove.TabIndex = 22;
-            this.btnRemove.Text = "Remove";
-            this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            this.chkMinimizeToTaskbar.AutoSize = true;
+            this.chkMinimizeToTaskbar.Location = new System.Drawing.Point(20, 386);
+            this.chkMinimizeToTaskbar.Name = "chkMinimizeToTaskbar";
+            this.chkMinimizeToTaskbar.Size = new System.Drawing.Size(116, 17);
+            this.chkMinimizeToTaskbar.TabIndex = 25;
+            this.chkMinimizeToTaskbar.Text = "Minimize to taskbar";
+            this.chkMinimizeToTaskbar.UseVisualStyleBackColor = true;
+            this.chkMinimizeToTaskbar.CheckedChanged += new System.EventHandler(this.chkMinimizeToTaskbar_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Enabled = false;
+            this.label1.Location = new System.Drawing.Point(17, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(102, 13);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Unity Parent Folders";
+            // 
+            // btnAddUnityFolder
+            // 
+            this.btnAddUnityFolder.Location = new System.Drawing.Point(20, 223);
+            this.btnAddUnityFolder.Name = "btnAddUnityFolder";
+            this.btnAddUnityFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnAddUnityFolder.TabIndex = 23;
+            this.btnAddUnityFolder.Text = "Add Folder";
+            this.btnAddUnityFolder.UseVisualStyleBackColor = true;
+            this.btnAddUnityFolder.Click += new System.EventHandler(this.btnAddUnityFolder_Click);
+            // 
+            // btnRemoveInstallFolder
+            // 
+            this.btnRemoveInstallFolder.Location = new System.Drawing.Point(101, 223);
+            this.btnRemoveInstallFolder.Name = "btnRemoveInstallFolder";
+            this.btnRemoveInstallFolder.Size = new System.Drawing.Size(104, 23);
+            this.btnRemoveInstallFolder.TabIndex = 22;
+            this.btnRemoveInstallFolder.Text = "Remove Folder";
+            this.btnRemoveInstallFolder.UseVisualStyleBackColor = true;
+            this.btnRemoveInstallFolder.Click += new System.EventHandler(this.btnRemoveInstallFolder_Click);
             // 
             // lstRootFolders
             // 
@@ -323,11 +440,11 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(421, 223);
+            this.btnRefresh.Location = new System.Drawing.Point(378, 223);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(94, 23);
+            this.btnRefresh.Size = new System.Drawing.Size(137, 23);
             this.btnRefresh.TabIndex = 19;
-            this.btnRefresh.Text = "Refresh List";
+            this.btnRefresh.Text = "Refresh Unity List";
             this.toolTip1.SetToolTip(this.btnRefresh, "Refresh Unity Installations List");
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
@@ -344,47 +461,24 @@
             this.notifyIcon.Text = "UnityLauncher";
             this.notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseClick);
             // 
-            // label1
+            // btnAddPackFolder
             // 
-            this.label1.AutoSize = true;
-            this.label1.Enabled = false;
-            this.label1.Location = new System.Drawing.Point(17, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 13);
-            this.label1.TabIndex = 24;
-            this.label1.Text = "Unity Parent Folders";
+            this.btnAddPackFolder.Location = new System.Drawing.Point(19, 232);
+            this.btnAddPackFolder.Name = "btnAddPackFolder";
+            this.btnAddPackFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnAddPackFolder.TabIndex = 27;
+            this.btnAddPackFolder.Text = "Add Folder";
+            this.btnAddPackFolder.UseVisualStyleBackColor = true;
             // 
-            // btnOpenReleasePage
+            // btnAddAssetStoreFolder
             // 
-            this.btnOpenReleasePage.Location = new System.Drawing.Point(367, 511);
-            this.btnOpenReleasePage.Name = "btnOpenReleasePage";
-            this.btnOpenReleasePage.Size = new System.Drawing.Size(80, 35);
-            this.btnOpenReleasePage.TabIndex = 17;
-            this.btnOpenReleasePage.Text = "Release Notes";
-            this.toolTip1.SetToolTip(this.btnOpenReleasePage, "Open File Explorer");
-            this.btnOpenReleasePage.UseVisualStyleBackColor = true;
-            this.btnOpenReleasePage.Click += new System.EventHandler(this.btnOpenReleasePage_Click);
-            // 
-            // chkMinimizeToTaskbar
-            // 
-            this.chkMinimizeToTaskbar.AutoSize = true;
-            this.chkMinimizeToTaskbar.Location = new System.Drawing.Point(20, 386);
-            this.chkMinimizeToTaskbar.Name = "chkMinimizeToTaskbar";
-            this.chkMinimizeToTaskbar.Size = new System.Drawing.Size(116, 17);
-            this.chkMinimizeToTaskbar.TabIndex = 25;
-            this.chkMinimizeToTaskbar.Text = "Minimize to taskbar";
-            this.chkMinimizeToTaskbar.UseVisualStyleBackColor = true;
-            this.chkMinimizeToTaskbar.CheckedChanged += new System.EventHandler(this.chkMinimizeToTaskbar_CheckedChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(17, 361);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 13);
-            this.label2.TabIndex = 26;
-            this.label2.Text = "Other Settings";
+            this.btnAddAssetStoreFolder.Location = new System.Drawing.Point(372, 232);
+            this.btnAddAssetStoreFolder.Name = "btnAddAssetStoreFolder";
+            this.btnAddAssetStoreFolder.Size = new System.Drawing.Size(142, 23);
+            this.btnAddAssetStoreFolder.TabIndex = 29;
+            this.btnAddAssetStoreFolder.Text = "Add AssetStore Folder";
+            this.btnAddAssetStoreFolder.UseVisualStyleBackColor = true;
+            this.btnAddAssetStoreFolder.Click += new System.EventHandler(this.btnAddAssetStoreFolder_Click);
             // 
             // Form1
             // 
@@ -399,7 +493,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Potato Edition 4";
+            this.Text = "UnityLauncher - Potato Edition 5";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -410,6 +504,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).EndInit();
+            this.tabPackages.ResumeLayout(false);
+            this.tabPackages.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
@@ -442,12 +538,20 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _unityVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn _unityPath;
         private System.Windows.Forms.ListBox lstRootFolders;
-        private System.Windows.Forms.Button btnAddFolder;
-        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnAddUnityFolder;
+        private System.Windows.Forms.Button btnRemoveInstallFolder;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnOpenReleasePage;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox chkMinimizeToTaskbar;
+        private System.Windows.Forms.TabPage tabPackages;
+        private System.Windows.Forms.ListBox lstPackageFolders;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnExplorePackageFolder;
+        private System.Windows.Forms.Button btnAddPackageFolder;
+        private System.Windows.Forms.Button btnRemovePackFolder;
+        private System.Windows.Forms.Button btnAddPackFolder;
+        private System.Windows.Forms.Button btnAddAssetStoreFolder;
     }
 }
 

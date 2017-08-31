@@ -49,6 +49,7 @@
             this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPackages = new System.Windows.Forms.TabPage();
+            this.btnAddAssetStoreFolder = new System.Windows.Forms.Button();
             this.btnExplorePackageFolder = new System.Windows.Forms.Button();
             this.btnAddPackageFolder = new System.Windows.Forms.Button();
             this.btnRemovePackFolder = new System.Windows.Forms.Button();
@@ -67,8 +68,9 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnAddPackFolder = new System.Windows.Forms.Button();
-            this.btnAddAssetStoreFolder = new System.Windows.Forms.Button();
-            this.statusStrip1.SuspendLayout();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnRemoveRegister = new System.Windows.Forms.Button();
+            this.btnAddRegister = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -80,8 +82,6 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(544, 22);
@@ -127,6 +127,7 @@
             this.btnOpenUnityFolder.Text = "Explore";
             this.toolTip1.SetToolTip(this.btnOpenUnityFolder, "Open File Explorer");
             this.btnOpenUnityFolder.UseVisualStyleBackColor = true;
+            this.btnOpenUnityFolder.Click += new System.EventHandler(this.btn_openFolder_Click);
             // 
             // btnLaunch
             // 
@@ -302,6 +303,16 @@
             this.tabPackages.Text = "My Packages";
             this.tabPackages.UseVisualStyleBackColor = true;
             // 
+            // btnAddAssetStoreFolder
+            // 
+            this.btnAddAssetStoreFolder.Location = new System.Drawing.Point(372, 232);
+            this.btnAddAssetStoreFolder.Name = "btnAddAssetStoreFolder";
+            this.btnAddAssetStoreFolder.Size = new System.Drawing.Size(142, 23);
+            this.btnAddAssetStoreFolder.TabIndex = 29;
+            this.btnAddAssetStoreFolder.Text = "Add AssetStore Folder";
+            this.btnAddAssetStoreFolder.UseVisualStyleBackColor = true;
+            this.btnAddAssetStoreFolder.Click += new System.EventHandler(this.btnAddAssetStoreFolder_Click);
+            // 
             // btnExplorePackageFolder
             // 
             this.btnExplorePackageFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -354,6 +365,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btnAddRegister);
+            this.tabPage3.Controls.Add(this.btnRemoveRegister);
+            this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.label2);
             this.tabPage3.Controls.Add(this.chkMinimizeToTaskbar);
             this.tabPage3.Controls.Add(this.label1);
@@ -470,15 +484,34 @@
             this.btnAddPackFolder.Text = "Add Folder";
             this.btnAddPackFolder.UseVisualStyleBackColor = true;
             // 
-            // btnAddAssetStoreFolder
+            // label4
             // 
-            this.btnAddAssetStoreFolder.Location = new System.Drawing.Point(372, 232);
-            this.btnAddAssetStoreFolder.Name = "btnAddAssetStoreFolder";
-            this.btnAddAssetStoreFolder.Size = new System.Drawing.Size(142, 23);
-            this.btnAddAssetStoreFolder.TabIndex = 29;
-            this.btnAddAssetStoreFolder.Text = "Add AssetStore Folder";
-            this.btnAddAssetStoreFolder.UseVisualStyleBackColor = true;
-            this.btnAddAssetStoreFolder.Click += new System.EventHandler(this.btnAddAssetStoreFolder_Click);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(21, 423);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(117, 13);
+            this.label4.TabIndex = 28;
+            this.label4.Text = "Explorer Context Menu:";
+            // 
+            // btnRemoveRegister
+            // 
+            this.btnRemoveRegister.Location = new System.Drawing.Point(211, 418);
+            this.btnRemoveRegister.Name = "btnRemoveRegister";
+            this.btnRemoveRegister.Size = new System.Drawing.Size(64, 23);
+            this.btnRemoveRegister.TabIndex = 29;
+            this.btnRemoveRegister.Text = "uninstall";
+            this.btnRemoveRegister.UseVisualStyleBackColor = true;
+            this.btnRemoveRegister.Click += new System.EventHandler(this.btnRemoveRegister_Click);
+            // 
+            // btnAddRegister
+            // 
+            this.btnAddRegister.Location = new System.Drawing.Point(141, 418);
+            this.btnAddRegister.Name = "btnAddRegister";
+            this.btnAddRegister.Size = new System.Drawing.Size(64, 23);
+            this.btnAddRegister.TabIndex = 30;
+            this.btnAddRegister.Text = "Install";
+            this.btnAddRegister.UseVisualStyleBackColor = true;
+            this.btnAddRegister.Click += new System.EventHandler(this.btnAddRegister_Click);
             // 
             // Form1
             // 
@@ -493,12 +526,10 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Potato Edition 5";
+            this.Text = "UnityLauncher - Potato Edition 6";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).EndInit();
@@ -552,6 +583,9 @@
         private System.Windows.Forms.Button btnRemovePackFolder;
         private System.Windows.Forms.Button btnAddPackFolder;
         private System.Windows.Forms.Button btnAddAssetStoreFolder;
+        private System.Windows.Forms.Button btnAddRegister;
+        private System.Windows.Forms.Button btnRemoveRegister;
+        private System.Windows.Forms.Label label4;
     }
 }
 

@@ -531,9 +531,52 @@ namespace UnityLauncher
             }
         }
 
+        void AddContextMenuRegistry()
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Classes\\Directory\\Background\\shell", true);
+            if (key != null)
+            {
+                var appName = "UnityLauncher";
+                key.CreateSubKey(appName);
 
+                key = key.OpenSubKey(appName, true);
+                key.SetValue("", "Open with UnityLauncher");
+                key.SetValue("Icon", "\"" + Application.ExecutablePath + "\"");
+
+                key.CreateSubKey("command");
+                key = key.OpenSubKey("command", true);
+                var executeString = "\"" + Application.ExecutablePath + "\"";
+                executeString += " -projectPath \"%V\"";
+                key.SetValue("", executeString);
+                SetStatus("Added context menu registry items");
+            }
+            else
+            {
+                SetStatus("Error> Cannot find registry key: Software\\Classes\\Directory\\Background\\shell");
+            }
+        }
+
+        void RemoveContextMenuRegistry()
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Classes\\Directory\\Background\\shell", true);
+            if (key != null)
+            {
+                var appName = "UnityLauncher";
+                key.DeleteSubKeyTree(appName);
+                SetStatus("Removed context menu registry items");
+            }
+            else
+            {
+                SetStatus("Error> Cannot find registry key: Software\\Classes\\Directory\\Background\\shell");
+            }
+        }
 
         #region Buttons and UI events
+
+        private void btnRemoveRegister_Click(object sender, EventArgs e)
+        {
+            RemoveContextMenuRegistry();
+        }
 
         private void chkMinimizeToTaskbar_CheckedChanged(object sender, EventArgs e)
         {
@@ -737,8 +780,11 @@ namespace UnityLauncher
             }
         }
 
-
-
+        private void btnAddRegister_Click(object sender, EventArgs e)
+        {
+            AddContextMenuRegistry();
+        }
         #endregion
+
     }
 }

@@ -61,5 +61,17 @@ namespace UnityLauncher.Properties {
                 this["packageFolders"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool closeAfterExplorer {
+            get {
+                return ((bool)(this["closeAfterExplorer"]));
+            }
+            set {
+                this["closeAfterExplorer"] = value;
+            }
+        }
     }
 }

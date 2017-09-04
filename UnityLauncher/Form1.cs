@@ -24,6 +24,11 @@ namespace UnityLauncher
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Start();
+        }
+
+        void Start()
+        {
             SetStatus("Initializing..");
 
             // check installations folder
@@ -35,13 +40,7 @@ namespace UnityLauncher
                 SetStatus("Ready");
             }
 
-            // update settings window
-            chkMinimizeToTaskbar.Checked = Properties.Settings.Default.minimizeToTaskbar;
-
-            // update installations folder listbox
-            lstRootFolders.Items.AddRange(Properties.Settings.Default.rootFolders.Cast<string>().ToArray());
-            // update packages folder listbox
-            lstPackageFolders.Items.AddRange(Properties.Settings.Default.packageFolders.Cast<string>().ToArray());
+            LoadSettings();
 
             // scan installed unitys, TODO: could cache results, at least fileinfo's
             bool foundedUnitys = ScanUnityInstallations();
@@ -63,13 +62,17 @@ namespace UnityLauncher
                     SetStatus("Launching from commandline..");
 
                     var pathArg = args[2];
-                    //                  Console.WriteLine("\nPATH: " + pathArg);
                     LaunchProject(pathArg);
                     SetStatus("Ready");
+
+                    // quit after launch if enabled in settings
+                    if (Properties.Settings.Default.closeAfterExplorer == true)
+                    {
+                        Application.Exit();
+                    }
                 }
                 else
                 {
-                    //                    Console.WriteLine("Invalid arguments:" + args[1]);
                     SetStatus("Error> Invalid arguments:" + args[1]);
                 }
 
@@ -79,6 +82,18 @@ namespace UnityLauncher
 
             // preselect grid
             gridRecent.Select();
+        }
+
+        void LoadSettings()
+        {
+            // update settings window
+            chkMinimizeToTaskbar.Checked = Properties.Settings.Default.minimizeToTaskbar;
+            chkQuitAfterCommandline.Checked = Properties.Settings.Default.closeAfterExplorer;
+
+            // update installations folder listbox
+            lstRootFolders.Items.AddRange(Properties.Settings.Default.rootFolders.Cast<string>().ToArray());
+            // update packages folder listbox
+            lstPackageFolders.Items.AddRange(Properties.Settings.Default.packageFolders.Cast<string>().ToArray());
         }
 
         /// <summary>
@@ -339,64 +354,64 @@ namespace UnityLauncher
             }
         }
 
+        // parse unity installer exe from release page
+        // thanks to https://github.com/softfruit
+        string GetDownloadUrlForUnityVersion(string releaseUrl)
+        {
+            string url = "";
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            using (WebClient client = new WebClient())
+            {
+                string html = client.DownloadString(releaseUrl);
+                Regex regex = new Regex(@"(http).+(UnityDownloadAssistant)+[^\s*]*(.exe)");
+                Match match = regex.Match(html);
+                url = match.Groups[0].Captures[0].Value;
+                Console.WriteLine(url);
+            }
+            return url;
+        }
+
         /// <summary>
         /// downloads unity installer and launches it
         /// </summary>
         /// <param name="url"></param>
         void DownloadAndRun(string url)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            using (WebClient client = new WebClient())
+            string exeURL = GetDownloadUrlForUnityVersion(url);
+
+            if (string.IsNullOrEmpty(exeURL) == false)
             {
-                string html = client.DownloadString(url);
-
-                string foundedURL = "";
-                var allLines = html.Split('\n');
-                for (int i = 0, length = allLines.Length; i < length; i++)
+                SetStatus("Download installer: " + exeURL);
+                // download temp file
+                using (WebClient downloader = new WebClient())
                 {
-                    if (allLines[i].Contains("UnityDownloadAssistant") && allLines[i].Contains(".exe"))
+                    var f = GetFileNameFromUrl(exeURL);
+                    FileInfo fileInfo = new FileInfo(f);
+                    downloader.DownloadFile(exeURL, f);
+                    if (File.Exists(fileInfo.FullName))
                     {
-                        var dlURL = allLines[i].Split('\"');
-                        if (dlURL.Length > 1)
+                        SetStatus("Running installer");
+                        try
                         {
-                            Console.WriteLine(dlURL[1]);
-                            foundedURL = dlURL[1];
-                            break;
+                            Process myProcess = new Process();
+                            myProcess.StartInfo.FileName = fileInfo.FullName;
+                            myProcess.Start();
+                            myProcess.WaitForExit();
                         }
-                        break;
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex);
+                            SetStatus("Failed running installer");
+                        }
+
                     }
                 }
-
-                if (string.IsNullOrEmpty(foundedURL) == false)
-                {
-                    // download temp file
-                    using (WebClient downloader = new WebClient())
-                    {
-                        var f = GetFileNameFromUrl(foundedURL);
-                        FileInfo fileInfo = new FileInfo(f);
-                        downloader.DownloadFile(foundedURL, f);
-                        if (File.Exists(fileInfo.FullName))
-                        {
-                            try
-                            {
-                                Process myProcess = new Process();
-                                myProcess.StartInfo.FileName = fileInfo.FullName;
-                                myProcess.Start();
-                                myProcess.WaitForExit();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex);
-                            }
-
-                        }
-                    }
-                }
-                else // not found
-                {
-                    Console.WriteLine("Cannot parse exe.. opening website instead");
-                    Process.Start(url);
-                }
+                SetStatus("Finished Running installer");
+            }
+            else // not found
+            {
+                SetStatus("Error> Cannot find installer exe.. opening website instead");
+                Process.Start(url);
             }
         }
 
@@ -407,6 +422,7 @@ namespace UnityLauncher
         /// <returns></returns>
         string GetFileNameFromUrl(string url)
         {
+            Console.WriteLine(url);
             var uri = new Uri(url);
             var filename = uri.Segments.Last();
             return filename;
@@ -786,5 +802,10 @@ namespace UnityLauncher
         }
         #endregion
 
+        private void chkQuitAfterCommandline_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.closeAfterExplorer = chkQuitAfterCommandline.Checked;
+            Properties.Settings.Default.Save();
+        }
     }
 }

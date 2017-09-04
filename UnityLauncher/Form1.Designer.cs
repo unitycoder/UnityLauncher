@@ -56,6 +56,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lstPackageFolders = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnAddRegister = new System.Windows.Forms.Button();
+            this.btnRemoveRegister = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.chkMinimizeToTaskbar = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -68,9 +71,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnAddPackFolder = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnRemoveRegister = new System.Windows.Forms.Button();
-            this.btnAddRegister = new System.Windows.Forms.Button();
+            this.chkQuitAfterCommandline = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -365,6 +366,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.chkQuitAfterCommandline);
             this.tabPage3.Controls.Add(this.btnAddRegister);
             this.tabPage3.Controls.Add(this.btnRemoveRegister);
             this.tabPage3.Controls.Add(this.label4);
@@ -382,6 +384,35 @@
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnAddRegister
+            // 
+            this.btnAddRegister.Location = new System.Drawing.Point(139, 442);
+            this.btnAddRegister.Name = "btnAddRegister";
+            this.btnAddRegister.Size = new System.Drawing.Size(64, 23);
+            this.btnAddRegister.TabIndex = 30;
+            this.btnAddRegister.Text = "Install";
+            this.btnAddRegister.UseVisualStyleBackColor = true;
+            this.btnAddRegister.Click += new System.EventHandler(this.btnAddRegister_Click);
+            // 
+            // btnRemoveRegister
+            // 
+            this.btnRemoveRegister.Location = new System.Drawing.Point(209, 442);
+            this.btnRemoveRegister.Name = "btnRemoveRegister";
+            this.btnRemoveRegister.Size = new System.Drawing.Size(64, 23);
+            this.btnRemoveRegister.TabIndex = 29;
+            this.btnRemoveRegister.Text = "uninstall";
+            this.btnRemoveRegister.UseVisualStyleBackColor = true;
+            this.btnRemoveRegister.Click += new System.EventHandler(this.btnRemoveRegister_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(19, 447);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(117, 13);
+            this.label4.TabIndex = 28;
+            this.label4.Text = "Explorer Context Menu:";
             // 
             // label2
             // 
@@ -484,34 +515,16 @@
             this.btnAddPackFolder.Text = "Add Folder";
             this.btnAddPackFolder.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // chkQuitAfterCommandline
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(21, 423);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(117, 13);
-            this.label4.TabIndex = 28;
-            this.label4.Text = "Explorer Context Menu:";
-            // 
-            // btnRemoveRegister
-            // 
-            this.btnRemoveRegister.Location = new System.Drawing.Point(211, 418);
-            this.btnRemoveRegister.Name = "btnRemoveRegister";
-            this.btnRemoveRegister.Size = new System.Drawing.Size(64, 23);
-            this.btnRemoveRegister.TabIndex = 29;
-            this.btnRemoveRegister.Text = "uninstall";
-            this.btnRemoveRegister.UseVisualStyleBackColor = true;
-            this.btnRemoveRegister.Click += new System.EventHandler(this.btnRemoveRegister_Click);
-            // 
-            // btnAddRegister
-            // 
-            this.btnAddRegister.Location = new System.Drawing.Point(141, 418);
-            this.btnAddRegister.Name = "btnAddRegister";
-            this.btnAddRegister.Size = new System.Drawing.Size(64, 23);
-            this.btnAddRegister.TabIndex = 30;
-            this.btnAddRegister.Text = "Install";
-            this.btnAddRegister.UseVisualStyleBackColor = true;
-            this.btnAddRegister.Click += new System.EventHandler(this.btnAddRegister_Click);
+            this.chkQuitAfterCommandline.AutoSize = true;
+            this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 409);
+            this.chkQuitAfterCommandline.Name = "chkQuitAfterCommandline";
+            this.chkQuitAfterCommandline.Size = new System.Drawing.Size(189, 17);
+            this.chkQuitAfterCommandline.TabIndex = 31;
+            this.chkQuitAfterCommandline.Text = "Close after launching from Explorer";
+            this.chkQuitAfterCommandline.UseVisualStyleBackColor = true;
+            this.chkQuitAfterCommandline.CheckedChanged += new System.EventHandler(this.chkQuitAfterCommandline_CheckedChanged);
             // 
             // Form1
             // 
@@ -526,7 +539,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Potato Edition 6";
+            this.Text = "UnityLauncher - Potato Edition 7";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -586,6 +599,7 @@
         private System.Windows.Forms.Button btnAddRegister;
         private System.Windows.Forms.Button btnRemoveRegister;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox chkQuitAfterCommandline;
     }
 }
 

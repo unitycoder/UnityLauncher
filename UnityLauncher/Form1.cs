@@ -17,6 +17,9 @@ namespace UnityLauncher
         // version,exe path (example: 5.6.1f1,c:\prog\unity561\editor\unity.exe)
         Dictionary<string, string> unityList = new Dictionary<string, string>();
 
+        const int settingsTabIndex = 3;
+        const string contextRegRoot = "Software\\Classes\\Directory\\Background\\shell";
+
         public Form1()
         {
             InitializeComponent();
@@ -48,7 +51,7 @@ namespace UnityLauncher
             {
                 SetStatus("Error> Did not found any Unity installations, try setting correct root folder..");
                 UpdateRecentProjectsList();
-                tabControl1.SelectedIndex = 2; // settings tab
+                tabControl1.SelectedIndex = settingsTabIndex;
                 return;
             }
 
@@ -62,7 +65,7 @@ namespace UnityLauncher
                     SetStatus("Launching from commandline..");
 
                     var pathArg = args[2];
-                    LaunchProject(pathArg);
+                    LaunchProject(pathArg, true);
                     SetStatus("Ready");
 
                     // quit after launch if enabled in settings
@@ -75,7 +78,6 @@ namespace UnityLauncher
                 {
                     SetStatus("Error> Invalid arguments:" + args[1]);
                 }
-
             }
 
             UpdateRecentProjectsList();
@@ -285,30 +287,31 @@ namespace UnityLauncher
             }
         }
 
-        void LaunchProject(string pathArg = null)
+        void LaunchProject(string pathArg = null, bool openProject = true)
         {
-            // check if path is unity project folder
             if (Directory.Exists(pathArg) == true)
             {
-                // validate folder
                 if (Directory.Exists(Path.Combine(pathArg, "Assets")))
                 {
                     var version = GetProjectVersion(pathArg);
-                    Console.WriteLine("Detected project version: " + version);
+                    //Console.WriteLine("Detected project version: " + version);
 
                     bool installed = HaveExactVersionInstalled(version);
                     if (installed == true)
                     {
-                        // TODO: open?
-                        Console.WriteLine("Opening unity version " + version);
+                        //Console.WriteLine("Opening unity version " + version);
+                        SetStatus("Launching project in unity " + version);
 
                         try
                         {
                             Process myProcess = new Process();
                             var cmd = "\"" + unityList[version] + "\"";
-                            var pars = " -projectPath " + "\"" + pathArg + "\"";
                             myProcess.StartInfo.FileName = cmd;
-                            myProcess.StartInfo.Arguments = pars;
+                            if (openProject == true)
+                            {
+                                var pars = " -projectPath " + "\"" + pathArg + "\"";
+                                myProcess.StartInfo.Arguments = pars;
+                            }
                             myProcess.Start();
                         }
                         catch (Exception ex)
@@ -317,8 +320,10 @@ namespace UnityLauncher
                         }
 
                     }
-                    else
+                    else // we dont have this version installed
                     {
+                        SetStatus("Missing unity version: " + version);
+
                         var yesno = MessageBox.Show("Unity version " + version + " is not installed! Yes = Download, No = Open Webpage", "UnityLauncher", MessageBoxButtons.YesNoCancel);
 
                         string url = GetUnityReleaseURL(version);
@@ -480,13 +485,13 @@ namespace UnityLauncher
             notifyIcon.Visible = false;
         }
 
-        void LaunchSelectedProject()
+        void LaunchSelectedProject(bool openProject = true)
         {
             var selected = gridRecent.CurrentCell.RowIndex;
             if (selected > -1)
             {
                 SetStatus("Launching project..");
-                LaunchProject(gridRecent.Rows[selected].Cells["_path"].Value.ToString());
+                LaunchProject(gridRecent.Rows[selected].Cells["_path"].Value.ToString(), openProject);
                 SetStatus("Ready");
             }
         }
@@ -549,7 +554,7 @@ namespace UnityLauncher
 
         void AddContextMenuRegistry()
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Classes\\Directory\\Background\\shell", true);
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(contextRegRoot, true);
             if (key != null)
             {
                 var appName = "UnityLauncher";
@@ -568,22 +573,30 @@ namespace UnityLauncher
             }
             else
             {
-                SetStatus("Error> Cannot find registry key: Software\\Classes\\Directory\\Background\\shell");
+                SetStatus("Error> Cannot find registry key: " + contextRegRoot);
             }
         }
 
         void RemoveContextMenuRegistry()
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Classes\\Directory\\Background\\shell", true);
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(contextRegRoot, true);
             if (key != null)
             {
                 var appName = "UnityLauncher";
-                key.DeleteSubKeyTree(appName);
-                SetStatus("Removed context menu registry items");
+                RegistryKey appKey = Registry.CurrentUser.OpenSubKey(contextRegRoot + "\\" + appName, false);
+                if (appKey != null)
+                {
+                    key.DeleteSubKeyTree(appName);
+                    SetStatus("Removed context menu registry items");
+                }
+                else
+                {
+                    SetStatus("Nothing to uninstall..");
+                }
             }
             else
             {
-                SetStatus("Error> Cannot find registry key: Software\\Classes\\Directory\\Background\\shell");
+                SetStatus("Error> Cannot find registry key: " + contextRegRoot);
             }
         }
 
@@ -800,12 +813,18 @@ namespace UnityLauncher
         {
             AddContextMenuRegistry();
         }
-        #endregion
 
         private void chkQuitAfterCommandline_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.closeAfterExplorer = chkQuitAfterCommandline.Checked;
             Properties.Settings.Default.Save();
         }
+
+        private void btnRunUnityOnly_Click(object sender, EventArgs e)
+        {
+            LaunchSelectedProject(openProject: false);
+        }
+
+        #endregion
     }
 }

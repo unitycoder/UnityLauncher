@@ -56,6 +56,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lstPackageFolders = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.chkQuitAfterCommandline = new System.Windows.Forms.CheckBox();
             this.btnAddRegister = new System.Windows.Forms.Button();
             this.btnRemoveRegister = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -71,7 +72,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnAddPackFolder = new System.Windows.Forms.Button();
-            this.chkQuitAfterCommandline = new System.Windows.Forms.CheckBox();
+            this.btnRunUnityOnly = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -109,6 +110,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnRunUnityOnly);
             this.tabPage1.Controls.Add(this.btnOpenUnityFolder);
             this.tabPage1.Controls.Add(this.btnLaunch);
             this.tabPage1.Controls.Add(this.gridRecent);
@@ -133,9 +135,9 @@
             // btnLaunch
             // 
             this.btnLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLaunch.Location = new System.Drawing.Point(3, 511);
+            this.btnLaunch.Location = new System.Drawing.Point(86, 511);
             this.btnLaunch.Name = "btnLaunch";
-            this.btnLaunch.Size = new System.Drawing.Size(444, 35);
+            this.btnLaunch.Size = new System.Drawing.Size(361, 35);
             this.btnLaunch.TabIndex = 10;
             this.btnLaunch.Text = "Launch Project";
             this.toolTip1.SetToolTip(this.btnLaunch, "Launch selected project");
@@ -385,6 +387,17 @@
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // chkQuitAfterCommandline
+            // 
+            this.chkQuitAfterCommandline.AutoSize = true;
+            this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 409);
+            this.chkQuitAfterCommandline.Name = "chkQuitAfterCommandline";
+            this.chkQuitAfterCommandline.Size = new System.Drawing.Size(189, 17);
+            this.chkQuitAfterCommandline.TabIndex = 31;
+            this.chkQuitAfterCommandline.Text = "Close after launching from Explorer";
+            this.chkQuitAfterCommandline.UseVisualStyleBackColor = true;
+            this.chkQuitAfterCommandline.CheckedChanged += new System.EventHandler(this.chkQuitAfterCommandline_CheckedChanged);
+            // 
             // btnAddRegister
             // 
             this.btnAddRegister.Location = new System.Drawing.Point(139, 442);
@@ -515,16 +528,16 @@
             this.btnAddPackFolder.Text = "Add Folder";
             this.btnAddPackFolder.UseVisualStyleBackColor = true;
             // 
-            // chkQuitAfterCommandline
+            // btnRunUnityOnly
             // 
-            this.chkQuitAfterCommandline.AutoSize = true;
-            this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 409);
-            this.chkQuitAfterCommandline.Name = "chkQuitAfterCommandline";
-            this.chkQuitAfterCommandline.Size = new System.Drawing.Size(189, 17);
-            this.chkQuitAfterCommandline.TabIndex = 31;
-            this.chkQuitAfterCommandline.Text = "Close after launching from Explorer";
-            this.chkQuitAfterCommandline.UseVisualStyleBackColor = true;
-            this.chkQuitAfterCommandline.CheckedChanged += new System.EventHandler(this.chkQuitAfterCommandline_CheckedChanged);
+            this.btnRunUnityOnly.Location = new System.Drawing.Point(3, 511);
+            this.btnRunUnityOnly.Name = "btnRunUnityOnly";
+            this.btnRunUnityOnly.Size = new System.Drawing.Size(80, 35);
+            this.btnRunUnityOnly.TabIndex = 15;
+            this.btnRunUnityOnly.Text = "Run Unity";
+            this.toolTip1.SetToolTip(this.btnRunUnityOnly, "Open File Explorer");
+            this.btnRunUnityOnly.UseVisualStyleBackColor = true;
+            this.btnRunUnityOnly.Click += new System.EventHandler(this.btnRunUnityOnly_Click);
             // 
             // Form1
             // 
@@ -539,7 +552,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Potato Edition 7";
+            this.Text = "UnityLauncher - Potato Edition 8";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -600,6 +613,7 @@
         private System.Windows.Forms.Button btnRemoveRegister;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkQuitAfterCommandline;
+        private System.Windows.Forms.Button btnRunUnityOnly;
     }
 }
 

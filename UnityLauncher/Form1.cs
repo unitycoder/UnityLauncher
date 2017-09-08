@@ -15,7 +15,7 @@ namespace UnityLauncher
     public partial class Form1 : Form
     {
         // version,exe path (example: 5.6.1f1,c:\prog\unity561\editor\unity.exe)
-        Dictionary<string, string> unityList = new Dictionary<string, string>();
+        public static Dictionary<string, string> unityList = new Dictionary<string, string>();
 
         const int settingsTabIndex = 3;
         const string contextRegRoot = "Software\\Classes\\Directory\\Background\\shell";
@@ -296,8 +296,8 @@ namespace UnityLauncher
                     var version = GetProjectVersion(pathArg);
                     //Console.WriteLine("Detected project version: " + version);
 
-                    bool installed = HaveExactVersionInstalled(version);
-                    if (installed == true)
+                    bool haveExactVersion = HaveExactVersionInstalled(version);
+                    if (haveExactVersion == true)
                     {
                         //Console.WriteLine("Opening unity version " + version);
                         SetStatus("Launching project in unity " + version);
@@ -370,8 +370,15 @@ namespace UnityLauncher
                 string html = client.DownloadString(releaseUrl);
                 Regex regex = new Regex(@"(http).+(UnityDownloadAssistant)+[^\s*]*(.exe)");
                 Match match = regex.Match(html);
-                url = match.Groups[0].Captures[0].Value;
-                Console.WriteLine(url);
+                if (match.Success == true)
+                {
+                    url = match.Groups[0].Captures[0].Value;
+                    //                    Console.WriteLine(url);
+                }
+                else
+                {
+                    SetStatus("Cannot find UnityDownloadAssistant.exe for this version..");
+                }
             }
             return url;
         }
@@ -825,6 +832,76 @@ namespace UnityLauncher
             LaunchSelectedProject(openProject: false);
         }
 
-        #endregion
+        private void btnUpgradeProject_Click(object sender, EventArgs e)
+        {
+            UpgradeProject();
+        }
+        #endregion UI events
+
+
+        public static string FindNearestVersion(string version, List<string> allAvailable)
+        {
+            if (version.Contains("2017"))
+            {
+                return FindNearestVersionFromSimilarVersions(version, allAvailable.Where(x => x.Contains("2017")));
+            }
+            return FindNearestVersionFromSimilarVersions(version, allAvailable.Where(x => !x.Contains("2017")));
+        }
+
+        private static string FindNearestVersionFromSimilarVersions(string version, IEnumerable<string> allAvailable)
+        {
+            Dictionary<string, string> stripped = new Dictionary<string, string>();
+            var enumerable = allAvailable as string[] ?? allAvailable.ToArray();
+
+            foreach (var t in enumerable)
+            {
+                stripped.Add(new Regex("[a-zA-z]").Replace(t, "."), t);
+            }
+
+            var comparableVersion = new Regex("[a-zA-z]").Replace(version, ".");
+            if (!stripped.ContainsKey(comparableVersion))
+            {
+                stripped.Add(comparableVersion, version);
+                Console.WriteLine(comparableVersion + " : " + version);
+            }
+
+            var comparables = stripped.Keys.OrderBy(x => x).ToList();
+            var actualIndex = comparables.IndexOf(comparableVersion);
+
+            if (actualIndex < stripped.Count) return stripped[comparables[actualIndex + 1]];
+            return null;
+        }
+
+        void UpgradeProject()
+        {
+            var selected = gridRecent.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                SetStatus("Upgrading project..");
+
+                var path = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
+                var currentVersion = GetProjectVersion(path);
+
+                bool haveExactVersion = HaveExactVersionInstalled(currentVersion);
+                if (haveExactVersion == true)
+                {
+                    // you already have same version, are you sure?
+                }
+
+                Form2 upgradeDialog = new Form2();
+                Form2.currentVersion = currentVersion;
+
+                if (upgradeDialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    // yes, upgrade
+                }
+                else
+                {
+                    // cancelled
+                }
+                upgradeDialog.Close();
+
+            }
+        }
     }
 }

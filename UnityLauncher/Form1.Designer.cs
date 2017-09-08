@@ -30,10 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnRunUnityOnly = new System.Windows.Forms.Button();
             this.btnOpenUnityFolder = new System.Windows.Forms.Button();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.gridRecent = new System.Windows.Forms.DataGridView();
@@ -72,7 +71,9 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnAddPackFolder = new System.Windows.Forms.Button();
-            this.btnRunUnityOnly = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnUpgradeProject = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -80,21 +81,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).BeginInit();
             this.tabPackages.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 590);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(544, 22);
-            this.statusStrip1.TabIndex = 6;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(39, 17);
-            this.toolStripStatusLabel1.Text = "Status";
             // 
             // tabControl1
             // 
@@ -110,6 +98,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnUpgradeProject);
             this.tabPage1.Controls.Add(this.btnRunUnityOnly);
             this.tabPage1.Controls.Add(this.btnOpenUnityFolder);
             this.tabPage1.Controls.Add(this.btnLaunch);
@@ -121,11 +110,22 @@
             this.tabPage1.Text = "Projects";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // btnRunUnityOnly
+            // 
+            this.btnRunUnityOnly.Location = new System.Drawing.Point(105, 511);
+            this.btnRunUnityOnly.Name = "btnRunUnityOnly";
+            this.btnRunUnityOnly.Size = new System.Drawing.Size(67, 35);
+            this.btnRunUnityOnly.TabIndex = 15;
+            this.btnRunUnityOnly.Text = "Run Unity";
+            this.toolTip1.SetToolTip(this.btnRunUnityOnly, "Open File Explorer");
+            this.btnRunUnityOnly.UseVisualStyleBackColor = true;
+            this.btnRunUnityOnly.Click += new System.EventHandler(this.btnRunUnityOnly_Click);
+            // 
             // btnOpenUnityFolder
             // 
-            this.btnOpenUnityFolder.Location = new System.Drawing.Point(453, 511);
+            this.btnOpenUnityFolder.Location = new System.Drawing.Point(466, 511);
             this.btnOpenUnityFolder.Name = "btnOpenUnityFolder";
-            this.btnOpenUnityFolder.Size = new System.Drawing.Size(80, 35);
+            this.btnOpenUnityFolder.Size = new System.Drawing.Size(67, 35);
             this.btnOpenUnityFolder.TabIndex = 14;
             this.btnOpenUnityFolder.Text = "Explore";
             this.toolTip1.SetToolTip(this.btnOpenUnityFolder, "Open File Explorer");
@@ -135,9 +135,9 @@
             // btnLaunch
             // 
             this.btnLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLaunch.Location = new System.Drawing.Point(86, 511);
+            this.btnLaunch.Location = new System.Drawing.Point(176, 511);
             this.btnLaunch.Name = "btnLaunch";
-            this.btnLaunch.Size = new System.Drawing.Size(361, 35);
+            this.btnLaunch.Size = new System.Drawing.Size(287, 35);
             this.btnLaunch.TabIndex = 10;
             this.btnLaunch.Text = "Launch Project";
             this.toolTip1.SetToolTip(this.btnLaunch, "Launch selected project");
@@ -528,24 +528,40 @@
             this.btnAddPackFolder.Text = "Add Folder";
             this.btnAddPackFolder.UseVisualStyleBackColor = true;
             // 
-            // btnRunUnityOnly
+            // statusStrip1
             // 
-            this.btnRunUnityOnly.Location = new System.Drawing.Point(3, 511);
-            this.btnRunUnityOnly.Name = "btnRunUnityOnly";
-            this.btnRunUnityOnly.Size = new System.Drawing.Size(80, 35);
-            this.btnRunUnityOnly.TabIndex = 15;
-            this.btnRunUnityOnly.Text = "Run Unity";
-            this.toolTip1.SetToolTip(this.btnRunUnityOnly, "Open File Explorer");
-            this.btnRunUnityOnly.UseVisualStyleBackColor = true;
-            this.btnRunUnityOnly.Click += new System.EventHandler(this.btnRunUnityOnly_Click);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 590);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(544, 22);
+            this.statusStrip1.TabIndex = 7;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // btnUpgradeProject
+            // 
+            this.btnUpgradeProject.Location = new System.Drawing.Point(3, 511);
+            this.btnUpgradeProject.Name = "btnUpgradeProject";
+            this.btnUpgradeProject.Size = new System.Drawing.Size(98, 35);
+            this.btnUpgradeProject.TabIndex = 16;
+            this.btnUpgradeProject.Text = "Upgrade Project";
+            this.toolTip1.SetToolTip(this.btnUpgradeProject, "Open File Explorer");
+            this.btnUpgradeProject.UseVisualStyleBackColor = true;
+            this.btnUpgradeProject.Click += new System.EventHandler(this.btnUpgradeProject_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 612);
-            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -565,14 +581,14 @@
             this.tabPackages.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button btnOpenUnityFolder;
@@ -614,6 +630,9 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkQuitAfterCommandline;
         private System.Windows.Forms.Button btnRunUnityOnly;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Button btnUpgradeProject;
     }
 }
 

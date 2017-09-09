@@ -61,6 +61,7 @@
             this.btnCancelUpgrade.TabIndex = 2;
             this.btnCancelUpgrade.Text = "Cancel";
             this.btnCancelUpgrade.UseVisualStyleBackColor = true;
+            this.btnCancelUpgrade.Click += new System.EventHandler(this.btnCancelUpgrade_Click);
             // 
             // btnConfirmUpgrade
             // 
@@ -70,6 +71,7 @@
             this.btnConfirmUpgrade.TabIndex = 3;
             this.btnConfirmUpgrade.Text = "Upgrade";
             this.btnConfirmUpgrade.UseVisualStyleBackColor = true;
+            this.btnConfirmUpgrade.Click += new System.EventHandler(this.btnConfirmUpgrade_Click);
             // 
             // txtUpgradeCurrentVersion
             // 

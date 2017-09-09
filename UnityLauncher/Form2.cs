@@ -31,7 +31,7 @@ namespace UnityLauncher
             if (string.IsNullOrEmpty(currentVersion) == false)
             {
                 string nearestVersion = Form1.FindNearestVersion(currentVersion, Form1.unityList.Keys.ToList());
-                Console.WriteLine("nearest:" + nearestVersion);
+                //Console.WriteLine("nearest:" + nearestVersion);
 
                 // preselect most likely version
                 int likelyIndex = lstUnityVersions.FindString(currentVersion);
@@ -44,6 +44,24 @@ namespace UnityLauncher
             {
 
             }
+        }
+
+        private void btnConfirmUpgrade_Click(object sender, EventArgs e)
+        {
+            if (lstUnityVersions.SelectedIndex>-1)
+            {
+                currentVersion = lstUnityVersions.Items[lstUnityVersions.SelectedIndex].ToString();
+                DialogResult = DialogResult.OK;
+            }
+            else
+            {
+                // no version selected
+            }
+        }
+
+        private void btnCancelUpgrade_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
         }
     }
 }

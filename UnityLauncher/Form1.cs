@@ -64,8 +64,11 @@ namespace UnityLauncher
                 {
                     SetStatus("Launching from commandline..");
 
-                    var pathArg = args[2];
-                    LaunchProject(pathArg, true);
+                    var projectPathArgument = args[2];
+
+                    var version = GetProjectVersion(projectPathArgument);
+
+                    LaunchProject(projectPathArgument, version, true);
                     SetStatus("Ready");
 
                     // quit after launch if enabled in settings
@@ -287,13 +290,13 @@ namespace UnityLauncher
             }
         }
 
-        void LaunchProject(string pathArg = null, bool openProject = true)
+        void LaunchProject(string projectPath, string version, bool openProject = true)
         {
-            if (Directory.Exists(pathArg) == true)
+            if (Directory.Exists(projectPath) == true)
             {
-                if (Directory.Exists(Path.Combine(pathArg, "Assets")))
+                if (Directory.Exists(Path.Combine(projectPath, "Assets")))
                 {
-                    var version = GetProjectVersion(pathArg);
+                    //var version = GetProjectVersion(projectPath);
                     //Console.WriteLine("Detected project version: " + version);
 
                     bool haveExactVersion = HaveExactVersionInstalled(version);
@@ -309,7 +312,7 @@ namespace UnityLauncher
                             myProcess.StartInfo.FileName = cmd;
                             if (openProject == true)
                             {
-                                var pars = " -projectPath " + "\"" + pathArg + "\"";
+                                var pars = " -projectPath " + "\"" + projectPath + "\"";
                                 myProcess.StartInfo.Arguments = pars;
                             }
                             myProcess.Start();
@@ -350,12 +353,12 @@ namespace UnityLauncher
                 }
                 else
                 {
-                    SetStatus("No Assets folder founded in: " + pathArg);
+                    SetStatus("No Assets folder founded in: " + projectPath);
                 }
             }
             else // given path doesnt exists, strange
             {
-                SetStatus("Invalid Path:" + pathArg);
+                SetStatus("Invalid Path: " + projectPath);
             }
         }
 
@@ -498,7 +501,9 @@ namespace UnityLauncher
             if (selected > -1)
             {
                 SetStatus("Launching project..");
-                LaunchProject(gridRecent.Rows[selected].Cells["_path"].Value.ToString(), openProject);
+                var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
+                var version = GetProjectVersion(projectPath);
+                LaunchProject(projectPath, version, openProject);
                 SetStatus("Ready");
             }
         }
@@ -862,7 +867,7 @@ namespace UnityLauncher
             if (!stripped.ContainsKey(comparableVersion))
             {
                 stripped.Add(comparableVersion, version);
-                Console.WriteLine(comparableVersion + " : " + version);
+                //Console.WriteLine(comparableVersion + " : " + version);
             }
 
             var comparables = stripped.Keys.OrderBy(x => x).ToList();
@@ -894,10 +899,14 @@ namespace UnityLauncher
                 if (upgradeDialog.ShowDialog(this) == DialogResult.OK)
                 {
                     // yes, upgrade
+                    SetStatus("Upgrading project to " + Form2.currentVersion);
+                    var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
+                    LaunchProject(projectPath, Form2.currentVersion);
                 }
                 else
                 {
                     // cancelled
+                    SetStatus("Cancelled project upgrade");
                 }
                 upgradeDialog.Close();
 

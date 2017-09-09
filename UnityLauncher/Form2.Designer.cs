@@ -65,6 +65,7 @@
             // 
             // btnConfirmUpgrade
             // 
+            this.btnConfirmUpgrade.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConfirmUpgrade.Location = new System.Drawing.Point(116, 362);
             this.btnConfirmUpgrade.Name = "btnConfirmUpgrade";
             this.btnConfirmUpgrade.Size = new System.Drawing.Size(136, 56);

@@ -34,7 +34,7 @@ namespace UnityLauncher
                 //Console.WriteLine("nearest:" + nearestVersion);
 
                 // preselect most likely version
-                int likelyIndex = lstUnityVersions.FindString(currentVersion);
+                int likelyIndex = lstUnityVersions.FindString(nearestVersion);
                 if (likelyIndex > -1)
                 {
                     lstUnityVersions.SetSelected(likelyIndex, true);

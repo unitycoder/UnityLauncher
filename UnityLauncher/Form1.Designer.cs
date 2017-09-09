@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnUpgradeProject = new System.Windows.Forms.Button();
             this.btnRunUnityOnly = new System.Windows.Forms.Button();
             this.btnOpenUnityFolder = new System.Windows.Forms.Button();
             this.btnLaunch = new System.Windows.Forms.Button();
@@ -73,7 +74,6 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnUpgradeProject = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -109,6 +109,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Projects";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnUpgradeProject
+            // 
+            this.btnUpgradeProject.Location = new System.Drawing.Point(3, 511);
+            this.btnUpgradeProject.Name = "btnUpgradeProject";
+            this.btnUpgradeProject.Size = new System.Drawing.Size(98, 35);
+            this.btnUpgradeProject.TabIndex = 16;
+            this.btnUpgradeProject.Text = "Upgrade Project";
+            this.toolTip1.SetToolTip(this.btnUpgradeProject, "Open File Explorer");
+            this.btnUpgradeProject.UseVisualStyleBackColor = true;
+            this.btnUpgradeProject.Click += new System.EventHandler(this.btnUpgradeProject_Click);
             // 
             // btnRunUnityOnly
             // 
@@ -530,8 +541,6 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(544, 22);
@@ -543,17 +552,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            // 
-            // btnUpgradeProject
-            // 
-            this.btnUpgradeProject.Location = new System.Drawing.Point(3, 511);
-            this.btnUpgradeProject.Name = "btnUpgradeProject";
-            this.btnUpgradeProject.Size = new System.Drawing.Size(98, 35);
-            this.btnUpgradeProject.TabIndex = 16;
-            this.btnUpgradeProject.Text = "Upgrade Project";
-            this.toolTip1.SetToolTip(this.btnUpgradeProject, "Open File Explorer");
-            this.btnUpgradeProject.UseVisualStyleBackColor = true;
-            this.btnUpgradeProject.Click += new System.EventHandler(this.btnUpgradeProject_Click);
             // 
             // Form1
             // 
@@ -568,7 +566,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Potato Edition 8";
+            this.Text = "UnityLauncher - Potato Edition 9";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);

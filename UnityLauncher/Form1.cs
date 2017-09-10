@@ -59,16 +59,16 @@ namespace UnityLauncher
             string[] args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 2)
             {
-                var commandArg = args[1];
-                if (commandArg == "-projectPath")
+                var commandLineArgs = args[1];
+                if (commandLineArgs == "-projectPath")
                 {
                     SetStatus("Launching from commandline..");
 
                     var projectPathArgument = args[2];
-
                     var version = GetProjectVersion(projectPathArgument);
 
                     LaunchProject(projectPathArgument, version, true);
+
                     SetStatus("Ready");
 
                     // quit after launch if enabled in settings
@@ -272,7 +272,6 @@ namespace UnityLauncher
                     gridRecent.Rows[gridRecent.Rows.Count - 1].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ? Color.Green : Color.Red;
                 }
             }
-
             SetStatus("Ready");
         }
 
@@ -294,36 +293,44 @@ namespace UnityLauncher
         {
             if (Directory.Exists(projectPath) == true)
             {
-                if (Directory.Exists(Path.Combine(projectPath, "Assets")))
+                // no assets path, probably we want to create new project then
+                var assetsFolder = Path.Combine(projectPath, "Assets");
+                if (Directory.Exists(assetsFolder) == false)
                 {
-                    //var version = GetProjectVersion(projectPath);
-                    //Console.WriteLine("Detected project version: " + version);
+                    // TODO could ask if want to create project
+                    Directory.CreateDirectory(assetsFolder);
+                }
 
-                    bool haveExactVersion = HaveExactVersionInstalled(version);
-                    if (haveExactVersion == true)
+                bool haveExactVersion = HaveExactVersionInstalled(version);
+                if (haveExactVersion == true)
+                {
+                    //Console.WriteLine("Opening unity version " + version);
+                    SetStatus("Launching project in unity " + version);
+
+                    try
                     {
-                        //Console.WriteLine("Opening unity version " + version);
-                        SetStatus("Launching project in unity " + version);
-
-                        try
+                        Process myProcess = new Process();
+                        var cmd = "\"" + unityList[version] + "\"";
+                        myProcess.StartInfo.FileName = cmd;
+                        if (openProject == true)
                         {
-                            Process myProcess = new Process();
-                            var cmd = "\"" + unityList[version] + "\"";
-                            myProcess.StartInfo.FileName = cmd;
-                            if (openProject == true)
-                            {
-                                var pars = " -projectPath " + "\"" + projectPath + "\"";
-                                myProcess.StartInfo.Arguments = pars;
-                            }
-                            myProcess.Start();
+                            var pars = " -projectPath " + "\"" + projectPath + "\"";
+                            myProcess.StartInfo.Arguments = pars;
                         }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex);
-                        }
-
+                        myProcess.Start();
                     }
-                    else // we dont have this version installed
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                }
+                else // we dont have this version installed (or no version info available)
+                {
+                    if (string.IsNullOrEmpty(version) == true)
+                    {
+                        DisplayUpgradeDialog(version, projectPath);
+                    }
+                    else // offer to download or open web
                     {
                         SetStatus("Missing unity version: " + version);
 
@@ -350,10 +357,6 @@ namespace UnityLauncher
                             }
                         }
                     }
-                }
-                else
-                {
-                    SetStatus("No Assets folder founded in: " + projectPath);
                 }
             }
             else // given path doesnt exists, strange
@@ -877,6 +880,7 @@ namespace UnityLauncher
             return null;
         }
 
+        // displays version selector to upgrade project
         void UpgradeProject()
         {
             var selected = gridRecent.CurrentCell.RowIndex;
@@ -884,33 +888,46 @@ namespace UnityLauncher
             {
                 SetStatus("Upgrading project..");
 
-                var path = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
-                var currentVersion = GetProjectVersion(path);
+                var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
+                var currentVersion = GetProjectVersion(projectPath);
 
-                bool haveExactVersion = HaveExactVersionInstalled(currentVersion);
-                if (haveExactVersion == true)
+                if (string.IsNullOrEmpty(currentVersion) == true)
                 {
-                    // you already have same version, are you sure?
+                    // TODO no version info available, should handle errors?
+                }
+                else // have version info
+                {
+                    bool haveExactVersion = HaveExactVersionInstalled(currentVersion);
+                    if (haveExactVersion == true)
+                    {
+                        // you already have exact version, are you sure about upgrade?
+                    }
                 }
 
-                Form2 upgradeDialog = new Form2();
-                Form2.currentVersion = currentVersion;
-
-                if (upgradeDialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    // yes, upgrade
-                    SetStatus("Upgrading project to " + Form2.currentVersion);
-                    var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
-                    LaunchProject(projectPath, Form2.currentVersion);
-                }
-                else
-                {
-                    // cancelled
-                    SetStatus("Cancelled project upgrade");
-                }
-                upgradeDialog.Close();
-
+                DisplayUpgradeDialog(currentVersion, projectPath, true);
             }
         }
+
+        void DisplayUpgradeDialog(string currentVersion, string projectPath, bool launchProject = true)
+        {
+            // display upgrade dialog (version selector)
+            Form2 upgradeDialog = new Form2();
+            Form2.currentVersion = currentVersion;
+
+            if (upgradeDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                // yes, upgrade
+                SetStatus("Upgrading project to " + Form2.currentVersion);
+                if (launchProject == true) LaunchProject(projectPath, Form2.currentVersion);
+            }
+            else
+            {
+                // cancelled
+                SetStatus("Cancelled project upgrade");
+            }
+
+            upgradeDialog.Close();
+        }
+
     }
 }

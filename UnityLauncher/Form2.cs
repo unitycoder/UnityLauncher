@@ -21,9 +21,11 @@ namespace UnityLauncher
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            // fill textbox
-            txtUpgradeCurrentVersion.Text = currentVersion;
+            Start();
+        }
 
+        void Start()
+        {
             // update unity installations list
             lstUnityVersions.Items.AddRange(Form1.unityList.Keys.ToArray());
 
@@ -40,15 +42,18 @@ namespace UnityLauncher
                     lstUnityVersions.SetSelected(likelyIndex, true);
                 }
             }
-            else // we dont know current version
+            else // we dont have current version
             {
-
+                currentVersion = "None";
             }
+
+            // fill textbox
+            txtUpgradeCurrentVersion.Text = currentVersion;
         }
 
         private void btnConfirmUpgrade_Click(object sender, EventArgs e)
         {
-            if (lstUnityVersions.SelectedIndex>-1)
+            if (lstUnityVersions.SelectedIndex > -1)
             {
                 currentVersion = lstUnityVersions.Items[lstUnityVersions.SelectedIndex].ToString();
                 DialogResult = DialogResult.OK;

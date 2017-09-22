@@ -844,6 +844,16 @@ namespace UnityLauncher
         {
             UpgradeProject();
         }
+
+        private void btnOpenLogFolder_Click(object sender, EventArgs e)
+        {
+            var logfolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Unity", "Editor");
+            Console.WriteLine(logfolder);
+            if (Directory.Exists(logfolder) == true)
+            {
+                LaunchExplorer(logfolder);
+            }
+        }
         #endregion UI events
 
 
@@ -928,6 +938,7 @@ namespace UnityLauncher
 
             upgradeDialog.Close();
         }
+
 
     }
 }

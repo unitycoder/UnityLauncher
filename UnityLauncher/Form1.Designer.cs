@@ -37,10 +37,6 @@
             this.btnOpenUnityFolder = new System.Windows.Forms.Button();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.gridRecent = new System.Windows.Forms.DataGridView();
-            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnOpenReleasePage = new System.Windows.Forms.Button();
             this.btnExploreUnity = new System.Windows.Forms.Button();
@@ -74,6 +70,11 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnOpenLogFolder = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -93,7 +94,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(544, 575);
+            this.tabControl1.Size = new System.Drawing.Size(588, 575);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -105,7 +106,7 @@
             this.tabPage1.Controls.Add(this.gridRecent);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(536, 549);
+            this.tabPage1.Size = new System.Drawing.Size(580, 549);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Projects";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -134,7 +135,7 @@
             // 
             // btnOpenUnityFolder
             // 
-            this.btnOpenUnityFolder.Location = new System.Drawing.Point(466, 511);
+            this.btnOpenUnityFolder.Location = new System.Drawing.Point(510, 511);
             this.btnOpenUnityFolder.Name = "btnOpenUnityFolder";
             this.btnOpenUnityFolder.Size = new System.Drawing.Size(67, 35);
             this.btnOpenUnityFolder.TabIndex = 14;
@@ -148,7 +149,7 @@
             this.btnLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLaunch.Location = new System.Drawing.Point(176, 511);
             this.btnLaunch.Name = "btnLaunch";
-            this.btnLaunch.Size = new System.Drawing.Size(287, 35);
+            this.btnLaunch.Size = new System.Drawing.Size(330, 35);
             this.btnLaunch.TabIndex = 10;
             this.btnLaunch.Text = "Launch Project";
             this.toolTip1.SetToolTip(this.btnLaunch, "Launch selected project");
@@ -178,40 +179,9 @@
             this.gridRecent.ShowCellErrors = false;
             this.gridRecent.ShowCellToolTips = false;
             this.gridRecent.ShowEditingIcon = false;
-            this.gridRecent.Size = new System.Drawing.Size(530, 502);
+            this.gridRecent.Size = new System.Drawing.Size(574, 502);
             this.gridRecent.TabIndex = 0;
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
-            // 
-            // _project
-            // 
-            this._project.HeaderText = "Project";
-            this._project.Name = "_project";
-            this._project.ReadOnly = true;
-            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._project.Width = 135;
-            // 
-            // _version
-            // 
-            this._version.HeaderText = "Version";
-            this._version.Name = "_version";
-            this._version.ReadOnly = true;
-            this._version.Width = 65;
-            // 
-            // _path
-            // 
-            this._path.HeaderText = "Path";
-            this._path.Name = "_path";
-            this._path.ReadOnly = true;
-            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._path.Width = 178;
-            // 
-            // _dateModified
-            // 
-            this._dateModified.HeaderText = "Modified";
-            this._dateModified.Name = "_dateModified";
-            this._dateModified.ReadOnly = true;
-            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._dateModified.Width = 77;
             // 
             // tabPage2
             // 
@@ -221,14 +191,14 @@
             this.tabPage2.Controls.Add(this.gridUnityList);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(536, 549);
+            this.tabPage2.Size = new System.Drawing.Size(580, 549);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Unity\'s";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // btnOpenReleasePage
             // 
-            this.btnOpenReleasePage.Location = new System.Drawing.Point(367, 511);
+            this.btnOpenReleasePage.Location = new System.Drawing.Point(411, 511);
             this.btnOpenReleasePage.Name = "btnOpenReleasePage";
             this.btnOpenReleasePage.Size = new System.Drawing.Size(80, 35);
             this.btnOpenReleasePage.TabIndex = 17;
@@ -239,7 +209,7 @@
             // 
             // btnExploreUnity
             // 
-            this.btnExploreUnity.Location = new System.Drawing.Point(453, 511);
+            this.btnExploreUnity.Location = new System.Drawing.Point(497, 511);
             this.btnExploreUnity.Name = "btnExploreUnity";
             this.btnExploreUnity.Size = new System.Drawing.Size(80, 35);
             this.btnExploreUnity.TabIndex = 16;
@@ -253,7 +223,7 @@
             this.btnLaunchUnity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLaunchUnity.Location = new System.Drawing.Point(3, 511);
             this.btnLaunchUnity.Name = "btnLaunchUnity";
-            this.btnLaunchUnity.Size = new System.Drawing.Size(358, 35);
+            this.btnLaunchUnity.Size = new System.Drawing.Size(402, 35);
             this.btnLaunchUnity.TabIndex = 15;
             this.btnLaunchUnity.Text = "Run Unity";
             this.toolTip1.SetToolTip(this.btnLaunchUnity, "Launch selected project");
@@ -281,7 +251,7 @@
             this.gridUnityList.ShowCellErrors = false;
             this.gridUnityList.ShowCellToolTips = false;
             this.gridUnityList.ShowEditingIcon = false;
-            this.gridUnityList.Size = new System.Drawing.Size(530, 502);
+            this.gridUnityList.Size = new System.Drawing.Size(574, 502);
             this.gridUnityList.TabIndex = 10;
             this.gridUnityList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.unityGridView_KeyDown);
             // 
@@ -312,14 +282,14 @@
             this.tabPackages.Controls.Add(this.lstPackageFolders);
             this.tabPackages.Location = new System.Drawing.Point(4, 22);
             this.tabPackages.Name = "tabPackages";
-            this.tabPackages.Size = new System.Drawing.Size(536, 549);
+            this.tabPackages.Size = new System.Drawing.Size(580, 549);
             this.tabPackages.TabIndex = 4;
             this.tabPackages.Text = "My Packages";
             this.tabPackages.UseVisualStyleBackColor = true;
             // 
             // btnAddAssetStoreFolder
             // 
-            this.btnAddAssetStoreFolder.Location = new System.Drawing.Point(372, 232);
+            this.btnAddAssetStoreFolder.Location = new System.Drawing.Point(416, 232);
             this.btnAddAssetStoreFolder.Name = "btnAddAssetStoreFolder";
             this.btnAddAssetStoreFolder.Size = new System.Drawing.Size(142, 23);
             this.btnAddAssetStoreFolder.TabIndex = 29;
@@ -332,7 +302,7 @@
             this.btnExplorePackageFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExplorePackageFolder.Location = new System.Drawing.Point(3, 511);
             this.btnExplorePackageFolder.Name = "btnExplorePackageFolder";
-            this.btnExplorePackageFolder.Size = new System.Drawing.Size(530, 35);
+            this.btnExplorePackageFolder.Size = new System.Drawing.Size(574, 35);
             this.btnExplorePackageFolder.TabIndex = 28;
             this.btnExplorePackageFolder.Text = "Explore";
             this.toolTip1.SetToolTip(this.btnExplorePackageFolder, "Open File Explorer");
@@ -374,11 +344,12 @@
             this.lstPackageFolders.FormattingEnabled = true;
             this.lstPackageFolders.Location = new System.Drawing.Point(19, 40);
             this.lstPackageFolders.Name = "lstPackageFolders";
-            this.lstPackageFolders.Size = new System.Drawing.Size(495, 186);
+            this.lstPackageFolders.Size = new System.Drawing.Size(539, 186);
             this.lstPackageFolders.TabIndex = 21;
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btnOpenLogFolder);
             this.tabPage3.Controls.Add(this.chkQuitAfterCommandline);
             this.tabPage3.Controls.Add(this.btnAddRegister);
             this.tabPage3.Controls.Add(this.btnRemoveRegister);
@@ -393,7 +364,7 @@
             this.tabPage3.Controls.Add(this.btnRefresh);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(536, 549);
+            this.tabPage3.Size = new System.Drawing.Size(580, 549);
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -494,14 +465,14 @@
             this.lstRootFolders.FormattingEnabled = true;
             this.lstRootFolders.Location = new System.Drawing.Point(20, 31);
             this.lstRootFolders.Name = "lstRootFolders";
-            this.lstRootFolders.Size = new System.Drawing.Size(495, 186);
+            this.lstRootFolders.Size = new System.Drawing.Size(552, 186);
             this.lstRootFolders.TabIndex = 20;
             // 
             // lbl_unityCount
             // 
             this.lbl_unityCount.AutoSize = true;
             this.lbl_unityCount.Enabled = false;
-            this.lbl_unityCount.Location = new System.Drawing.Point(418, 15);
+            this.lbl_unityCount.Location = new System.Drawing.Point(475, 15);
             this.lbl_unityCount.Name = "lbl_unityCount";
             this.lbl_unityCount.Size = new System.Drawing.Size(97, 13);
             this.lbl_unityCount.TabIndex = 18;
@@ -509,7 +480,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(378, 223);
+            this.btnRefresh.Location = new System.Drawing.Point(435, 223);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(137, 23);
             this.btnRefresh.TabIndex = 19;
@@ -541,9 +512,11 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(544, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(588, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -553,11 +526,52 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // _project
+            // 
+            this._project.HeaderText = "Project";
+            this._project.Name = "_project";
+            this._project.ReadOnly = true;
+            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this._project.Width = 150;
+            // 
+            // _version
+            // 
+            this._version.HeaderText = "Version";
+            this._version.Name = "_version";
+            this._version.ReadOnly = true;
+            this._version.Width = 72;
+            // 
+            // _path
+            // 
+            this._path.HeaderText = "Path";
+            this._path.Name = "_path";
+            this._path.ReadOnly = true;
+            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this._path.Width = 185;
+            // 
+            // _dateModified
+            // 
+            this._dateModified.HeaderText = "Modified";
+            this._dateModified.Name = "_dateModified";
+            this._dateModified.ReadOnly = true;
+            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this._dateModified.Width = 120;
+            // 
+            // btnOpenLogFolder
+            // 
+            this.btnOpenLogFolder.Location = new System.Drawing.Point(435, 380);
+            this.btnOpenLogFolder.Name = "btnOpenLogFolder";
+            this.btnOpenLogFolder.Size = new System.Drawing.Size(137, 23);
+            this.btnOpenLogFolder.TabIndex = 32;
+            this.btnOpenLogFolder.Text = "Open Editor Log Folder";
+            this.btnOpenLogFolder.UseVisualStyleBackColor = true;
+            this.btnOpenLogFolder.Click += new System.EventHandler(this.btnOpenLogFolder_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 612);
+            this.ClientSize = new System.Drawing.Size(588, 612);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -593,10 +607,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnLaunch;
         private System.Windows.Forms.DataGridView gridRecent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _project;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _version;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _path;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.NotifyIcon notifyIcon;
@@ -631,6 +641,11 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Button btnUpgradeProject;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _project;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _version;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _path;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
+        private System.Windows.Forms.Button btnOpenLogFolder;
     }
 }
 

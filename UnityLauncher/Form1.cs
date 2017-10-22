@@ -55,7 +55,7 @@ namespace UnityLauncher
                 return;
             }
 
-            // check if received -projectPath argument (that means, should try open the project)
+            // check if received -projectPath argument (that means opening from explorer / cmdline)
             string[] args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 2)
             {
@@ -67,6 +67,7 @@ namespace UnityLauncher
                     var projectPathArgument = args[2];
                     var version = GetProjectVersion(projectPathArgument);
 
+                    // try launching it
                     LaunchProject(projectPathArgument, version, true);
 
                     SetStatus("Ready");
@@ -239,8 +240,7 @@ namespace UnityLauncher
             //Console.WriteLine(key);
             if (key == null)
             {
-                // no recent list founded
-                Console.WriteLine("No recent projects list founded");
+                SetStatus("No recent projects list founded");
                 return;
             }
 
@@ -297,7 +297,7 @@ namespace UnityLauncher
                 var assetsFolder = Path.Combine(projectPath, "Assets");
                 if (Directory.Exists(assetsFolder) == false)
                 {
-                    // TODO could ask if want to create project
+                    // TODO could ask if want to create project..
                     Directory.CreateDirectory(assetsFolder);
                 }
 
@@ -326,37 +326,8 @@ namespace UnityLauncher
                 }
                 else // we dont have this version installed (or no version info available)
                 {
-                    if (string.IsNullOrEmpty(version) == true)
-                    {
-                        DisplayUpgradeDialog(version, projectPath);
-                    }
-                    else // offer to download or open web
-                    {
-                        SetStatus("Missing unity version: " + version);
-
-                        var yesno = MessageBox.Show("Unity version " + version + " is not installed! Yes = Download, No = Open Webpage", "UnityLauncher", MessageBoxButtons.YesNoCancel);
-
-                        string url = GetUnityReleaseURL(version);
-
-                        // download file
-                        if (yesno == DialogResult.Yes)
-                        {
-                            Console.WriteLine("download unity: " + url);
-                            if (string.IsNullOrEmpty(url) == false)
-                            {
-                                DownloadAndRun(url);
-                            }
-                        }
-
-                        // open page
-                        if (yesno == DialogResult.No)
-                        {
-                            if (string.IsNullOrEmpty(url) == false)
-                            {
-                                Process.Start(url);
-                            }
-                        }
-                    }
+                    SetStatus("Missing unity version: " + version);
+                    DisplayUpgradeDialog(version, projectPath);
                 }
             }
             else // given path doesnt exists, strange
@@ -429,7 +400,7 @@ namespace UnityLauncher
             else // not found
             {
                 SetStatus("Error> Cannot find installer exe.. opening website instead");
-                Process.Start(url);
+                Process.Start(url + "#installer-exe-not-found");
             }
         }
 
@@ -440,7 +411,6 @@ namespace UnityLauncher
         /// <returns></returns>
         string GetFileNameFromUrl(string url)
         {
-            Console.WriteLine(url);
             var uri = new Uri(url);
             var filename = uri.Segments.Last();
             return filename;
@@ -647,11 +617,7 @@ namespace UnityLauncher
             if (selected > -1)
             {
                 var version = gridUnityList.Rows[selected].Cells["_unityVersion"].Value.ToString();
-                var url = GetUnityReleaseURL(version);
-                if (string.IsNullOrEmpty(url) == false)
-                {
-                    Process.Start(url);
-                }
+                OpenReleaseNotes(version);
             }
         }
 
@@ -802,7 +768,7 @@ namespace UnityLauncher
         private void btnExplorePackageFolder_Click(object sender, EventArgs e)
         {
             var selected = lstPackageFolders.SelectedIndex;
-            Console.WriteLine(lstPackageFolders.Items[selected].ToString());
+            //Console.WriteLine(lstPackageFolders.Items[selected].ToString());
             if (selected > -1)
             {
                 var path = lstPackageFolders.Items[selected].ToString();
@@ -848,7 +814,7 @@ namespace UnityLauncher
         private void btnOpenLogFolder_Click(object sender, EventArgs e)
         {
             var logfolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Unity", "Editor");
-            Console.WriteLine(logfolder);
+            //Console.WriteLine(logfolder);
             if (Directory.Exists(logfolder) == true)
             {
                 LaunchExplorer(logfolder);
@@ -856,6 +822,19 @@ namespace UnityLauncher
         }
         #endregion UI events
 
+        void OpenReleaseNotes(string version)
+        {
+            SetStatus("Opening release notes for version " + version);
+            var url = GetUnityReleaseURL(version);
+            if (string.IsNullOrEmpty(url) == false)
+            {
+                Process.Start(url);
+            }
+            else
+            {
+                SetStatus("Failed opening Release Notes URL for version " + version);
+            }
+        }
 
         public static string FindNearestVersion(string version, List<string> allAvailable)
         {
@@ -880,13 +859,12 @@ namespace UnityLauncher
             if (!stripped.ContainsKey(comparableVersion))
             {
                 stripped.Add(comparableVersion, version);
-                //Console.WriteLine(comparableVersion + " : " + version);
             }
 
             var comparables = stripped.Keys.OrderBy(x => x).ToList();
             var actualIndex = comparables.IndexOf(comparableVersion);
 
-            if (actualIndex < stripped.Count) return stripped[comparables[actualIndex + 1]];
+            if (actualIndex < stripped.Count - 1) return stripped[comparables[actualIndex + 1]];
             return null;
         }
 
@@ -913,7 +891,6 @@ namespace UnityLauncher
                         // you already have exact version, are you sure about upgrade?
                     }
                 }
-
                 DisplayUpgradeDialog(currentVersion, projectPath, true);
             }
         }
@@ -924,18 +901,38 @@ namespace UnityLauncher
             Form2 upgradeDialog = new Form2();
             Form2.currentVersion = currentVersion;
 
-            if (upgradeDialog.ShowDialog(this) == DialogResult.OK)
+            // check what user selected
+            var results = upgradeDialog.ShowDialog(this);
+            switch (results)
             {
-                // yes, upgrade
-                SetStatus("Upgrading project to " + Form2.currentVersion);
-                if (launchProject == true) LaunchProject(projectPath, Form2.currentVersion);
+                case DialogResult.Ignore: // view release notes page
+                    OpenReleaseNotes(currentVersion);
+                    // display window again for now..
+                    DisplayUpgradeDialog(currentVersion, projectPath, launchProject);
+                    break;
+                case DialogResult.Cancel: // cancelled
+                    SetStatus("Cancelled project upgrade");
+                    break;
+                case DialogResult.Retry: // download and install missing version
+                    SetStatus("Download and Install missing version " + currentVersion);
+                    string url = GetUnityReleaseURL(currentVersion);
+                    if (string.IsNullOrEmpty(url) == false)
+                    {
+                        DownloadAndRun(url);
+                    }
+                    else
+                    {
+                        SetStatus("Failed getting Unity Installer URL");
+                    }
+                    break;
+                case DialogResult.Yes: // upgrade
+                    SetStatus("Upgrading project to " + Form2.currentVersion);
+                    if (launchProject == true) LaunchProject(projectPath, Form2.currentVersion);
+                    break;
+                default:
+                    Console.WriteLine("Unknown DialogResult: " + results);
+                    break;
             }
-            else
-            {
-                // cancelled
-                SetStatus("Cancelled project upgrade");
-            }
-
             upgradeDialog.Close();
         }
 

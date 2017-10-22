@@ -41,9 +41,17 @@ namespace UnityLauncher
                 {
                     lstUnityVersions.SetSelected(likelyIndex, true);
                 }
+
+                // enable release and dl buttons
+                btn_GoInstallMissingVersion.Enabled = true;
+                btn_OpenMissingVersionReleasePage.Enabled = true;
+
             }
             else // we dont have current version
             {
+                btn_GoInstallMissingVersion.Enabled = false;
+                btn_OpenMissingVersionReleasePage.Enabled = false;
+
                 currentVersion = "None";
             }
 
@@ -51,12 +59,14 @@ namespace UnityLauncher
             txtUpgradeCurrentVersion.Text = currentVersion;
         }
 
+        #region UI Events
+
         private void btnConfirmUpgrade_Click(object sender, EventArgs e)
         {
             if (lstUnityVersions.SelectedIndex > -1)
             {
                 currentVersion = lstUnityVersions.Items[lstUnityVersions.SelectedIndex].ToString();
-                DialogResult = DialogResult.OK;
+                DialogResult = DialogResult.Yes;
             }
             else
             {
@@ -68,5 +78,17 @@ namespace UnityLauncher
         {
             DialogResult = DialogResult.Cancel;
         }
+
+        private void btn_OpenMissingVersionReleasePage_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Ignore; // opens release notes
+        }
+
+        private void btn_GoInstallMissingVersion_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Retry; // download package
+        }
+
+        #endregion
     }
 }

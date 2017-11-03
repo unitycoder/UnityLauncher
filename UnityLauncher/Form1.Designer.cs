@@ -75,6 +75,7 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -82,7 +83,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).BeginInit();
             this.tabPackages.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -99,6 +99,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.tbSearchBar);
             this.tabPage1.Controls.Add(this.btnUpgradeProject);
             this.tabPage1.Controls.Add(this.btnRunUnityOnly);
             this.tabPage1.Controls.Add(this.btnOpenUnityFolder);
@@ -170,7 +171,7 @@
             this._path,
             this._dateModified});
             this.gridRecent.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.gridRecent.Location = new System.Drawing.Point(3, 3);
+            this.gridRecent.Location = new System.Drawing.Point(3, 30);
             this.gridRecent.MultiSelect = false;
             this.gridRecent.Name = "gridRecent";
             this.gridRecent.ReadOnly = true;
@@ -179,7 +180,7 @@
             this.gridRecent.ShowCellErrors = false;
             this.gridRecent.ShowCellToolTips = false;
             this.gridRecent.ShowEditingIcon = false;
-            this.gridRecent.Size = new System.Drawing.Size(574, 502);
+            this.gridRecent.Size = new System.Drawing.Size(574, 475);
             this.gridRecent.TabIndex = 0;
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
             // 
@@ -565,6 +566,14 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // tbSearchBar
+            // 
+            this.tbSearchBar.Location = new System.Drawing.Point(9, 4);
+            this.tbSearchBar.Name = "tbSearchBar";
+            this.tbSearchBar.Size = new System.Drawing.Size(563, 20);
+            this.tbSearchBar.TabIndex = 17;
+            this.tbSearchBar.TextChanged += new System.EventHandler(this.FilterRecentProject);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -584,6 +593,7 @@
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).EndInit();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).EndInit();
@@ -591,8 +601,6 @@
             this.tabPackages.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -644,6 +652,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _path;
         private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
         private System.Windows.Forms.Button btnOpenLogFolder;
+        private System.Windows.Forms.TextBox tbSearchBar;
     }
 }
 

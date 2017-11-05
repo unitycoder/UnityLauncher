@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.btnUpgradeProject = new System.Windows.Forms.Button();
             this.btnRunUnityOnly = new System.Windows.Forms.Button();
             this.btnOpenUnityFolder = new System.Windows.Forms.Button();
@@ -75,7 +76,6 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -111,6 +111,14 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Projects";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tbSearchBar
+            // 
+            this.tbSearchBar.Location = new System.Drawing.Point(9, 4);
+            this.tbSearchBar.Name = "tbSearchBar";
+            this.tbSearchBar.Size = new System.Drawing.Size(563, 20);
+            this.tbSearchBar.TabIndex = 17;
+            this.tbSearchBar.TextChanged += new System.EventHandler(this.FilterRecentProject);
             // 
             // btnUpgradeProject
             // 
@@ -566,14 +574,6 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // tbSearchBar
-            // 
-            this.tbSearchBar.Location = new System.Drawing.Point(9, 4);
-            this.tbSearchBar.Name = "tbSearchBar";
-            this.tbSearchBar.Size = new System.Drawing.Size(563, 20);
-            this.tbSearchBar.TabIndex = 17;
-            this.tbSearchBar.TextChanged += new System.EventHandler(this.FilterRecentProject);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -587,7 +587,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Potato Edition 10";
+            this.Text = "UnityLauncher - Potato Edition 11";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);

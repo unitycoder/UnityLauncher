@@ -473,6 +473,7 @@ namespace UnityLauncher
 
         private void ShowForm()
         {
+            this.WindowState = FormWindowState.Minimized;
             this.Show();
             this.WindowState = FormWindowState.Normal;
             notifyIcon.Visible = false;
@@ -951,7 +952,5 @@ namespace UnityLauncher
             }
             upgradeDialog.Close();
         }
-
-
     }
 }

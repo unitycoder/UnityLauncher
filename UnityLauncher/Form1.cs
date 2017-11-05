@@ -228,6 +228,16 @@ namespace UnityLauncher
             return fvi.ProductName.Replace("(64-bit)", "").Trim();
         }
 
+        void FilterRecentProject(object sender, EventArgs e)
+        {
+            SetStatus("Filtering recent projects list..");
+            foreach (DataGridViewRow recentProject in gridRecent.Rows)
+            {
+                if (recentProject.Cells["_project"].Value.ToString().ToLower().Contains(tbSearchBar.Text.ToLower()))
+                    recentProject.Visible = true;
+                else recentProject.Visible = false;
+            }
+        }
 
         // returns already sorted list of recent entries
         void UpdateRecentProjectsList()
@@ -691,6 +701,12 @@ namespace UnityLauncher
                     tabControl1.SelectedIndex = 3;
                     break;
                 default:
+                    if (!tbSearchBar.Focused)
+                    {
+                        tbSearchBar.Focus();
+                        tbSearchBar.Text += e.KeyChar;
+                        tbSearchBar.Select(tbSearchBar.Text.Length,0);
+                    }
                     break;
             }
         }

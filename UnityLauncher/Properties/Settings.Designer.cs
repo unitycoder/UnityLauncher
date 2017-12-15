@@ -73,5 +73,17 @@ namespace UnityLauncher.Properties {
                 this["closeAfterExplorer"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool closeAfterProject {
+            get {
+                return ((bool)(this["closeAfterProject"]));
+            }
+            set {
+                this["closeAfterProject"] = value;
+            }
+        }
     }
 }

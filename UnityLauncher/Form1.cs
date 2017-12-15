@@ -95,6 +95,7 @@ namespace UnityLauncher
             // update settings window
             chkMinimizeToTaskbar.Checked = Properties.Settings.Default.minimizeToTaskbar;
             chkQuitAfterCommandline.Checked = Properties.Settings.Default.closeAfterExplorer;
+            ChkQuitAfterOpen.Checked = Properties.Settings.Default.closeAfterProject;
 
             // update installations folder listbox
             lstRootFolders.Items.AddRange(Properties.Settings.Default.rootFolders.Cast<string>().ToArray());
@@ -328,6 +329,11 @@ namespace UnityLauncher
                             myProcess.StartInfo.Arguments = pars;
                         }
                         myProcess.Start();
+
+                        if (Properties.Settings.Default.closeAfterProject)
+                        {
+                            Environment.Exit(0);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -819,6 +825,12 @@ namespace UnityLauncher
         private void btnAddRegister_Click(object sender, EventArgs e)
         {
             AddContextMenuRegistry();
+        }
+
+        private void ChkQuitAfterOpen_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.closeAfterProject = ChkQuitAfterOpen.Checked;
+            Properties.Settings.Default.Save();
         }
 
         private void chkQuitAfterCommandline_CheckedChanged(object sender, EventArgs e)

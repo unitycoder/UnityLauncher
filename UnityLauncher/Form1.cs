@@ -743,7 +743,7 @@ namespace UnityLauncher
         //Checks if you are doubleclicking the current cell
         private void GridRecent_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if(e.RowIndex == gridRecent.CurrentCell.RowIndex)
+            if(e.Button == MouseButtons.Left && e.RowIndex == gridRecent.CurrentCell.RowIndex)
             {
                 LaunchSelectedProject();
             }

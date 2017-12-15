@@ -192,6 +192,7 @@
             this.gridRecent.TabIndex = 0;
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
             // 
+            this.gridRecent.CellMouseDoubleClick += GridRecent_CellMouseDoubleClick;
             // _project
             // 
             this._project.HeaderText = "Project";

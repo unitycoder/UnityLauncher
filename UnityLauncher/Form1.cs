@@ -734,6 +734,15 @@ namespace UnityLauncher
             }
         }
 
+        //Checks if you are doubleclicking the current cell
+        private void GridRecent_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if(e.RowIndex == gridRecent.CurrentCell.RowIndex)
+            {
+                LaunchSelectedProject();
+            }
+        }
+
         // set basefolder of all unity installations
         private void btn_setinstallfolder_Click(object sender, EventArgs e)
         {

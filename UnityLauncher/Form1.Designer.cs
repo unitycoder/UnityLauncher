@@ -191,6 +191,7 @@
             this.gridRecent.ShowEditingIcon = false;
             this.gridRecent.Size = new System.Drawing.Size(574, 475);
             this.gridRecent.TabIndex = 0;
+            this.gridRecent.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridRecent_CellMouseDoubleClick);
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
             // 
             // _project

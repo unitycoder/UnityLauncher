@@ -193,7 +193,6 @@
             this.gridRecent.TabIndex = 0;
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
             // 
-            this.gridRecent.CellMouseDoubleClick += GridRecent_CellMouseDoubleClick;
             // _project
             // 
             this._project.HeaderText = "Project";
@@ -601,7 +600,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Potato Edition 11";
+            this.Text = "UnityLauncher - CryptoCrash Edition 12";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);

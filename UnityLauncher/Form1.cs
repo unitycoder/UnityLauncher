@@ -312,8 +312,15 @@ namespace UnityLauncher
                     Directory.CreateDirectory(assetsFolder);
                 }
 
-                bool haveExactVersion = HaveExactVersionInstalled(version);
-                if (haveExactVersion == true)
+                // check for crashed backup scene first
+                var cancelLaunch = CheckCrashBackupScene(projectPath);
+                Console.WriteLine(cancelLaunch);
+                if (cancelLaunch == true)
+                {
+                    return;
+                }
+
+                if (HaveExactVersionInstalled(version) == true)
                 {
                     //Console.WriteLine("Opening unity version " + version);
                     SetStatus("Launching project in unity " + version);
@@ -350,6 +357,41 @@ namespace UnityLauncher
             {
                 SetStatus("Invalid Path: " + projectPath);
             }
+        }
+
+        bool CheckCrashBackupScene(string projectPath)
+        {
+            var cancelRunningUnity = false;
+            var recoveryFile = Path.Combine(projectPath, "Temp", "__Backupscenes", "0.backup");
+            if (File.Exists(recoveryFile))
+            {
+                DialogResult dialogResult = MessageBox.Show("Crash recovery scene founded, do you want to copy it into Assets/_Recovery/-folder?", "UnityLauncher - Scene Recovery", MessageBoxButtons.YesNoCancel);
+                if (dialogResult == DialogResult.Yes) // restore
+                {
+                    var restoreFolder = Path.Combine(projectPath, "Assets", "_Recovery");
+                    if (Directory.Exists(restoreFolder) == false)
+                    {
+                        Directory.CreateDirectory(restoreFolder);
+                    }
+                    if (Directory.Exists(restoreFolder) == true)
+                    {
+                        Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                        var uniqueFileName = "Recovered_Scene" + unixTimestamp + ".unity";
+                        File.Copy(recoveryFile, Path.Combine(restoreFolder, uniqueFileName));
+                        SetStatus("Recovered crashed scene into: " + restoreFolder);
+                    }
+                    else
+                    {
+                        SetStatus("Error: Failed to create restore folder: " + restoreFolder);
+                        cancelRunningUnity = true;
+                    }
+                }
+                else if (dialogResult == DialogResult.Cancel) // dont do restore, but run unity
+                {
+                    cancelRunningUnity = true;
+                }
+            }
+            return cancelRunningUnity;
         }
 
         // parse unity installer exe from release page
@@ -712,7 +754,7 @@ namespace UnityLauncher
                     {
                         tbSearchBar.Focus();
                         tbSearchBar.Text += e.KeyChar;
-                        tbSearchBar.Select(tbSearchBar.Text.Length,0);
+                        tbSearchBar.Select(tbSearchBar.Text.Length, 0);
                     }
                     break;
             }
@@ -743,7 +785,7 @@ namespace UnityLauncher
         //Checks if you are doubleclicking the current cell
         private void GridRecent_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left && e.RowIndex == gridRecent.CurrentCell.RowIndex)
+            if (e.Button == MouseButtons.Left && e.RowIndex == gridRecent.CurrentCell.RowIndex)
             {
                 LaunchSelectedProject();
             }

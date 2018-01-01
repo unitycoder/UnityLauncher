@@ -57,6 +57,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lstPackageFolders = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.ChkQuitAfterOpen = new System.Windows.Forms.CheckBox();
             this.btnOpenLogFolder = new System.Windows.Forms.Button();
             this.chkQuitAfterCommandline = new System.Windows.Forms.CheckBox();
             this.btnAddRegister = new System.Windows.Forms.Button();
@@ -192,6 +193,7 @@
             this.gridRecent.TabIndex = 0;
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
             // 
+            this.gridRecent.CellMouseDoubleClick += GridRecent_CellMouseDoubleClick;
             // _project
             // 
             this._project.HeaderText = "Project";
@@ -389,6 +391,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.ChkQuitAfterOpen);
             this.tabPage3.Controls.Add(this.btnOpenLogFolder);
             this.tabPage3.Controls.Add(this.chkQuitAfterCommandline);
             this.tabPage3.Controls.Add(this.btnAddRegister);
@@ -409,6 +412,17 @@
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // ChkQuitAfterOpen
+            // 
+            this.ChkQuitAfterOpen.AutoSize = true;
+            this.ChkQuitAfterOpen.Location = new System.Drawing.Point(20, 409);
+            this.ChkQuitAfterOpen.Name = "ChkQuitAfterOpen";
+            this.ChkQuitAfterOpen.Size = new System.Drawing.Size(172, 17);
+            this.ChkQuitAfterOpen.TabIndex = 33;
+            this.ChkQuitAfterOpen.Text = "Close after launching  a project";
+            this.ChkQuitAfterOpen.UseVisualStyleBackColor = true;
+            this.ChkQuitAfterOpen.CheckedChanged += new System.EventHandler(this.ChkQuitAfterOpen_CheckedChanged);
+            // 
             // btnOpenLogFolder
             // 
             this.btnOpenLogFolder.Location = new System.Drawing.Point(435, 380);
@@ -422,7 +436,7 @@
             // chkQuitAfterCommandline
             // 
             this.chkQuitAfterCommandline.AutoSize = true;
-            this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 409);
+            this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 432);
             this.chkQuitAfterCommandline.Name = "chkQuitAfterCommandline";
             this.chkQuitAfterCommandline.Size = new System.Drawing.Size(189, 17);
             this.chkQuitAfterCommandline.TabIndex = 31;
@@ -432,7 +446,7 @@
             // 
             // btnAddRegister
             // 
-            this.btnAddRegister.Location = new System.Drawing.Point(139, 442);
+            this.btnAddRegister.Location = new System.Drawing.Point(139, 465);
             this.btnAddRegister.Name = "btnAddRegister";
             this.btnAddRegister.Size = new System.Drawing.Size(64, 23);
             this.btnAddRegister.TabIndex = 30;
@@ -442,7 +456,7 @@
             // 
             // btnRemoveRegister
             // 
-            this.btnRemoveRegister.Location = new System.Drawing.Point(209, 442);
+            this.btnRemoveRegister.Location = new System.Drawing.Point(209, 465);
             this.btnRemoveRegister.Name = "btnRemoveRegister";
             this.btnRemoveRegister.Size = new System.Drawing.Size(64, 23);
             this.btnRemoveRegister.TabIndex = 29;
@@ -453,7 +467,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 447);
+            this.label4.Location = new System.Drawing.Point(19, 470);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(117, 13);
             this.label4.TabIndex = 28;
@@ -653,6 +667,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
         private System.Windows.Forms.Button btnOpenLogFolder;
         private System.Windows.Forms.TextBox tbSearchBar;
+        private System.Windows.Forms.CheckBox ChkQuitAfterOpen;
     }
 }
 

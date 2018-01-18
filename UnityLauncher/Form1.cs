@@ -248,7 +248,6 @@ namespace UnityLauncher
             var hklm = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
             RegistryKey key = hklm.OpenSubKey(@"SOFTWARE\Unity Technologies\Unity Editor 5.x");
 
-            //Console.WriteLine(key);
             if (key == null)
             {
                 SetStatus("No recent projects list founded");
@@ -261,9 +260,34 @@ namespace UnityLauncher
             {
                 if (valueName.IndexOf("RecentlyUsedProjectPaths-") == 0)
                 {
-                    byte[] projectPathBytes = (byte[])key.GetValue(valueName);
-                    string projectPath = Encoding.Default.GetString(projectPathBytes, 0, projectPathBytes.Length - 1);
-                    string projectName = projectPath.Substring(projectPath.LastIndexOf("/") + 1);
+                    string projectPath = "";
+                    // check if binary or not
+                    var valueKind = key.GetValueKind(valueName);
+                    if (valueKind == RegistryValueKind.Binary)
+                    {
+                        byte[] projectPathBytes = (byte[])key.GetValue(valueName);
+                        projectPath = Encoding.Default.GetString(projectPathBytes, 0, projectPathBytes.Length - 1);
+                    }
+                    else // should be string then
+                    {
+                        projectPath = (string)key.GetValue(valueName);
+                    }
+
+                    string projectName = "";
+
+                    // get project name from full path
+                    if (projectPath.IndexOf(Path.PathSeparator) > -1)
+                    {
+                        projectName = projectPath.Substring(projectPath.LastIndexOf(Path.PathSeparator) + 1);
+                    }
+                    else if (projectPath.IndexOf(Path.AltDirectorySeparatorChar) > -1)
+                    {
+                        projectName = projectPath.Substring(projectPath.LastIndexOf(Path.AltDirectorySeparatorChar) + 1);
+                    }
+                    else // no path separator founded
+                    {
+                        projectName = projectPath;
+                    }
 
                     string csprojFile = Path.Combine(projectPath, projectName + ".csproj");
 
@@ -314,7 +338,6 @@ namespace UnityLauncher
 
                 // check for crashed backup scene first
                 var cancelLaunch = CheckCrashBackupScene(projectPath);
-                Console.WriteLine(cancelLaunch);
                 if (cancelLaunch == true)
                 {
                     return;
@@ -1015,5 +1038,7 @@ namespace UnityLauncher
             }
             upgradeDialog.Close();
         }
+
+
     }
 }

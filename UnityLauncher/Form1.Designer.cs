@@ -38,10 +38,6 @@
             this.btnOpenUnityFolder = new System.Windows.Forms.Button();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.gridRecent = new System.Windows.Forms.DataGridView();
-            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnOpenReleasePage = new System.Windows.Forms.Button();
             this.btnExploreUnity = new System.Windows.Forms.Button();
@@ -77,6 +73,10 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -171,7 +171,6 @@
             // 
             this.gridRecent.AllowUserToAddRows = false;
             this.gridRecent.AllowUserToDeleteRows = false;
-            this.gridRecent.AllowUserToResizeColumns = false;
             this.gridRecent.AllowUserToResizeRows = false;
             this.gridRecent.CausesValidation = false;
             this.gridRecent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -194,37 +193,6 @@
             this.gridRecent.TabIndex = 0;
             this.gridRecent.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridRecent_CellMouseDoubleClick);
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
-            // 
-            // _project
-            // 
-            this._project.HeaderText = "Project";
-            this._project.Name = "_project";
-            this._project.ReadOnly = true;
-            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._project.Width = 150;
-            // 
-            // _version
-            // 
-            this._version.HeaderText = "Version";
-            this._version.Name = "_version";
-            this._version.ReadOnly = true;
-            this._version.Width = 72;
-            // 
-            // _path
-            // 
-            this._path.HeaderText = "Path";
-            this._path.Name = "_path";
-            this._path.ReadOnly = true;
-            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._path.Width = 185;
-            // 
-            // _dateModified
-            // 
-            this._dateModified.HeaderText = "Modified";
-            this._dateModified.Name = "_dateModified";
-            this._dateModified.ReadOnly = true;
-            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._dateModified.Width = 120;
             // 
             // tabPage2
             // 
@@ -591,6 +559,37 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // _project
+            // 
+            this._project.HeaderText = "Project";
+            this._project.Name = "_project";
+            this._project.ReadOnly = true;
+            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._project.Width = 150;
+            // 
+            // _version
+            // 
+            this._version.HeaderText = "Version";
+            this._version.Name = "_version";
+            this._version.ReadOnly = true;
+            this._version.Width = 72;
+            // 
+            // _path
+            // 
+            this._path.HeaderText = "Path";
+            this._path.Name = "_path";
+            this._path.ReadOnly = true;
+            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._path.Width = 185;
+            // 
+            // _dateModified
+            // 
+            this._dateModified.HeaderText = "Modified";
+            this._dateModified.Name = "_dateModified";
+            this._dateModified.ReadOnly = true;
+            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._dateModified.Width = 120;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -666,13 +665,13 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Button btnUpgradeProject;
+        private System.Windows.Forms.Button btnOpenLogFolder;
+        private System.Windows.Forms.TextBox tbSearchBar;
+        private System.Windows.Forms.CheckBox ChkQuitAfterOpen;
         private System.Windows.Forms.DataGridViewTextBoxColumn _project;
         private System.Windows.Forms.DataGridViewTextBoxColumn _version;
         private System.Windows.Forms.DataGridViewTextBoxColumn _path;
         private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
-        private System.Windows.Forms.Button btnOpenLogFolder;
-        private System.Windows.Forms.TextBox tbSearchBar;
-        private System.Windows.Forms.CheckBox ChkQuitAfterOpen;
     }
 }
 

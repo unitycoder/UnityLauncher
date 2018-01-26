@@ -146,12 +146,12 @@ namespace UnityLauncher
                         }
                         else
                         {
-                            throw new InvalidDataException("Cannot find m_EditorVersion:" + dd);
+                            MessageBox.Show("Cannot find m_EditorVersion in '" + versionPath + "'.\n\nFile Content:\n" + string.Join("\n", data).ToString());
                         }
                     }
                     else
                     {
-                        throw new InvalidDataException("invalid projectversion data:" + data.ToString());
+                        MessageBox.Show("Invalid projectversion data found in '" + versionPath + "'.\n\nFile Content:\n" + string.Join("\n", data).ToString());
                     }
                 }
             }

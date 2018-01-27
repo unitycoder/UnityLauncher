@@ -767,23 +767,24 @@ namespace UnityLauncher
         /// <param name="e"></param>
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            switch (e.KeyChar)
+            //Console.WriteLine((int)e.KeyChar);
+            switch ((int)e.KeyChar)
             {
-                case '1':
-                    tabControl1.SelectedIndex = 0;
-                    break;
-                case '2':
-                    tabControl1.SelectedIndex = 1;
-                    break;
-                case '3':
-                    tabControl1.SelectedIndex = 2;
-                    break;
-                case '4':
-                    tabControl1.SelectedIndex = 3;
-                    break;
-                default:
-                    if (!tbSearchBar.Focused)
+                case 27: // ESC - clear search
+                    if (tabControl1.SelectedIndex == 0 && tbSearchBar.Text != "")
                     {
+                        tbSearchBar.Text = "";
+                    }
+                    break;
+                default: // any key
+                    // activate searchbar if not active and we are in tab#1
+                    if (tabControl1.SelectedIndex == 0 && tbSearchBar.Focused == false)
+                    {
+                        // skip tab key on search field
+                        if ((int)e.KeyChar == 9)
+                        {
+                            break;
+                        }
                         tbSearchBar.Focus();
                         tbSearchBar.Text += e.KeyChar;
                         tbSearchBar.Select(tbSearchBar.Text.Length, 0);
@@ -791,6 +792,8 @@ namespace UnityLauncher
                     break;
             }
         }
+
+
 
         /// <summary>
         /// grid keys
@@ -1069,6 +1072,6 @@ namespace UnityLauncher
             upgradeDialog.Close();
         }
 
-
+     
     }
 }

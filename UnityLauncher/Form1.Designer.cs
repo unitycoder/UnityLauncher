@@ -38,7 +38,12 @@
             this.btnOpenUnityFolder = new System.Windows.Forms.Button();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.gridRecent = new System.Windows.Forms.DataGridView();
+            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btn_refreshUnityList = new System.Windows.Forms.Button();
             this.btnOpenReleasePage = new System.Windows.Forms.Button();
             this.btnExploreUnity = new System.Windows.Forms.Button();
             this.btnLaunchUnity = new System.Windows.Forms.Button();
@@ -73,10 +78,6 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -97,7 +98,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(588, 575);
-            this.tabControl1.TabIndex = 0;
+            this.tabControl1.TabIndex = 6;
             // 
             // tabPage1
             // 
@@ -119,7 +120,7 @@
             this.tbSearchBar.Location = new System.Drawing.Point(9, 4);
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(563, 20);
-            this.tbSearchBar.TabIndex = 17;
+            this.tbSearchBar.TabIndex = 0;
             this.tbSearchBar.TextChanged += new System.EventHandler(this.FilterRecentProject);
             // 
             // btnUpgradeProject
@@ -127,7 +128,7 @@
             this.btnUpgradeProject.Location = new System.Drawing.Point(3, 511);
             this.btnUpgradeProject.Name = "btnUpgradeProject";
             this.btnUpgradeProject.Size = new System.Drawing.Size(98, 35);
-            this.btnUpgradeProject.TabIndex = 16;
+            this.btnUpgradeProject.TabIndex = 4;
             this.btnUpgradeProject.Text = "Upgrade Project";
             this.toolTip1.SetToolTip(this.btnUpgradeProject, "Open File Explorer");
             this.btnUpgradeProject.UseVisualStyleBackColor = true;
@@ -138,7 +139,7 @@
             this.btnRunUnityOnly.Location = new System.Drawing.Point(105, 511);
             this.btnRunUnityOnly.Name = "btnRunUnityOnly";
             this.btnRunUnityOnly.Size = new System.Drawing.Size(67, 35);
-            this.btnRunUnityOnly.TabIndex = 15;
+            this.btnRunUnityOnly.TabIndex = 5;
             this.btnRunUnityOnly.Text = "Run Unity";
             this.toolTip1.SetToolTip(this.btnRunUnityOnly, "Open File Explorer");
             this.btnRunUnityOnly.UseVisualStyleBackColor = true;
@@ -149,7 +150,7 @@
             this.btnOpenUnityFolder.Location = new System.Drawing.Point(510, 511);
             this.btnOpenUnityFolder.Name = "btnOpenUnityFolder";
             this.btnOpenUnityFolder.Size = new System.Drawing.Size(67, 35);
-            this.btnOpenUnityFolder.TabIndex = 14;
+            this.btnOpenUnityFolder.TabIndex = 3;
             this.btnOpenUnityFolder.Text = "Explore";
             this.toolTip1.SetToolTip(this.btnOpenUnityFolder, "Open File Explorer");
             this.btnOpenUnityFolder.UseVisualStyleBackColor = true;
@@ -161,7 +162,7 @@
             this.btnLaunch.Location = new System.Drawing.Point(176, 511);
             this.btnLaunch.Name = "btnLaunch";
             this.btnLaunch.Size = new System.Drawing.Size(330, 35);
-            this.btnLaunch.TabIndex = 10;
+            this.btnLaunch.TabIndex = 2;
             this.btnLaunch.Text = "Launch Project";
             this.toolTip1.SetToolTip(this.btnLaunch, "Launch selected project");
             this.btnLaunch.UseVisualStyleBackColor = true;
@@ -184,18 +185,51 @@
             this.gridRecent.MultiSelect = false;
             this.gridRecent.Name = "gridRecent";
             this.gridRecent.ReadOnly = true;
+            this.gridRecent.RowHeadersWidth = 18;
             this.gridRecent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridRecent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridRecent.ShowCellErrors = false;
             this.gridRecent.ShowCellToolTips = false;
             this.gridRecent.ShowEditingIcon = false;
             this.gridRecent.Size = new System.Drawing.Size(574, 475);
-            this.gridRecent.TabIndex = 0;
+            this.gridRecent.TabIndex = 1;
             this.gridRecent.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridRecent_CellMouseDoubleClick);
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
             // 
+            // _project
+            // 
+            this._project.HeaderText = "Project";
+            this._project.Name = "_project";
+            this._project.ReadOnly = true;
+            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._project.Width = 150;
+            // 
+            // _version
+            // 
+            this._version.HeaderText = "Version";
+            this._version.Name = "_version";
+            this._version.ReadOnly = true;
+            this._version.Width = 72;
+            // 
+            // _path
+            // 
+            this._path.HeaderText = "Path";
+            this._path.Name = "_path";
+            this._path.ReadOnly = true;
+            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._path.Width = 185;
+            // 
+            // _dateModified
+            // 
+            this._dateModified.HeaderText = "Modified";
+            this._dateModified.Name = "_dateModified";
+            this._dateModified.ReadOnly = true;
+            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._dateModified.Width = 120;
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btn_refreshUnityList);
             this.tabPage2.Controls.Add(this.btnOpenReleasePage);
             this.tabPage2.Controls.Add(this.btnExploreUnity);
             this.tabPage2.Controls.Add(this.btnLaunchUnity);
@@ -206,6 +240,19 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Unity\'s";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btn_refreshUnityList
+            // 
+            this.btn_refreshUnityList.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_refreshUnityList.Location = new System.Drawing.Point(555, 3);
+            this.btn_refreshUnityList.Name = "btn_refreshUnityList";
+            this.btn_refreshUnityList.Size = new System.Drawing.Size(22, 23);
+            this.btn_refreshUnityList.TabIndex = 21;
+            this.btn_refreshUnityList.Text = "⟳";
+            this.toolTip1.SetToolTip(this.btn_refreshUnityList, "Refresh Unity Installations List");
+            this.btn_refreshUnityList.UseCompatibleTextRendering = true;
+            this.btn_refreshUnityList.UseVisualStyleBackColor = true;
+            this.btn_refreshUnityList.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnOpenReleasePage
             // 
@@ -253,7 +300,7 @@
             this._unityVersion,
             this._unityPath});
             this.gridUnityList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.gridUnityList.Location = new System.Drawing.Point(3, 3);
+            this.gridUnityList.Location = new System.Drawing.Point(3, 27);
             this.gridUnityList.MultiSelect = false;
             this.gridUnityList.Name = "gridUnityList";
             this.gridUnityList.ReadOnly = true;
@@ -262,7 +309,7 @@
             this.gridUnityList.ShowCellErrors = false;
             this.gridUnityList.ShowCellToolTips = false;
             this.gridUnityList.ShowEditingIcon = false;
-            this.gridUnityList.Size = new System.Drawing.Size(574, 502);
+            this.gridUnityList.Size = new System.Drawing.Size(574, 478);
             this.gridUnityList.TabIndex = 10;
             this.gridUnityList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.unityGridView_KeyDown);
             // 
@@ -559,37 +606,6 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // _project
-            // 
-            this._project.HeaderText = "Project";
-            this._project.Name = "_project";
-            this._project.ReadOnly = true;
-            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._project.Width = 150;
-            // 
-            // _version
-            // 
-            this._version.HeaderText = "Version";
-            this._version.Name = "_version";
-            this._version.ReadOnly = true;
-            this._version.Width = 72;
-            // 
-            // _path
-            // 
-            this._path.HeaderText = "Path";
-            this._path.Name = "_path";
-            this._path.ReadOnly = true;
-            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._path.Width = 185;
-            // 
-            // _dateModified
-            // 
-            this._dateModified.HeaderText = "Modified";
-            this._dateModified.Name = "_dateModified";
-            this._dateModified.ReadOnly = true;
-            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._dateModified.Width = 120;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -603,7 +619,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - HODL Edition 13";
+            this.Text = "UnityLauncher - Mining Edition 14";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -672,6 +688,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _version;
         private System.Windows.Forms.DataGridViewTextBoxColumn _path;
         private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
+        private System.Windows.Forms.Button btn_refreshUnityList;
     }
 }
 

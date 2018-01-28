@@ -21,5 +21,11 @@
     <Setting Name="closeAfterProject" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="gridColumnWidths" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+                &lt;ArrayOfInt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+                &lt;/ArrayOfInt&gt;
+              </Value>
+    </Setting>
   </Settings>
 </SettingsFile>

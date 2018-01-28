@@ -88,6 +88,8 @@ namespace UnityLauncher
 
             // preselect grid
             gridRecent.Select();
+
+            this.gridRecent.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.gridRecent_ColumnWidthChanged);
         }
 
         void LoadSettings()
@@ -101,6 +103,13 @@ namespace UnityLauncher
             lstRootFolders.Items.AddRange(Properties.Settings.Default.rootFolders.Cast<string>().ToArray());
             // update packages folder listbox
             lstPackageFolders.Items.AddRange(Properties.Settings.Default.packageFolders.Cast<string>().ToArray());
+
+            // restore data grid view widths
+            int[] gridColumnWidths = Properties.Settings.Default.gridColumnWidths;
+            for ( int i=0; i< gridColumnWidths.Length; ++i )
+            {
+                gridRecent.Columns[i].Width = gridColumnWidths[i];
+            }
         }
 
         /// <summary>
@@ -925,6 +934,27 @@ namespace UnityLauncher
             {
                 LaunchExplorer(logfolder);
             }
+        }
+
+        private void gridRecent_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            List<int> gridWidths = new List<int>(Properties.Settings.Default.gridColumnWidths);
+            // restore data grid view widths
+            var colum = gridRecent.Columns[0];
+            int a = Properties.Settings.Default.gridColumnWidths.Length;
+            for (int i = 0; i < gridRecent.Columns.Count; ++i)
+            {
+                if (Properties.Settings.Default.gridColumnWidths.Length > i)
+                {
+                    gridWidths[i] = gridRecent.Columns[i].Width;
+                }
+                else
+                {
+                    gridWidths.Add(gridRecent.Columns[i].Width);
+                }
+            }
+            Properties.Settings.Default.gridColumnWidths = gridWidths.ToArray();
+            Properties.Settings.Default.Save();
         }
         #endregion UI events
 

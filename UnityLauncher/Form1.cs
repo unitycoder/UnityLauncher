@@ -105,7 +105,7 @@ namespace UnityLauncher
 
             // restore data grid view widths
             int[] gridColumnWidths = Properties.Settings.Default.gridColumnWidths;
-            for ( int i=0; i< gridColumnWidths.Length; ++i )
+            for (int i = 0; i < gridColumnWidths.Length; ++i)
             {
                 gridRecent.Columns[i].Width = gridColumnWidths[i];
             }
@@ -994,6 +994,18 @@ namespace UnityLauncher
             Properties.Settings.Default.gridColumnWidths = gridWidths.ToArray();
             Properties.Settings.Default.Save();
         }
+
+        private void btnOpenUpdateWebsite_Click(object sender, EventArgs e)
+        {
+            var selected = gridUnityUpdates?.CurrentCell?.RowIndex;
+            if (selected != null && selected > -1)
+            {
+                var version = gridUnityUpdates.Rows[(int)selected].Cells["_UnityUpdateVersion"].Value.ToString();
+                OpenReleaseNotes(version);
+            }
+        }
+
+
         #endregion UI events
 
 

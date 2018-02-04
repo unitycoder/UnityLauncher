@@ -58,6 +58,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lstPackageFolders = new System.Windows.Forms.ListBox();
             this.tabUpdates = new System.Windows.Forms.TabPage();
+            this.btnOpenUpdateWebsite = new System.Windows.Forms.Button();
+            this.btnFetchUnityVersions = new System.Windows.Forms.Button();
+            this.gridUnityUpdates = new System.Windows.Forms.DataGridView();
+            this._Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._UnityUpdateVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.ChkQuitAfterOpen = new System.Windows.Forms.CheckBox();
             this.btnOpenLogFolder = new System.Windows.Forms.Button();
@@ -79,10 +84,6 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnFetchUnityVersions = new System.Windows.Forms.Button();
-            this.gridUnityUpdates = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -90,9 +91,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).BeginInit();
             this.tabPackages.SuspendLayout();
             this.tabUpdates.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).BeginInit();
             this.tabSettings.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -415,6 +416,7 @@
             // 
             // tabUpdates
             // 
+            this.tabUpdates.Controls.Add(this.btnOpenUpdateWebsite);
             this.tabUpdates.Controls.Add(this.btnFetchUnityVersions);
             this.tabUpdates.Controls.Add(this.gridUnityUpdates);
             this.tabUpdates.Location = new System.Drawing.Point(4, 22);
@@ -423,6 +425,72 @@
             this.tabUpdates.TabIndex = 5;
             this.tabUpdates.Text = "Updates";
             this.tabUpdates.UseVisualStyleBackColor = true;
+            // 
+            // btnOpenUpdateWebsite
+            // 
+            this.btnOpenUpdateWebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpenUpdateWebsite.Location = new System.Drawing.Point(5, 511);
+            this.btnOpenUpdateWebsite.Name = "btnOpenUpdateWebsite";
+            this.btnOpenUpdateWebsite.Size = new System.Drawing.Size(572, 35);
+            this.btnOpenUpdateWebsite.TabIndex = 24;
+            this.btnOpenUpdateWebsite.Text = "Open Website";
+            this.toolTip1.SetToolTip(this.btnOpenUpdateWebsite, "Launch selected project");
+            this.btnOpenUpdateWebsite.UseVisualStyleBackColor = true;
+            this.btnOpenUpdateWebsite.Click += new System.EventHandler(this.btnOpenUpdateWebsite_Click);
+            // 
+            // btnFetchUnityVersions
+            // 
+            this.btnFetchUnityVersions.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFetchUnityVersions.Location = new System.Drawing.Point(555, 3);
+            this.btnFetchUnityVersions.Name = "btnFetchUnityVersions";
+            this.btnFetchUnityVersions.Size = new System.Drawing.Size(22, 23);
+            this.btnFetchUnityVersions.TabIndex = 23;
+            this.btnFetchUnityVersions.Text = "⟳";
+            this.toolTip1.SetToolTip(this.btnFetchUnityVersions, "Fetch list of Unity Updates");
+            this.btnFetchUnityVersions.UseCompatibleTextRendering = true;
+            this.btnFetchUnityVersions.UseVisualStyleBackColor = true;
+            this.btnFetchUnityVersions.Click += new System.EventHandler(this.btnFetchUnityVersions_Click);
+            // 
+            // gridUnityUpdates
+            // 
+            this.gridUnityUpdates.AllowUserToAddRows = false;
+            this.gridUnityUpdates.AllowUserToDeleteRows = false;
+            this.gridUnityUpdates.AllowUserToResizeColumns = false;
+            this.gridUnityUpdates.AllowUserToResizeRows = false;
+            this.gridUnityUpdates.CausesValidation = false;
+            this.gridUnityUpdates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridUnityUpdates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._Date,
+            this._UnityUpdateVersion});
+            this.gridUnityUpdates.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.gridUnityUpdates.Location = new System.Drawing.Point(3, 27);
+            this.gridUnityUpdates.MultiSelect = false;
+            this.gridUnityUpdates.Name = "gridUnityUpdates";
+            this.gridUnityUpdates.ReadOnly = true;
+            this.gridUnityUpdates.RowHeadersWidth = 18;
+            this.gridUnityUpdates.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gridUnityUpdates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridUnityUpdates.ShowCellErrors = false;
+            this.gridUnityUpdates.ShowCellToolTips = false;
+            this.gridUnityUpdates.ShowEditingIcon = false;
+            this.gridUnityUpdates.Size = new System.Drawing.Size(574, 478);
+            this.gridUnityUpdates.TabIndex = 22;
+            // 
+            // _Date
+            // 
+            this._Date.HeaderText = "Date";
+            this._Date.MinimumWidth = 100;
+            this._Date.Name = "_Date";
+            this._Date.ReadOnly = true;
+            this._Date.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // _UnityUpdateVersion
+            // 
+            this._UnityUpdateVersion.HeaderText = "Version";
+            this._UnityUpdateVersion.MinimumWidth = 350;
+            this._UnityUpdateVersion.Name = "_UnityUpdateVersion";
+            this._UnityUpdateVersion.ReadOnly = true;
+            this._UnityUpdateVersion.Width = 350;
             // 
             // tabSettings
             // 
@@ -625,60 +693,6 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // btnFetchUnityVersions
-            // 
-            this.btnFetchUnityVersions.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFetchUnityVersions.Location = new System.Drawing.Point(555, 3);
-            this.btnFetchUnityVersions.Name = "btnFetchUnityVersions";
-            this.btnFetchUnityVersions.Size = new System.Drawing.Size(22, 23);
-            this.btnFetchUnityVersions.TabIndex = 23;
-            this.btnFetchUnityVersions.Text = "⟳";
-            this.toolTip1.SetToolTip(this.btnFetchUnityVersions, "Fetch list of Unity Updates");
-            this.btnFetchUnityVersions.UseCompatibleTextRendering = true;
-            this.btnFetchUnityVersions.UseVisualStyleBackColor = true;
-            this.btnFetchUnityVersions.Click += new System.EventHandler(this.btnFetchUnityVersions_Click);
-            // 
-            // gridUnityUpdates
-            // 
-            this.gridUnityUpdates.AllowUserToAddRows = false;
-            this.gridUnityUpdates.AllowUserToDeleteRows = false;
-            this.gridUnityUpdates.AllowUserToResizeColumns = false;
-            this.gridUnityUpdates.AllowUserToResizeRows = false;
-            this.gridUnityUpdates.CausesValidation = false;
-            this.gridUnityUpdates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridUnityUpdates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn1});
-            this.gridUnityUpdates.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.gridUnityUpdates.Location = new System.Drawing.Point(3, 27);
-            this.gridUnityUpdates.MultiSelect = false;
-            this.gridUnityUpdates.Name = "gridUnityUpdates";
-            this.gridUnityUpdates.ReadOnly = true;
-            this.gridUnityUpdates.RowHeadersWidth = 18;
-            this.gridUnityUpdates.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.gridUnityUpdates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridUnityUpdates.ShowCellErrors = false;
-            this.gridUnityUpdates.ShowCellToolTips = false;
-            this.gridUnityUpdates.ShowEditingIcon = false;
-            this.gridUnityUpdates.Size = new System.Drawing.Size(574, 478);
-            this.gridUnityUpdates.TabIndex = 22;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Date";
-            this.dataGridViewTextBoxColumn2.MinimumWidth = 100;
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Version";
-            this.dataGridViewTextBoxColumn1.MinimumWidth = 350;
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 350;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -705,11 +719,11 @@
             this.tabPackages.ResumeLayout(false);
             this.tabPackages.PerformLayout();
             this.tabUpdates.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -767,8 +781,9 @@
         private System.Windows.Forms.TabPage tabUpdates;
         private System.Windows.Forms.Button btnFetchUnityVersions;
         private System.Windows.Forms.DataGridView gridUnityUpdates;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.Button btnOpenUpdateWebsite;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _Date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _UnityUpdateVersion;
     }
 }
 

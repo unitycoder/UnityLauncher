@@ -1,17 +1,17 @@
 # UnityLauncher
 
-Tool for automatically launching specific unity versions for each project (Windows only)
+Autotically launch projects with correct Unity versions and some extra features to manager your projects and Unity versions!
 
 # Features
-- Launch correct Unity version for your recent projects
-- Option to download missing unity version installation or open webpage
-- Display Recent projects list with project version, last modified date
-- Highlight project version with green if correct unity is installed
-- Easily open project folder in explorer
-- List of installed Unity versions, can easily run, explore, view release notes
+- Automagically Open Projects with Correct Unity Version
+- Display Recent Projects list with last modified date and Unity version info
+- Quickly Explore Project Folder
+- List installed Unity versions, can easily Run, Explore installation folder, View release notes
+- Download Missing Unity Versions Easily
 - Can be used in commandline `UnityLauncher.exe -projectPath "c:/project/path/"`
 - Can add custom Explorer context menu item to launch folder as a project: https://github.com/unitycoder/UnityLauncher/wiki/Adding-Explorer-Context-Menu
 - List of custom package folders (quicly explore them and then can import packages)
+- Show list of available Unity versions/updates
 
 # Instructions
 - Download, Run
@@ -21,7 +21,7 @@ Tool for automatically launching specific unity versions for each project (Windo
 
 # Keyboard Shortcuts
 - When recent list is selected: Enter = Launch selected, F5 = refresh recent list
-- 1,2,3 to switch tabs
+- Project filter field: Esc - clear search
 
 # Download
 https://github.com/unitycoder/UnityLauncher/releases
@@ -36,8 +36,14 @@ https://github.com/unitycoder/UnityLauncher/issues
 https://forum.unity3d.com/threads/unitylauncher-launch-correct-unity-versions-for-each-project-automatically.488718/
 
 # Images
-![unitylauncher-1](https://user-images.githubusercontent.com/5438317/29495593-0f2f1d54-85f5-11e7-929b-96fbe0147b2e.jpg)
+![image](https://user-images.githubusercontent.com/5438317/35776535-65794550-09d9-11e8-925a-6b799d1a7b7f.png)
 
-![unitylauncher-1b](https://user-images.githubusercontent.com/5438317/29495592-0f2bdf18-85f5-11e7-9d69-a29bf1f1b4f4.jpg)
+![image](https://user-images.githubusercontent.com/5438317/35776559-d4ecb8ae-09d9-11e8-90e9-a01e662367f7.png)
 
-![unitylauncher-1c](https://user-images.githubusercontent.com/5438317/29495591-0ee98ef6-85f5-11e7-849f-e78977f4f473.jpg)
+![image](https://user-images.githubusercontent.com/5438317/35776539-7b5a63a4-09d9-11e8-825b-956110d98499.png)
+
+![image](https://user-images.githubusercontent.com/5438317/35776544-85f7c1f8-09d9-11e8-8ab7-ee08d01ebef3.png)
+
+![image](https://user-images.githubusercontent.com/5438317/35776558-d0692970-09d9-11e8-8191-f48da5d63ca8.png)
+
+![image](https://user-images.githubusercontent.com/5438317/35776575-01c720bc-09da-11e8-99d1-f6e4ad3c0fab.png)

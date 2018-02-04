@@ -14,11 +14,10 @@ namespace UnityLauncher
 {
     public partial class Form1 : Form
     {
-        // version,exe path (example: 5.6.1f1,c:\prog\unity561\editor\unity.exe)
         public static Dictionary<string, string> unityList = new Dictionary<string, string>();
-
-        const int settingsTabIndex = 3;
         const string contextRegRoot = "Software\\Classes\\Directory\\Background\\shell";
+        bool isDownloadUnityList = false;
+
 
         public Form1()
         {
@@ -51,7 +50,7 @@ namespace UnityLauncher
             {
                 SetStatus("Error> Did not found any Unity installations, try setting correct root folder..");
                 UpdateRecentProjectsList();
-                tabControl1.SelectedIndex = settingsTabIndex;
+                tabControl1.SelectedIndex = tabControl1.TabCount - 1; // last tab is settings
                 return;
             }
 
@@ -117,14 +116,18 @@ namespace UnityLauncher
         }
 
 
-        // read and parse project settings file
+        /// <summary>
+        /// parse project version from ProjectSettings data
+        /// </summary>
+        /// <param name="path">project base path</param>
+        /// <returns></returns>
         string GetProjectVersion(string path)
         {
             var version = "";
             if (Directory.Exists(Path.Combine(path, "ProjectSettings")))
             {
                 var versionPath = Path.Combine(path, "ProjectSettings", "ProjectVersion.txt");
-                if (File.Exists(versionPath) == true)
+                if (File.Exists(versionPath) == true) // 5.x and later
                 {
                     var data = File.ReadAllLines(versionPath);
 
@@ -152,6 +155,26 @@ namespace UnityLauncher
                     else
                     {
                         MessageBox.Show("Invalid projectversion data found in '" + versionPath + "'.\n\nFile Content:\n" + string.Join("\n", data).ToString());
+                    }
+                }
+                else // maybe 4.x
+                {
+                    versionPath = Path.Combine(path, "ProjectSettings", "ProjectSettings.asset");
+                    if (File.Exists(versionPath) == true)
+                    {
+                        // try to get version data out from binary asset
+                        var data = File.ReadAllBytes(versionPath);
+                        if (data != null && data.Length > 0)
+                        {
+                            int dataLen = 7;
+                            int startIndex = 20;
+                            var bytes = new byte[dataLen];
+                            for (int i = 0; i < dataLen; i++)
+                            {
+                                bytes[i] = data[startIndex + i];
+                            }
+                            version = Encoding.UTF8.GetString(bytes);
+                        }
                     }
                 }
             }
@@ -240,77 +263,89 @@ namespace UnityLauncher
             }
         }
 
-        // returns already sorted list of recent entries
+        /// <summary>
+        /// scans registry for recent projects and adds to project grid list
+        /// </summary>
         void UpdateRecentProjectsList()
         {
             SetStatus("Updating recent projects list..");
 
-            var hklm = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-            RegistryKey key = hklm.OpenSubKey(@"SOFTWARE\Unity Technologies\Unity Editor 5.x");
-
-            if (key == null)
-            {
-                SetStatus("No recent projects list founded");
-                return;
-            }
-
             gridRecent.Rows.Clear();
 
-            foreach (var valueName in key.GetValueNames())
+            var hklm = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+            string[] registryPathsToCheck = new string[] { @"SOFTWARE\Unity Technologies\Unity Editor 5.x", @"SOFTWARE\Unity Technologies\Unity Editor 4.x" };
+
+            // check each version path
+            for (int i = 0, len = registryPathsToCheck.Length; i < len; i++)
             {
-                if (valueName.IndexOf("RecentlyUsedProjectPaths-") == 0)
+                RegistryKey key = hklm.OpenSubKey(registryPathsToCheck[i]);
+
+                if (key == null) continue;
+
+                // parse recent project path
+                foreach (var valueName in key.GetValueNames())
                 {
-                    string projectPath = "";
-                    // check if binary or not
-                    var valueKind = key.GetValueKind(valueName);
-                    if (valueKind == RegistryValueKind.Binary)
+                    if (valueName.IndexOf("RecentlyUsedProjectPaths-") == 0)
                     {
-                        byte[] projectPathBytes = (byte[])key.GetValue(valueName);
-                        projectPath = Encoding.Default.GetString(projectPathBytes, 0, projectPathBytes.Length - 1);
+                        string projectPath = "";
+                        // check if binary or not
+                        var valueKind = key.GetValueKind(valueName);
+                        if (valueKind == RegistryValueKind.Binary)
+                        {
+                            byte[] projectPathBytes = (byte[])key.GetValue(valueName);
+                            projectPath = Encoding.Default.GetString(projectPathBytes, 0, projectPathBytes.Length - 1);
+                        }
+                        else // should be string then
+                        {
+                            projectPath = (string)key.GetValue(valueName);
+                        }
+
+                        string projectName = "";
+
+                        // get project name from full path
+                        if (projectPath.IndexOf(Path.PathSeparator) > -1)
+                        {
+                            projectName = projectPath.Substring(projectPath.LastIndexOf(Path.PathSeparator) + 1);
+                        }
+                        else if (projectPath.IndexOf(Path.AltDirectorySeparatorChar) > -1)
+                        {
+                            projectName = projectPath.Substring(projectPath.LastIndexOf(Path.AltDirectorySeparatorChar) + 1);
+                        }
+                        else // no path separator founded
+                        {
+                            projectName = projectPath;
+                        }
+
+                        string csprojFile = Path.Combine(projectPath, projectName + ".csproj");
+
+                        // editor only project
+                        if (File.Exists(csprojFile) == false)
+                        {
+                            csprojFile = Path.Combine(projectPath, projectName + ".Editor.csproj");
+                        }
+
+                        // maybe 4.x project
+                        if (File.Exists(csprojFile) == false)
+                        {
+                            csprojFile = Path.Combine(projectPath, "Assembly-CSharp.csproj");
+                        }
+
+                        // get last modified date
+                        DateTime? lastUpdated = GetLastModifiedTime(csprojFile);
+
+                        // get project version
+                        string projectVersion = GetProjectVersion(projectPath);
+
+                        gridRecent.Rows.Add(projectName, projectVersion, projectPath, lastUpdated);
+                        gridRecent.Rows[gridRecent.Rows.Count - 1].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ? Color.Green : Color.Red;
                     }
-                    else // should be string then
-                    {
-                        projectPath = (string)key.GetValue(valueName);
-                    }
-
-                    string projectName = "";
-
-                    // get project name from full path
-                    if (projectPath.IndexOf(Path.PathSeparator) > -1)
-                    {
-                        projectName = projectPath.Substring(projectPath.LastIndexOf(Path.PathSeparator) + 1);
-                    }
-                    else if (projectPath.IndexOf(Path.AltDirectorySeparatorChar) > -1)
-                    {
-                        projectName = projectPath.Substring(projectPath.LastIndexOf(Path.AltDirectorySeparatorChar) + 1);
-                    }
-                    else // no path separator founded
-                    {
-                        projectName = projectPath;
-                    }
-
-                    string csprojFile = Path.Combine(projectPath, projectName + ".csproj");
-
-                    // editor only project
-                    if (File.Exists(csprojFile) == false)
-                    {
-                        csprojFile = Path.Combine(projectPath, projectName + ".Editor.csproj");
-                    }
-
-                    DateTime? lastUpdated = GetLastUpdatedTime(csprojFile);
-
-                    string projectVersion = GetProjectVersion(projectPath);
-                    // TODO: could display "Today", "Yesterday", "Last week"..
-
-                    gridRecent.Rows.Add(projectName, projectVersion, projectPath, lastUpdated);
-                    //gridRecent.Rows[gridRecent.Rows.Count-1].Cells[1].Style.BackColor = HaveExactVersionInstalled(projectVersion) ?Color.Green:Color.Red;
-                    gridRecent.Rows[gridRecent.Rows.Count - 1].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ? Color.Green : Color.Red;
                 }
             }
+
             SetStatus("Ready");
         }
 
-        DateTime? GetLastUpdatedTime(string path)
+        DateTime? GetLastModifiedTime(string path)
         {
             if (File.Exists(path) == true)
             {
@@ -735,6 +770,11 @@ namespace UnityLauncher
             }
         }
 
+        private void btnFetchUnityVersions_Click(object sender, EventArgs e)
+        {
+            FetchListOfUnityUpdates();
+        }
+
         private void unityGridView_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -783,8 +823,6 @@ namespace UnityLauncher
                     break;
             }
         }
-
-
 
         /// <summary>
         /// grid keys
@@ -928,6 +966,8 @@ namespace UnityLauncher
         }
         #endregion UI events
 
+
+
         void OpenReleaseNotes(string version)
         {
             SetStatus("Opening release notes for version " + version);
@@ -1042,6 +1082,40 @@ namespace UnityLauncher
             upgradeDialog.Close();
         }
 
-     
+        void FetchListOfUnityUpdates()
+        {
+            if (isDownloadUnityList == true)
+            {
+                SetStatus("We are already downloading..");
+                return;
+            }
+            isDownloadUnityList = true;
+            SetStatus("Downloading list of unity versions..");
+
+            // download list of unity versions
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(UnityVersionsListDownloaded);
+                var unityVersionsURL = @"http://symbolserver.unity3d.com/000Admin/history.txt";
+                webClient.DownloadStringAsync(new Uri(unityVersionsURL));
+            }
+        }
+
+        private void UnityVersionsListDownloaded(object sender, DownloadStringCompletedEventArgs e)
+        {
+            // TODO check for error..
+
+            SetStatus("Downloading list of unity versions..Done");
+            isDownloadUnityList = false;
+            // parse to list
+            var unityList = e.Result.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            Array.Reverse(unityList);
+            gridUnityUpdates.Rows.Clear();
+            for (int i = 0, len = unityList.Length; i < len; i++)
+            {
+                var row = unityList[i].Split(',');
+                gridUnityUpdates.Rows.Add(row[3], row[6].Trim('"'));
+            }
+        }
     }
 }

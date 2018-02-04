@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabProjects = new System.Windows.Forms.TabPage();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.btnUpgradeProject = new System.Windows.Forms.Button();
             this.btnRunUnityOnly = new System.Windows.Forms.Button();
@@ -42,7 +42,7 @@
             this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabUnitys = new System.Windows.Forms.TabPage();
             this.btn_refreshUnityList = new System.Windows.Forms.Button();
             this.btnOpenReleasePage = new System.Windows.Forms.Button();
             this.btnExploreUnity = new System.Windows.Forms.Button();
@@ -57,7 +57,8 @@
             this.btnRemovePackFolder = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lstPackageFolders = new System.Windows.Forms.ListBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabUpdates = new System.Windows.Forms.TabPage();
+            this.tabSettings = new System.Windows.Forms.TabPage();
             this.ChkQuitAfterOpen = new System.Windows.Forms.CheckBox();
             this.btnOpenLogFolder = new System.Windows.Forms.Button();
             this.chkQuitAfterCommandline = new System.Windows.Forms.CheckBox();
@@ -78,42 +79,49 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnFetchUnityVersions = new System.Windows.Forms.Button();
+            this.gridUnityUpdates = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
-            this.tabPage2.SuspendLayout();
+            this.tabUnitys.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).BeginInit();
             this.tabPackages.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tabUpdates.SuspendLayout();
+            this.tabSettings.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabProjects);
+            this.tabControl1.Controls.Add(this.tabUnitys);
             this.tabControl1.Controls.Add(this.tabPackages);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabUpdates);
+            this.tabControl1.Controls.Add(this.tabSettings);
             this.tabControl1.Location = new System.Drawing.Point(0, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(588, 575);
             this.tabControl1.TabIndex = 6;
             // 
-            // tabPage1
+            // tabProjects
             // 
-            this.tabPage1.Controls.Add(this.tbSearchBar);
-            this.tabPage1.Controls.Add(this.btnUpgradeProject);
-            this.tabPage1.Controls.Add(this.btnRunUnityOnly);
-            this.tabPage1.Controls.Add(this.btnOpenUnityFolder);
-            this.tabPage1.Controls.Add(this.btnLaunch);
-            this.tabPage1.Controls.Add(this.gridRecent);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(580, 549);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Projects";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabProjects.Controls.Add(this.tbSearchBar);
+            this.tabProjects.Controls.Add(this.btnUpgradeProject);
+            this.tabProjects.Controls.Add(this.btnRunUnityOnly);
+            this.tabProjects.Controls.Add(this.btnOpenUnityFolder);
+            this.tabProjects.Controls.Add(this.btnLaunch);
+            this.tabProjects.Controls.Add(this.gridRecent);
+            this.tabProjects.Location = new System.Drawing.Point(4, 22);
+            this.tabProjects.Name = "tabProjects";
+            this.tabProjects.Size = new System.Drawing.Size(580, 549);
+            this.tabProjects.TabIndex = 0;
+            this.tabProjects.Text = "Projects";
+            this.tabProjects.UseVisualStyleBackColor = true;
             // 
             // tbSearchBar
             // 
@@ -227,19 +235,19 @@
             this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this._dateModified.Width = 120;
             // 
-            // tabPage2
+            // tabUnitys
             // 
-            this.tabPage2.Controls.Add(this.btn_refreshUnityList);
-            this.tabPage2.Controls.Add(this.btnOpenReleasePage);
-            this.tabPage2.Controls.Add(this.btnExploreUnity);
-            this.tabPage2.Controls.Add(this.btnLaunchUnity);
-            this.tabPage2.Controls.Add(this.gridUnityList);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(580, 549);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Unity\'s";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabUnitys.Controls.Add(this.btn_refreshUnityList);
+            this.tabUnitys.Controls.Add(this.btnOpenReleasePage);
+            this.tabUnitys.Controls.Add(this.btnExploreUnity);
+            this.tabUnitys.Controls.Add(this.btnLaunchUnity);
+            this.tabUnitys.Controls.Add(this.gridUnityList);
+            this.tabUnitys.Location = new System.Drawing.Point(4, 22);
+            this.tabUnitys.Name = "tabUnitys";
+            this.tabUnitys.Size = new System.Drawing.Size(580, 549);
+            this.tabUnitys.TabIndex = 1;
+            this.tabUnitys.Text = "Unity\'s";
+            this.tabUnitys.UseVisualStyleBackColor = true;
             // 
             // btn_refreshUnityList
             // 
@@ -405,28 +413,39 @@
             this.lstPackageFolders.Size = new System.Drawing.Size(539, 186);
             this.lstPackageFolders.TabIndex = 21;
             // 
-            // tabPage3
+            // tabUpdates
             // 
-            this.tabPage3.Controls.Add(this.ChkQuitAfterOpen);
-            this.tabPage3.Controls.Add(this.btnOpenLogFolder);
-            this.tabPage3.Controls.Add(this.chkQuitAfterCommandline);
-            this.tabPage3.Controls.Add(this.btnAddRegister);
-            this.tabPage3.Controls.Add(this.btnRemoveRegister);
-            this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.label2);
-            this.tabPage3.Controls.Add(this.chkMinimizeToTaskbar);
-            this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Controls.Add(this.btnAddUnityFolder);
-            this.tabPage3.Controls.Add(this.btnRemoveInstallFolder);
-            this.tabPage3.Controls.Add(this.lstRootFolders);
-            this.tabPage3.Controls.Add(this.lbl_unityCount);
-            this.tabPage3.Controls.Add(this.btnRefresh);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(580, 549);
-            this.tabPage3.TabIndex = 3;
-            this.tabPage3.Text = "Settings";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabUpdates.Controls.Add(this.btnFetchUnityVersions);
+            this.tabUpdates.Controls.Add(this.gridUnityUpdates);
+            this.tabUpdates.Location = new System.Drawing.Point(4, 22);
+            this.tabUpdates.Name = "tabUpdates";
+            this.tabUpdates.Size = new System.Drawing.Size(580, 549);
+            this.tabUpdates.TabIndex = 5;
+            this.tabUpdates.Text = "Updates";
+            this.tabUpdates.UseVisualStyleBackColor = true;
+            // 
+            // tabSettings
+            // 
+            this.tabSettings.Controls.Add(this.ChkQuitAfterOpen);
+            this.tabSettings.Controls.Add(this.btnOpenLogFolder);
+            this.tabSettings.Controls.Add(this.chkQuitAfterCommandline);
+            this.tabSettings.Controls.Add(this.btnAddRegister);
+            this.tabSettings.Controls.Add(this.btnRemoveRegister);
+            this.tabSettings.Controls.Add(this.label4);
+            this.tabSettings.Controls.Add(this.label2);
+            this.tabSettings.Controls.Add(this.chkMinimizeToTaskbar);
+            this.tabSettings.Controls.Add(this.label1);
+            this.tabSettings.Controls.Add(this.btnAddUnityFolder);
+            this.tabSettings.Controls.Add(this.btnRemoveInstallFolder);
+            this.tabSettings.Controls.Add(this.lstRootFolders);
+            this.tabSettings.Controls.Add(this.lbl_unityCount);
+            this.tabSettings.Controls.Add(this.btnRefresh);
+            this.tabSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.Size = new System.Drawing.Size(580, 549);
+            this.tabSettings.TabIndex = 3;
+            this.tabSettings.Text = "Settings";
+            this.tabSettings.UseVisualStyleBackColor = true;
             // 
             // ChkQuitAfterOpen
             // 
@@ -606,6 +625,60 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // btnFetchUnityVersions
+            // 
+            this.btnFetchUnityVersions.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFetchUnityVersions.Location = new System.Drawing.Point(555, 3);
+            this.btnFetchUnityVersions.Name = "btnFetchUnityVersions";
+            this.btnFetchUnityVersions.Size = new System.Drawing.Size(22, 23);
+            this.btnFetchUnityVersions.TabIndex = 23;
+            this.btnFetchUnityVersions.Text = "⟳";
+            this.toolTip1.SetToolTip(this.btnFetchUnityVersions, "Fetch list of Unity Updates");
+            this.btnFetchUnityVersions.UseCompatibleTextRendering = true;
+            this.btnFetchUnityVersions.UseVisualStyleBackColor = true;
+            this.btnFetchUnityVersions.Click += new System.EventHandler(this.btnFetchUnityVersions_Click);
+            // 
+            // gridUnityUpdates
+            // 
+            this.gridUnityUpdates.AllowUserToAddRows = false;
+            this.gridUnityUpdates.AllowUserToDeleteRows = false;
+            this.gridUnityUpdates.AllowUserToResizeColumns = false;
+            this.gridUnityUpdates.AllowUserToResizeRows = false;
+            this.gridUnityUpdates.CausesValidation = false;
+            this.gridUnityUpdates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridUnityUpdates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn1});
+            this.gridUnityUpdates.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.gridUnityUpdates.Location = new System.Drawing.Point(3, 27);
+            this.gridUnityUpdates.MultiSelect = false;
+            this.gridUnityUpdates.Name = "gridUnityUpdates";
+            this.gridUnityUpdates.ReadOnly = true;
+            this.gridUnityUpdates.RowHeadersWidth = 18;
+            this.gridUnityUpdates.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gridUnityUpdates.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridUnityUpdates.ShowCellErrors = false;
+            this.gridUnityUpdates.ShowCellToolTips = false;
+            this.gridUnityUpdates.ShowEditingIcon = false;
+            this.gridUnityUpdates.Size = new System.Drawing.Size(574, 478);
+            this.gridUnityUpdates.TabIndex = 22;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Date";
+            this.dataGridViewTextBoxColumn2.MinimumWidth = 100;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "Version";
+            this.dataGridViewTextBoxColumn1.MinimumWidth = 350;
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 350;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -619,22 +692,24 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Mining Edition 14";
+            this.Text = "UnityLauncher - Flamethrower Edition 15";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tabProjects.ResumeLayout(false);
+            this.tabProjects.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).EndInit();
-            this.tabPage2.ResumeLayout(false);
+            this.tabUnitys.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityList)).EndInit();
             this.tabPackages.ResumeLayout(false);
             this.tabPackages.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
+            this.tabUpdates.ResumeLayout(false);
+            this.tabSettings.ResumeLayout(false);
+            this.tabSettings.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -642,15 +717,15 @@
 
         #endregion
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabProjects;
         private System.Windows.Forms.Button btnOpenUnityFolder;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnLaunch;
         private System.Windows.Forms.DataGridView gridRecent;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabUnitys;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.NotifyIcon notifyIcon;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabSettings;
         private System.Windows.Forms.Label lbl_unityCount;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.DataGridView gridUnityList;
@@ -689,6 +764,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _path;
         private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
         private System.Windows.Forms.Button btn_refreshUnityList;
+        private System.Windows.Forms.TabPage tabUpdates;
+        private System.Windows.Forms.Button btnFetchUnityVersions;
+        private System.Windows.Forms.DataGridView gridUnityUpdates;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
     }
 }
 

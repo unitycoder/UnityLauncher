@@ -108,6 +108,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(588, 575);
             this.tabControl1.TabIndex = 6;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabProjects
             // 
@@ -706,7 +707,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Flamethrower Edition 15";
+            this.Text = "UnityLauncher - BuyTheDip Edition 16";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);

@@ -166,21 +166,33 @@ namespace UnityLauncher
                         MessageBox.Show("Invalid projectversion data found in '" + versionPath + "'.\n\nFile Content:\n" + string.Join("\n", data).ToString());
                     }
                 }
-                else // maybe 4.x
+                else // maybe its 4.x
                 {
                     versionPath = Path.Combine(path, "ProjectSettings", "ProjectSettings.asset");
                     if (File.Exists(versionPath) == true)
                     {
+                        // first try if its ascii format
+                        var data = File.ReadAllLines(versionPath);
+                        if (data != null && data.Length > 0 && data[0].IndexOf("YAML") > -1)
+                        {
+                            // in text format, then we need to try library file instead
+                            var newVersionPath = Path.Combine(path, "Library", "AnnotationManager");
+                            if (File.Exists(versionPath) == true)
+                            {
+                                versionPath = newVersionPath;
+                            }
+                        }
+
                         // try to get version data out from binary asset
-                        var data = File.ReadAllBytes(versionPath);
-                        if (data != null && data.Length > 0)
+                        var binData = File.ReadAllBytes(versionPath);
+                        if (binData != null && binData.Length > 0)
                         {
                             int dataLen = 7;
                             int startIndex = 20;
                             var bytes = new byte[dataLen];
                             for (int i = 0; i < dataLen; i++)
                             {
-                                bytes[i] = data[startIndex + i];
+                                bytes[i] = binData[startIndex + i];
                             }
                             version = Encoding.UTF8.GetString(bytes);
                         }
@@ -1005,6 +1017,19 @@ namespace UnityLauncher
             }
         }
 
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // if enter Updates tab, then automatically fetch list of unity versions if list is empty (not fetched)
+            if (((TabControl)sender).SelectedIndex == 3) // FIXME: fixed index 3 for this tab..
+            {
+                if (gridUnityUpdates.Rows.Count == 0)
+                {
+                    FetchListOfUnityUpdates();
+                }
+            }
+        }
+
+
 
         #endregion UI events
 
@@ -1146,7 +1171,6 @@ namespace UnityLauncher
         private void UnityVersionsListDownloaded(object sender, DownloadStringCompletedEventArgs e)
         {
             // TODO check for error..
-
             SetStatus("Downloading list of unity versions..Done");
             isDownloadUnityList = false;
             // parse to list

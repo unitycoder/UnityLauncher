@@ -12,7 +12,7 @@ namespace UnityLauncher.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -85,20 +85,39 @@ namespace UnityLauncher.Properties {
                 this["closeAfterProject"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfInt xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <i" +
-            "nt>100</int>\r\n</ArrayOfInt>")]
-        public int[] gridColumnWidths
-        {
-            get
-            {
-                return ((int[])(this["gridColumnWidths"]));
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public int formWidth {
+            get {
+                return ((int)(this["formWidth"]));
             }
-            set
-            {
+            set {
+                this["formWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("650")]
+        public int formHeight {
+            get {
+                return ((int)(this["formHeight"]));
+            }
+            set {
+                this["formHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public System.Int32[] gridColumnWidths {
+            get {
+                return (System.Int32[]) (this["gridColumnWidths"]);
+            }
+            set {
                 this["gridColumnWidths"] = value;
             }
         }

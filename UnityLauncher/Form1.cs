@@ -93,6 +93,10 @@ namespace UnityLauncher
 
         void LoadSettings()
         {
+            // form size
+            this.Width = Properties.Settings.Default.formWidth;
+            this.Height = Properties.Settings.Default.formHeight;
+
             // update settings window
             chkMinimizeToTaskbar.Checked = Properties.Settings.Default.minimizeToTaskbar;
             chkQuitAfterCommandline.Checked = Properties.Settings.Default.closeAfterExplorer;
@@ -105,9 +109,13 @@ namespace UnityLauncher
 
             // restore data grid view widths
             int[] gridColumnWidths = Properties.Settings.Default.gridColumnWidths;
-            for (int i = 0; i < gridColumnWidths.Length; ++i)
+            if (gridColumnWidths != null)
             {
-                gridRecent.Columns[i].Width = gridColumnWidths[i];
+
+                for (int i = 0; i < gridColumnWidths.Length; ++i)
+                {
+                    gridRecent.Columns[i].Width = gridColumnWidths[i];
+                }
             }
         }
 
@@ -991,7 +999,6 @@ namespace UnityLauncher
             List<int> gridWidths = new List<int>(Properties.Settings.Default.gridColumnWidths);
             // restore data grid view widths
             var colum = gridRecent.Columns[0];
-            int a = Properties.Settings.Default.gridColumnWidths.Length;
             for (int i = 0; i < gridRecent.Columns.Count; ++i)
             {
                 if (Properties.Settings.Default.gridColumnWidths.Length > i)
@@ -1029,6 +1036,13 @@ namespace UnityLauncher
             }
         }
 
+        private void Form1_ResizeEnd(object sender, EventArgs e)
+        {
+            var form = (Form)sender;
+            Properties.Settings.Default.formWidth = form.Size.Width;
+            Properties.Settings.Default.formHeight = form.Size.Height;
+            Properties.Settings.Default.Save();
+        }
 
 
         #endregion UI events

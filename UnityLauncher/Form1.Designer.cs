@@ -98,6 +98,9 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabProjects);
             this.tabControl1.Controls.Add(this.tabUnitys);
             this.tabControl1.Controls.Add(this.tabPackages);
@@ -127,6 +130,8 @@
             // 
             // tbSearchBar
             // 
+            this.tbSearchBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSearchBar.Location = new System.Drawing.Point(9, 4);
             this.tbSearchBar.Name = "tbSearchBar";
             this.tbSearchBar.Size = new System.Drawing.Size(563, 20);
@@ -135,6 +140,7 @@
             // 
             // btnUpgradeProject
             // 
+            this.btnUpgradeProject.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnUpgradeProject.Location = new System.Drawing.Point(3, 511);
             this.btnUpgradeProject.Name = "btnUpgradeProject";
             this.btnUpgradeProject.Size = new System.Drawing.Size(98, 35);
@@ -146,6 +152,7 @@
             // 
             // btnRunUnityOnly
             // 
+            this.btnRunUnityOnly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRunUnityOnly.Location = new System.Drawing.Point(105, 511);
             this.btnRunUnityOnly.Name = "btnRunUnityOnly";
             this.btnRunUnityOnly.Size = new System.Drawing.Size(67, 35);
@@ -157,6 +164,7 @@
             // 
             // btnOpenUnityFolder
             // 
+            this.btnOpenUnityFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOpenUnityFolder.Location = new System.Drawing.Point(510, 511);
             this.btnOpenUnityFolder.Name = "btnOpenUnityFolder";
             this.btnOpenUnityFolder.Size = new System.Drawing.Size(67, 35);
@@ -168,6 +176,7 @@
             // 
             // btnLaunch
             // 
+            this.btnLaunch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnLaunch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLaunch.Location = new System.Drawing.Point(176, 511);
             this.btnLaunch.Name = "btnLaunch";
@@ -183,6 +192,9 @@
             this.gridRecent.AllowUserToAddRows = false;
             this.gridRecent.AllowUserToDeleteRows = false;
             this.gridRecent.AllowUserToResizeRows = false;
+            this.gridRecent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridRecent.CausesValidation = false;
             this.gridRecent.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridRecent.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -253,6 +265,7 @@
             // 
             // btn_refreshUnityList
             // 
+            this.btn_refreshUnityList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_refreshUnityList.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_refreshUnityList.Location = new System.Drawing.Point(555, 3);
             this.btn_refreshUnityList.Name = "btn_refreshUnityList";
@@ -266,6 +279,7 @@
             // 
             // btnOpenReleasePage
             // 
+            this.btnOpenReleasePage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOpenReleasePage.Location = new System.Drawing.Point(411, 511);
             this.btnOpenReleasePage.Name = "btnOpenReleasePage";
             this.btnOpenReleasePage.Size = new System.Drawing.Size(80, 35);
@@ -277,6 +291,7 @@
             // 
             // btnExploreUnity
             // 
+            this.btnExploreUnity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnExploreUnity.Location = new System.Drawing.Point(497, 511);
             this.btnExploreUnity.Name = "btnExploreUnity";
             this.btnExploreUnity.Size = new System.Drawing.Size(80, 35);
@@ -288,6 +303,7 @@
             // 
             // btnLaunchUnity
             // 
+            this.btnLaunchUnity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnLaunchUnity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLaunchUnity.Location = new System.Drawing.Point(3, 511);
             this.btnLaunchUnity.Name = "btnLaunchUnity";
@@ -304,6 +320,9 @@
             this.gridUnityList.AllowUserToDeleteRows = false;
             this.gridUnityList.AllowUserToResizeColumns = false;
             this.gridUnityList.AllowUserToResizeRows = false;
+            this.gridUnityList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridUnityList.CausesValidation = false;
             this.gridUnityList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridUnityList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -357,6 +376,7 @@
             // 
             // btnAddAssetStoreFolder
             // 
+            this.btnAddAssetStoreFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddAssetStoreFolder.Location = new System.Drawing.Point(416, 232);
             this.btnAddAssetStoreFolder.Name = "btnAddAssetStoreFolder";
             this.btnAddAssetStoreFolder.Size = new System.Drawing.Size(142, 23);
@@ -367,6 +387,8 @@
             // 
             // btnExplorePackageFolder
             // 
+            this.btnExplorePackageFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExplorePackageFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExplorePackageFolder.Location = new System.Drawing.Point(3, 511);
             this.btnExplorePackageFolder.Name = "btnExplorePackageFolder";
@@ -409,6 +431,8 @@
             // 
             // lstPackageFolders
             // 
+            this.lstPackageFolders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstPackageFolders.FormattingEnabled = true;
             this.lstPackageFolders.Location = new System.Drawing.Point(19, 40);
             this.lstPackageFolders.Name = "lstPackageFolders";
@@ -429,6 +453,8 @@
             // 
             // btnOpenUpdateWebsite
             // 
+            this.btnOpenUpdateWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenUpdateWebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOpenUpdateWebsite.Location = new System.Drawing.Point(5, 511);
             this.btnOpenUpdateWebsite.Name = "btnOpenUpdateWebsite";
@@ -441,6 +467,7 @@
             // 
             // btnFetchUnityVersions
             // 
+            this.btnFetchUnityVersions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFetchUnityVersions.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFetchUnityVersions.Location = new System.Drawing.Point(555, 3);
             this.btnFetchUnityVersions.Name = "btnFetchUnityVersions";
@@ -458,6 +485,9 @@
             this.gridUnityUpdates.AllowUserToDeleteRows = false;
             this.gridUnityUpdates.AllowUserToResizeColumns = false;
             this.gridUnityUpdates.AllowUserToResizeRows = false;
+            this.gridUnityUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridUnityUpdates.CausesValidation = false;
             this.gridUnityUpdates.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridUnityUpdates.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -518,6 +548,7 @@
             // 
             // ChkQuitAfterOpen
             // 
+            this.ChkQuitAfterOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ChkQuitAfterOpen.AutoSize = true;
             this.ChkQuitAfterOpen.Location = new System.Drawing.Point(20, 409);
             this.ChkQuitAfterOpen.Name = "ChkQuitAfterOpen";
@@ -529,6 +560,7 @@
             // 
             // btnOpenLogFolder
             // 
+            this.btnOpenLogFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenLogFolder.Location = new System.Drawing.Point(435, 380);
             this.btnOpenLogFolder.Name = "btnOpenLogFolder";
             this.btnOpenLogFolder.Size = new System.Drawing.Size(137, 23);
@@ -539,6 +571,7 @@
             // 
             // chkQuitAfterCommandline
             // 
+            this.chkQuitAfterCommandline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkQuitAfterCommandline.AutoSize = true;
             this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 432);
             this.chkQuitAfterCommandline.Name = "chkQuitAfterCommandline";
@@ -550,6 +583,7 @@
             // 
             // btnAddRegister
             // 
+            this.btnAddRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAddRegister.Location = new System.Drawing.Point(139, 465);
             this.btnAddRegister.Name = "btnAddRegister";
             this.btnAddRegister.Size = new System.Drawing.Size(64, 23);
@@ -560,6 +594,7 @@
             // 
             // btnRemoveRegister
             // 
+            this.btnRemoveRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRemoveRegister.Location = new System.Drawing.Point(209, 465);
             this.btnRemoveRegister.Name = "btnRemoveRegister";
             this.btnRemoveRegister.Size = new System.Drawing.Size(64, 23);
@@ -570,6 +605,7 @@
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(19, 470);
             this.label4.Name = "label4";
@@ -579,16 +615,19 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.Enabled = false;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(17, 361);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 13);
+            this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 26;
             this.label2.Text = "Other Settings";
             // 
             // chkMinimizeToTaskbar
             // 
+            this.chkMinimizeToTaskbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkMinimizeToTaskbar.AutoSize = true;
             this.chkMinimizeToTaskbar.Location = new System.Drawing.Point(20, 386);
             this.chkMinimizeToTaskbar.Name = "chkMinimizeToTaskbar";
@@ -630,6 +669,8 @@
             // 
             // lstRootFolders
             // 
+            this.lstRootFolders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstRootFolders.FormattingEnabled = true;
             this.lstRootFolders.Location = new System.Drawing.Point(20, 31);
             this.lstRootFolders.Name = "lstRootFolders";
@@ -638,6 +679,7 @@
             // 
             // lbl_unityCount
             // 
+            this.lbl_unityCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_unityCount.AutoSize = true;
             this.lbl_unityCount.Enabled = false;
             this.lbl_unityCount.Location = new System.Drawing.Point(475, 15);
@@ -648,6 +690,7 @@
             // 
             // btnRefresh
             // 
+            this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefresh.Location = new System.Drawing.Point(435, 223);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(137, 23);
@@ -680,11 +723,14 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(588, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(166, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -701,14 +747,15 @@
             this.ClientSize = new System.Drawing.Size(588, 612);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(600, 650);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "UnityLauncher - BuyTheDip Edition 16";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.tabControl1.ResumeLayout(false);

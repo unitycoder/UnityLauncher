@@ -1233,6 +1233,13 @@ namespace UnityLauncher
 
             string arguments = GetSelectedRowData("_launchArguments");
 
+            // check folder first
+            string outputFolder = Path.Combine(path, "ProjectSettings");
+            if (Directory.Exists(outputFolder) == false)
+            {
+                Directory.CreateDirectory(outputFolder);
+            }
+
             // save arguments to projectsettings folder
             string outputFile = Path.Combine(path, "ProjectSettings", launcherArgumentsFile);
 

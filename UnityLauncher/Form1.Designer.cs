@@ -38,10 +38,6 @@
             this.btnOpenUnityFolder = new System.Windows.Forms.Button();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.gridRecent = new System.Windows.Forms.DataGridView();
-            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabUnitys = new System.Windows.Forms.TabPage();
             this.btn_refreshUnityList = new System.Windows.Forms.Button();
             this.btnOpenReleasePage = new System.Windows.Forms.Button();
@@ -84,6 +80,12 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._launchArguments = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._gitBranch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -201,53 +203,24 @@
             this._project,
             this._version,
             this._path,
-            this._dateModified});
-            this.gridRecent.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this._dateModified,
+            this._launchArguments,
+            this._gitBranch});
+            this.gridRecent.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnF2;
             this.gridRecent.Location = new System.Drawing.Point(3, 30);
             this.gridRecent.MultiSelect = false;
             this.gridRecent.Name = "gridRecent";
-            this.gridRecent.ReadOnly = true;
             this.gridRecent.RowHeadersWidth = 18;
             this.gridRecent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridRecent.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridRecent.ShowCellErrors = false;
             this.gridRecent.ShowCellToolTips = false;
-            this.gridRecent.ShowEditingIcon = false;
             this.gridRecent.Size = new System.Drawing.Size(574, 475);
+            this.gridRecent.StandardTab = true;
             this.gridRecent.TabIndex = 1;
+            this.gridRecent.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridRecent_CellEndEdit);
             this.gridRecent.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridRecent_CellMouseDoubleClick);
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
-            // 
-            // _project
-            // 
-            this._project.HeaderText = "Project";
-            this._project.Name = "_project";
-            this._project.ReadOnly = true;
-            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._project.Width = 150;
-            // 
-            // _version
-            // 
-            this._version.HeaderText = "Version";
-            this._version.Name = "_version";
-            this._version.ReadOnly = true;
-            this._version.Width = 72;
-            // 
-            // _path
-            // 
-            this._path.HeaderText = "Path";
-            this._path.Name = "_path";
-            this._path.ReadOnly = true;
-            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._path.Width = 185;
-            // 
-            // _dateModified
-            // 
-            this._dateModified.HeaderText = "Modified";
-            this._dateModified.Name = "_dateModified";
-            this._dateModified.ReadOnly = true;
-            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._dateModified.Width = 120;
             // 
             // tabUnitys
             // 
@@ -339,6 +312,7 @@
             this.gridUnityList.ShowCellToolTips = false;
             this.gridUnityList.ShowEditingIcon = false;
             this.gridUnityList.Size = new System.Drawing.Size(574, 478);
+            this.gridUnityList.StandardTab = true;
             this.gridUnityList.TabIndex = 10;
             this.gridUnityList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.unityGridView_KeyDown);
             // 
@@ -505,6 +479,7 @@
             this.gridUnityUpdates.ShowCellToolTips = false;
             this.gridUnityUpdates.ShowEditingIcon = false;
             this.gridUnityUpdates.Size = new System.Drawing.Size(574, 478);
+            this.gridUnityUpdates.StandardTab = true;
             this.gridUnityUpdates.TabIndex = 22;
             // 
             // _Date
@@ -730,7 +705,7 @@
             this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(166, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(135, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -739,6 +714,48 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // _project
+            // 
+            this._project.HeaderText = "Project";
+            this._project.Name = "_project";
+            this._project.ReadOnly = true;
+            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._project.Width = 150;
+            // 
+            // _version
+            // 
+            this._version.HeaderText = "Version";
+            this._version.Name = "_version";
+            this._version.ReadOnly = true;
+            this._version.Width = 72;
+            // 
+            // _path
+            // 
+            this._path.HeaderText = "Path";
+            this._path.Name = "_path";
+            this._path.ReadOnly = true;
+            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._path.Width = 185;
+            // 
+            // _dateModified
+            // 
+            this._dateModified.HeaderText = "Modified";
+            this._dateModified.Name = "_dateModified";
+            this._dateModified.ReadOnly = true;
+            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._dateModified.Width = 120;
+            // 
+            // _launchArguments
+            // 
+            this._launchArguments.HeaderText = "Arguments";
+            this._launchArguments.Name = "_launchArguments";
+            // 
+            // _gitBranch
+            // 
+            this._gitBranch.HeaderText = "GITBranch";
+            this._gitBranch.Name = "_gitBranch";
+            this._gitBranch.ReadOnly = true;
             // 
             // Form1
             // 
@@ -753,7 +770,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 650);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - BuyTheDip Edition 16";
+            this.Text = "UnityLauncher - FOMO Edition 17";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
@@ -821,10 +838,6 @@
         private System.Windows.Forms.Button btnOpenLogFolder;
         private System.Windows.Forms.TextBox tbSearchBar;
         private System.Windows.Forms.CheckBox ChkQuitAfterOpen;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _project;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _version;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _path;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
         private System.Windows.Forms.Button btn_refreshUnityList;
         private System.Windows.Forms.TabPage tabUpdates;
         private System.Windows.Forms.Button btnFetchUnityVersions;
@@ -832,6 +845,12 @@
         private System.Windows.Forms.Button btnOpenUpdateWebsite;
         private System.Windows.Forms.DataGridViewTextBoxColumn _Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn _UnityUpdateVersion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _project;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _version;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _path;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _launchArguments;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _gitBranch;
     }
 }
 

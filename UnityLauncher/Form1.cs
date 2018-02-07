@@ -17,6 +17,7 @@ namespace UnityLauncher
         public static Dictionary<string, string> unityList = new Dictionary<string, string>();
         const string contextRegRoot = "Software\\Classes\\Directory\\Background\\shell";
         bool isDownloadUnityList = false;
+        const string launcherArgumentsFile = "LauncherArguments.txt";
 
 
         public Form1()
@@ -286,9 +287,14 @@ namespace UnityLauncher
             SetStatus("Filtering recent projects list..");
             foreach (DataGridViewRow recentProject in gridRecent.Rows)
             {
-                if (recentProject.Cells["_project"].Value.ToString().ToLower().Contains(tbSearchBar.Text.ToLower()))
+                if (recentProject.Cells["_project"].Value.ToString().IndexOf(tbSearchBar.Text, StringComparison.OrdinalIgnoreCase) > -1)
+                {
                     recentProject.Visible = true;
-                else recentProject.Visible = false;
+                }
+                else
+                {
+                    recentProject.Visible = false;
+                }
             }
         }
 
@@ -365,7 +371,13 @@ namespace UnityLauncher
                         // get project version
                         string projectVersion = GetProjectVersion(projectPath);
 
-                        gridRecent.Rows.Add(projectName, projectVersion, projectPath, lastUpdated);
+                        // get custom launch arguments,TODO if enabled
+                        string customArgs = ReadCustomLaunchArguments(projectPath);
+
+                        // get git branchinfo,TODO if enabled
+                        string gitBranch = ReadGitBranchInfo(projectPath);
+
+                        gridRecent.Rows.Add(projectName, projectVersion, projectPath, lastUpdated, customArgs, gitBranch);
                         gridRecent.Rows[gridRecent.Rows.Count - 1].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ? Color.Green : Color.Red;
                     }
                 }
@@ -420,6 +432,14 @@ namespace UnityLauncher
                         if (openProject == true)
                         {
                             var pars = " -projectPath " + "\"" + projectPath + "\"";
+
+                            // check for custom launch parameters and append them
+                            string customArguments = GetSelectedRowData("_launchArguments");
+                            if (string.IsNullOrEmpty(customArguments) == false)
+                            {
+                                pars += " " + customArguments;
+                            }
+
                             myProcess.StartInfo.Arguments = pars;
                         }
                         myProcess.Start();
@@ -627,6 +647,8 @@ namespace UnityLauncher
             }
         }
 
+
+
         void LaunchSelectedUnity()
         {
             var selected = gridUnityList.CurrentCell.RowIndex;
@@ -827,7 +849,9 @@ namespace UnityLauncher
         /// <param name="e"></param>
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //Console.WriteLine((int)e.KeyChar);
+            // if editing cells, dont focus on search
+            if (gridRecent.IsCurrentCellInEditMode == true) return;
+
             switch ((int)e.KeyChar)
             {
                 case 27: // ESC - clear search
@@ -860,7 +884,9 @@ namespace UnityLauncher
         /// <param name="e"></param>
         private void gridRecent_KeyDown(object sender, KeyEventArgs e)
         {
-            //Console.WriteLine(e.KeyValue);
+            // if editing cells, dont search or launch
+            if (gridRecent.IsCurrentCellInEditMode == true) return;
+
             switch (e.KeyCode)
             {
                 case Keys.Return: // launch selected project
@@ -1196,6 +1222,68 @@ namespace UnityLauncher
                 var row = unityList[i].Split(',');
                 gridUnityUpdates.Rows.Add(row[3], row[6].Trim('"'));
             }
+        }
+
+        // after editing launch arguments cell
+        private void gridRecent_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            string path = GetSelectedRowData("_path");
+            if (string.IsNullOrEmpty(path)) return;
+
+
+            string arguments = GetSelectedRowData("_launchArguments");
+
+            // save arguments to projectsettings folder
+            string outputFile = Path.Combine(path, "ProjectSettings", launcherArgumentsFile);
+
+            try
+            {
+                StreamWriter sw = new StreamWriter(outputFile);
+                sw.WriteLine(arguments);
+                sw.Close();
+            }
+            catch (Exception exception)
+            {
+                SetStatus("File error: " + exception.Message);
+            }
+            // TODO: keep current row selected
+        }
+
+        // returns currently selected rows path string
+        string GetSelectedRowData(string key)
+        {
+            string path = null;
+            var selected = gridRecent.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                path = gridRecent.Rows[selected].Cells[key].Value?.ToString();
+            }
+            return path;
+        }
+
+        string ReadCustomLaunchArguments(string projectPath)
+        {
+            string results = null;
+            string argumentsFile = Path.Combine(projectPath, "ProjectSettings", launcherArgumentsFile);
+            if (File.Exists(argumentsFile) == true)
+            {
+                results = File.ReadAllText(argumentsFile);
+            }
+            return results;
+        }
+
+        string ReadGitBranchInfo(string projectPath)
+        {
+            string results = null;
+            string branchFile = Path.Combine(projectPath, ".git", "HEAD");
+            if (File.Exists(branchFile) == true)
+            {
+                results = File.ReadAllText(branchFile);
+                // get branch only
+                int pos = results.LastIndexOf("/") + 1;
+                results = results.Substring(pos, results.Length - pos);
+            }
+            return results;
         }
     }
 }

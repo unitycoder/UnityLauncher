@@ -112,13 +112,36 @@ namespace UnityLauncher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public System.Int32[] gridColumnWidths {
+        public int[] gridColumnWidths {
             get {
-                return (System.Int32[]) (this["gridColumnWidths"]);
+                return ((int[])(this["gridColumnWidths"]));
             }
             set {
                 this["gridColumnWidths"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool showArgumentsColumn {
+            get {
+                return ((bool)(this["showArgumentsColumn"]));
+            }
+            set {
+                this["showArgumentsColumn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool showGitBranchColumn {
+            get {
+                return ((bool)(this["showGitBranchColumn"]));
+            }
+            set {
+                this["showGitBranchColumn"] = value;
             }
         }
     }

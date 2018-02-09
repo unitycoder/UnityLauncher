@@ -38,6 +38,12 @@
             this.btnOpenUnityFolder = new System.Windows.Forms.Button();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.gridRecent = new System.Windows.Forms.DataGridView();
+            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._launchArguments = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._gitBranch = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabUnitys = new System.Windows.Forms.TabPage();
             this.btn_refreshUnityList = new System.Windows.Forms.Button();
             this.btnOpenReleasePage = new System.Windows.Forms.Button();
@@ -80,12 +86,9 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this._project = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._version = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._dateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._launchArguments = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._gitBranch = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.chkShowLauncherArgumentsColumn = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.chkShowGitBranchColumn = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -221,6 +224,48 @@
             this.gridRecent.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridRecent_CellEndEdit);
             this.gridRecent.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridRecent_CellMouseDoubleClick);
             this.gridRecent.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridRecent_KeyDown);
+            // 
+            // _project
+            // 
+            this._project.HeaderText = "Project";
+            this._project.Name = "_project";
+            this._project.ReadOnly = true;
+            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._project.Width = 150;
+            // 
+            // _version
+            // 
+            this._version.HeaderText = "Version";
+            this._version.Name = "_version";
+            this._version.ReadOnly = true;
+            this._version.Width = 72;
+            // 
+            // _path
+            // 
+            this._path.HeaderText = "Path";
+            this._path.Name = "_path";
+            this._path.ReadOnly = true;
+            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._path.Width = 185;
+            // 
+            // _dateModified
+            // 
+            this._dateModified.HeaderText = "Modified";
+            this._dateModified.Name = "_dateModified";
+            this._dateModified.ReadOnly = true;
+            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this._dateModified.Width = 120;
+            // 
+            // _launchArguments
+            // 
+            this._launchArguments.HeaderText = "Arguments";
+            this._launchArguments.Name = "_launchArguments";
+            // 
+            // _gitBranch
+            // 
+            this._gitBranch.HeaderText = "GITBranch";
+            this._gitBranch.Name = "_gitBranch";
+            this._gitBranch.ReadOnly = true;
             // 
             // tabUnitys
             // 
@@ -500,6 +545,9 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.chkShowGitBranchColumn);
+            this.tabSettings.Controls.Add(this.label5);
+            this.tabSettings.Controls.Add(this.chkShowLauncherArgumentsColumn);
             this.tabSettings.Controls.Add(this.ChkQuitAfterOpen);
             this.tabSettings.Controls.Add(this.btnOpenLogFolder);
             this.tabSettings.Controls.Add(this.chkQuitAfterCommandline);
@@ -536,7 +584,7 @@
             // btnOpenLogFolder
             // 
             this.btnOpenLogFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenLogFolder.Location = new System.Drawing.Point(435, 380);
+            this.btnOpenLogFolder.Location = new System.Drawing.Point(432, 512);
             this.btnOpenLogFolder.Name = "btnOpenLogFolder";
             this.btnOpenLogFolder.Size = new System.Drawing.Size(137, 23);
             this.btnOpenLogFolder.TabIndex = 32;
@@ -559,7 +607,7 @@
             // btnAddRegister
             // 
             this.btnAddRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddRegister.Location = new System.Drawing.Point(139, 465);
+            this.btnAddRegister.Location = new System.Drawing.Point(139, 512);
             this.btnAddRegister.Name = "btnAddRegister";
             this.btnAddRegister.Size = new System.Drawing.Size(64, 23);
             this.btnAddRegister.TabIndex = 30;
@@ -570,7 +618,7 @@
             // btnRemoveRegister
             // 
             this.btnRemoveRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemoveRegister.Location = new System.Drawing.Point(209, 465);
+            this.btnRemoveRegister.Location = new System.Drawing.Point(209, 512);
             this.btnRemoveRegister.Name = "btnRemoveRegister";
             this.btnRemoveRegister.Size = new System.Drawing.Size(64, 23);
             this.btnRemoveRegister.TabIndex = 29;
@@ -582,7 +630,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 470);
+            this.label4.Location = new System.Drawing.Point(19, 517);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(117, 13);
             this.label4.TabIndex = 28;
@@ -657,7 +705,7 @@
             this.lbl_unityCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_unityCount.AutoSize = true;
             this.lbl_unityCount.Enabled = false;
-            this.lbl_unityCount.Location = new System.Drawing.Point(475, 15);
+            this.lbl_unityCount.Location = new System.Drawing.Point(472, 15);
             this.lbl_unityCount.Name = "lbl_unityCount";
             this.lbl_unityCount.Size = new System.Drawing.Size(97, 13);
             this.lbl_unityCount.TabIndex = 18;
@@ -715,47 +763,41 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // _project
+            // chkShowLauncherArgumentsColumn
             // 
-            this._project.HeaderText = "Project";
-            this._project.Name = "_project";
-            this._project.ReadOnly = true;
-            this._project.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._project.Width = 150;
+            this.chkShowLauncherArgumentsColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkShowLauncherArgumentsColumn.AutoSize = true;
+            this.chkShowLauncherArgumentsColumn.Location = new System.Drawing.Point(266, 386);
+            this.chkShowLauncherArgumentsColumn.Name = "chkShowLauncherArgumentsColumn";
+            this.chkShowLauncherArgumentsColumn.Size = new System.Drawing.Size(124, 17);
+            this.chkShowLauncherArgumentsColumn.TabIndex = 34;
+            this.chkShowLauncherArgumentsColumn.Text = "Launcher Arguments";
+            this.chkShowLauncherArgumentsColumn.UseVisualStyleBackColor = true;
+            this.chkShowLauncherArgumentsColumn.CheckedChanged += new System.EventHandler(this.checkShowLauncherArgumentsColumn_CheckedChanged);
             // 
-            // _version
+            // label5
             // 
-            this._version.HeaderText = "Version";
-            this._version.Name = "_version";
-            this._version.ReadOnly = true;
-            this._version.Width = 72;
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Enabled = false;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(263, 361);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(105, 13);
+            this.label5.TabIndex = 35;
+            this.label5.Text = "Optional Columns";
             // 
-            // _path
+            // chkShowGitBranchColumn
             // 
-            this._path.HeaderText = "Path";
-            this._path.Name = "_path";
-            this._path.ReadOnly = true;
-            this._path.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._path.Width = 185;
-            // 
-            // _dateModified
-            // 
-            this._dateModified.HeaderText = "Modified";
-            this._dateModified.Name = "_dateModified";
-            this._dateModified.ReadOnly = true;
-            this._dateModified.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this._dateModified.Width = 120;
-            // 
-            // _launchArguments
-            // 
-            this._launchArguments.HeaderText = "Arguments";
-            this._launchArguments.Name = "_launchArguments";
-            // 
-            // _gitBranch
-            // 
-            this._gitBranch.HeaderText = "GITBranch";
-            this._gitBranch.Name = "_gitBranch";
-            this._gitBranch.ReadOnly = true;
+            this.chkShowGitBranchColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkShowGitBranchColumn.AutoSize = true;
+            this.chkShowGitBranchColumn.Location = new System.Drawing.Point(266, 409);
+            this.chkShowGitBranchColumn.Name = "chkShowGitBranchColumn";
+            this.chkShowGitBranchColumn.Size = new System.Drawing.Size(76, 17);
+            this.chkShowGitBranchColumn.TabIndex = 36;
+            this.chkShowGitBranchColumn.Text = "Git Branch";
+            this.chkShowGitBranchColumn.UseVisualStyleBackColor = true;
+            this.chkShowGitBranchColumn.CheckedChanged += new System.EventHandler(this.checkShowGitBranchColumn_CheckedChanged);
             // 
             // Form1
             // 
@@ -770,7 +812,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 650);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - FOMO Edition 17";
+            this.Text = "UnityLauncher - Hub Edition 18";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
@@ -851,6 +893,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _dateModified;
         private System.Windows.Forms.DataGridViewTextBoxColumn _launchArguments;
         private System.Windows.Forms.DataGridViewTextBoxColumn _gitBranch;
+        private System.Windows.Forms.CheckBox chkShowGitBranchColumn;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chkShowLauncherArgumentsColumn;
     }
 }
 

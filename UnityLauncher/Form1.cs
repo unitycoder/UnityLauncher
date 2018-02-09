@@ -102,6 +102,12 @@ namespace UnityLauncher
             chkMinimizeToTaskbar.Checked = Properties.Settings.Default.minimizeToTaskbar;
             chkQuitAfterCommandline.Checked = Properties.Settings.Default.closeAfterExplorer;
             ChkQuitAfterOpen.Checked = Properties.Settings.Default.closeAfterProject;
+            chkShowLauncherArgumentsColumn.Checked = Properties.Settings.Default.showArgumentsColumn;
+            chkShowGitBranchColumn.Checked = Properties.Settings.Default.showGitBranchColumn;
+
+            // update optional grid columns, hidden or visible
+            gridRecent.Columns["_launchArguments"].Visible = chkShowLauncherArgumentsColumn.Checked;
+            gridRecent.Columns["_gitBranch"].Visible = chkShowGitBranchColumn.Checked;
 
             // update installations folder listbox
             lstRootFolders.Items.AddRange(Properties.Settings.Default.rootFolders.Cast<string>().ToArray());
@@ -766,6 +772,8 @@ namespace UnityLauncher
             Properties.Settings.Default.Save();
         }
 
+
+
         private void btnAddPackageFolder_Click(object sender, EventArgs e)
         {
             AddPackageFolder();
@@ -1291,6 +1299,20 @@ namespace UnityLauncher
                 results = results.Substring(pos, results.Length - pos);
             }
             return results;
+        }
+
+        private void checkShowLauncherArgumentsColumn_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.showArgumentsColumn = chkShowLauncherArgumentsColumn.Checked;
+            Properties.Settings.Default.Save();
+            gridRecent.Columns["_launchArguments"].Visible = chkShowLauncherArgumentsColumn.Checked;
+        }
+
+        private void checkShowGitBranchColumn_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.showGitBranchColumn = chkShowGitBranchColumn.Checked;
+            Properties.Settings.Default.Save();
+            gridRecent.Columns["_gitBranch"].Visible = chkShowGitBranchColumn.Checked;
         }
     }
 }

@@ -377,18 +377,25 @@ namespace UnityLauncher
                         // get project version
                         string projectVersion = GetProjectVersion(projectPath);
 
-                        // get custom launch arguments,TODO if enabled
-                        string customArgs = ReadCustomLaunchArguments(projectPath);
+                        // get custom launch arguments, only if column in enabled
+                        string customArgs = "";
+                        if (chkShowLauncherArgumentsColumn.Checked == true)
+                        {
+                            customArgs = ReadCustomLaunchArguments(projectPath);
+                        }
 
-                        // get git branchinfo,TODO if enabled
-                        string gitBranch = ReadGitBranchInfo(projectPath);
+                        // get git branchinfo, only if column in enabled
+                        string gitBranch = "";
+                        if (chkShowGitBranchColumn.Checked == true)
+                        {
+                            gitBranch = ReadGitBranchInfo(projectPath);
+                        }
 
                         gridRecent.Rows.Add(projectName, projectVersion, projectPath, lastUpdated, customArgs, gitBranch);
                         gridRecent.Rows[gridRecent.Rows.Count - 1].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ? Color.Green : Color.Red;
                     }
                 }
             }
-
             SetStatus("Ready");
         }
 
@@ -1078,6 +1085,33 @@ namespace UnityLauncher
             Properties.Settings.Default.Save();
         }
 
+        private void checkShowLauncherArgumentsColumn_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.showArgumentsColumn = chkShowLauncherArgumentsColumn.Checked;
+            Properties.Settings.Default.Save();
+            gridRecent.Columns["_launchArguments"].Visible = chkShowLauncherArgumentsColumn.Checked;
+            // reload list data, if enabled (otherwise missing data)
+            if (chkShowLauncherArgumentsColumn.Checked == true) UpdateRecentProjectsList();
+        }
+
+        private void checkShowGitBranchColumn_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.showGitBranchColumn = chkShowGitBranchColumn.Checked;
+            Properties.Settings.Default.Save();
+            gridRecent.Columns["_gitBranch"].Visible = chkShowGitBranchColumn.Checked;
+            // reload list data, if enabled (otherwise missing data)
+            if (chkShowGitBranchColumn.Checked == true) UpdateRecentProjectsList();
+        }
+
+        private void linkArgumentsDocs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenURL("https://docs.unity3d.com/Manual/CommandLineArguments.html");
+        }
+
+        private void linkProjectGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenURL("https://github.com/unitycoder/UnityLauncher/releases");
+        }
 
         #endregion UI events
 
@@ -1301,18 +1335,9 @@ namespace UnityLauncher
             return results;
         }
 
-        private void checkShowLauncherArgumentsColumn_CheckedChanged(object sender, EventArgs e)
+        private void OpenURL(string url)
         {
-            Properties.Settings.Default.showArgumentsColumn = chkShowLauncherArgumentsColumn.Checked;
-            Properties.Settings.Default.Save();
-            gridRecent.Columns["_launchArguments"].Visible = chkShowLauncherArgumentsColumn.Checked;
-        }
-
-        private void checkShowGitBranchColumn_CheckedChanged(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.showGitBranchColumn = chkShowGitBranchColumn.Checked;
-            Properties.Settings.Default.Save();
-            gridRecent.Columns["_gitBranch"].Visible = chkShowGitBranchColumn.Checked;
+            Process.Start(url);
         }
     }
 }

@@ -66,6 +66,9 @@
             this._Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._UnityUpdateVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.chkShowGitBranchColumn = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.chkShowLauncherArgumentsColumn = new System.Windows.Forms.CheckBox();
             this.ChkQuitAfterOpen = new System.Windows.Forms.CheckBox();
             this.btnOpenLogFolder = new System.Windows.Forms.Button();
             this.chkQuitAfterCommandline = new System.Windows.Forms.CheckBox();
@@ -86,9 +89,8 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.chkShowLauncherArgumentsColumn = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.chkShowGitBranchColumn = new System.Windows.Forms.CheckBox();
+            this.linkArgumentsDocs = new System.Windows.Forms.LinkLabel();
+            this.linkProjectGithub = new System.Windows.Forms.LinkLabel();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -545,6 +547,8 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.linkProjectGithub);
+            this.tabSettings.Controls.Add(this.linkArgumentsDocs);
             this.tabSettings.Controls.Add(this.chkShowGitBranchColumn);
             this.tabSettings.Controls.Add(this.label5);
             this.tabSettings.Controls.Add(this.chkShowLauncherArgumentsColumn);
@@ -569,6 +573,42 @@
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
+            // chkShowGitBranchColumn
+            // 
+            this.chkShowGitBranchColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkShowGitBranchColumn.AutoSize = true;
+            this.chkShowGitBranchColumn.Location = new System.Drawing.Point(266, 409);
+            this.chkShowGitBranchColumn.Name = "chkShowGitBranchColumn";
+            this.chkShowGitBranchColumn.Size = new System.Drawing.Size(76, 17);
+            this.chkShowGitBranchColumn.TabIndex = 36;
+            this.chkShowGitBranchColumn.Text = "Git Branch";
+            this.chkShowGitBranchColumn.UseVisualStyleBackColor = true;
+            this.chkShowGitBranchColumn.CheckedChanged += new System.EventHandler(this.checkShowGitBranchColumn_CheckedChanged);
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Enabled = false;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(263, 361);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(105, 13);
+            this.label5.TabIndex = 35;
+            this.label5.Text = "Optional Columns";
+            // 
+            // chkShowLauncherArgumentsColumn
+            // 
+            this.chkShowLauncherArgumentsColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkShowLauncherArgumentsColumn.AutoSize = true;
+            this.chkShowLauncherArgumentsColumn.Location = new System.Drawing.Point(266, 386);
+            this.chkShowLauncherArgumentsColumn.Name = "chkShowLauncherArgumentsColumn";
+            this.chkShowLauncherArgumentsColumn.Size = new System.Drawing.Size(124, 17);
+            this.chkShowLauncherArgumentsColumn.TabIndex = 34;
+            this.chkShowLauncherArgumentsColumn.Text = "Launcher Arguments";
+            this.chkShowLauncherArgumentsColumn.UseVisualStyleBackColor = true;
+            this.chkShowLauncherArgumentsColumn.CheckedChanged += new System.EventHandler(this.checkShowLauncherArgumentsColumn_CheckedChanged);
+            // 
             // ChkQuitAfterOpen
             // 
             this.ChkQuitAfterOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -584,7 +624,7 @@
             // btnOpenLogFolder
             // 
             this.btnOpenLogFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenLogFolder.Location = new System.Drawing.Point(432, 512);
+            this.btnOpenLogFolder.Location = new System.Drawing.Point(435, 285);
             this.btnOpenLogFolder.Name = "btnOpenLogFolder";
             this.btnOpenLogFolder.Size = new System.Drawing.Size(137, 23);
             this.btnOpenLogFolder.TabIndex = 32;
@@ -607,7 +647,7 @@
             // btnAddRegister
             // 
             this.btnAddRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddRegister.Location = new System.Drawing.Point(139, 512);
+            this.btnAddRegister.Location = new System.Drawing.Point(139, 481);
             this.btnAddRegister.Name = "btnAddRegister";
             this.btnAddRegister.Size = new System.Drawing.Size(64, 23);
             this.btnAddRegister.TabIndex = 30;
@@ -618,7 +658,7 @@
             // btnRemoveRegister
             // 
             this.btnRemoveRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemoveRegister.Location = new System.Drawing.Point(209, 512);
+            this.btnRemoveRegister.Location = new System.Drawing.Point(209, 481);
             this.btnRemoveRegister.Name = "btnRemoveRegister";
             this.btnRemoveRegister.Size = new System.Drawing.Size(64, 23);
             this.btnRemoveRegister.TabIndex = 29;
@@ -630,7 +670,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 517);
+            this.label4.Location = new System.Drawing.Point(19, 486);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(117, 13);
             this.label4.TabIndex = 28;
@@ -763,41 +803,35 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // chkShowLauncherArgumentsColumn
+            // linkArgumentsDocs
             // 
-            this.chkShowLauncherArgumentsColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkShowLauncherArgumentsColumn.AutoSize = true;
-            this.chkShowLauncherArgumentsColumn.Location = new System.Drawing.Point(266, 386);
-            this.chkShowLauncherArgumentsColumn.Name = "chkShowLauncherArgumentsColumn";
-            this.chkShowLauncherArgumentsColumn.Size = new System.Drawing.Size(124, 17);
-            this.chkShowLauncherArgumentsColumn.TabIndex = 34;
-            this.chkShowLauncherArgumentsColumn.Text = "Launcher Arguments";
-            this.chkShowLauncherArgumentsColumn.UseVisualStyleBackColor = true;
-            this.chkShowLauncherArgumentsColumn.CheckedChanged += new System.EventHandler(this.checkShowLauncherArgumentsColumn_CheckedChanged);
+            this.linkArgumentsDocs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkArgumentsDocs.AutoSize = true;
+            this.linkArgumentsDocs.LinkArea = new System.Windows.Forms.LinkArea(1, 4);
+            this.linkArgumentsDocs.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
+            this.linkArgumentsDocs.Location = new System.Drawing.Point(385, 387);
+            this.linkArgumentsDocs.Name = "linkArgumentsDocs";
+            this.linkArgumentsDocs.Size = new System.Drawing.Size(36, 17);
+            this.linkArgumentsDocs.TabIndex = 38;
+            this.linkArgumentsDocs.TabStop = true;
+            this.linkArgumentsDocs.Text = "(docs)";
+            this.linkArgumentsDocs.UseCompatibleTextRendering = true;
+            this.linkArgumentsDocs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkArgumentsDocs_LinkClicked);
             // 
-            // label5
+            // linkProjectGithub
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.AutoSize = true;
-            this.label5.Enabled = false;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(263, 361);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(105, 13);
-            this.label5.TabIndex = 35;
-            this.label5.Text = "Optional Columns";
-            // 
-            // chkShowGitBranchColumn
-            // 
-            this.chkShowGitBranchColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkShowGitBranchColumn.AutoSize = true;
-            this.chkShowGitBranchColumn.Location = new System.Drawing.Point(266, 409);
-            this.chkShowGitBranchColumn.Name = "chkShowGitBranchColumn";
-            this.chkShowGitBranchColumn.Size = new System.Drawing.Size(76, 17);
-            this.chkShowGitBranchColumn.TabIndex = 36;
-            this.chkShowGitBranchColumn.Text = "Git Branch";
-            this.chkShowGitBranchColumn.UseVisualStyleBackColor = true;
-            this.chkShowGitBranchColumn.CheckedChanged += new System.EventHandler(this.checkShowGitBranchColumn_CheckedChanged);
+            this.linkProjectGithub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkProjectGithub.AutoSize = true;
+            this.linkProjectGithub.LinkArea = new System.Windows.Forms.LinkArea(20, 6);
+            this.linkProjectGithub.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
+            this.linkProjectGithub.Location = new System.Drawing.Point(439, 532);
+            this.linkProjectGithub.Name = "linkProjectGithub";
+            this.linkProjectGithub.Size = new System.Drawing.Size(138, 17);
+            this.linkProjectGithub.TabIndex = 39;
+            this.linkProjectGithub.TabStop = true;
+            this.linkProjectGithub.Text = "Visit UnityLauncher Github";
+            this.linkProjectGithub.UseCompatibleTextRendering = true;
+            this.linkProjectGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkProjectGithub_LinkClicked);
             // 
             // Form1
             // 
@@ -896,6 +930,8 @@
         private System.Windows.Forms.CheckBox chkShowGitBranchColumn;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkShowLauncherArgumentsColumn;
+        private System.Windows.Forms.LinkLabel linkArgumentsDocs;
+        private System.Windows.Forms.LinkLabel linkProjectGithub;
     }
 }
 

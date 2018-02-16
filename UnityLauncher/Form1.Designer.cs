@@ -50,8 +50,6 @@
             this.btnExploreUnity = new System.Windows.Forms.Button();
             this.btnLaunchUnity = new System.Windows.Forms.Button();
             this.gridUnityList = new System.Windows.Forms.DataGridView();
-            this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPackages = new System.Windows.Forms.TabPage();
             this.btnAddAssetStoreFolder = new System.Windows.Forms.Button();
             this.btnExplorePackageFolder = new System.Windows.Forms.Button();
@@ -66,6 +64,8 @@
             this._Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._UnityUpdateVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.linkProjectGithub = new System.Windows.Forms.LinkLabel();
+            this.linkArgumentsDocs = new System.Windows.Forms.LinkLabel();
             this.chkShowGitBranchColumn = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.chkShowLauncherArgumentsColumn = new System.Windows.Forms.CheckBox();
@@ -89,8 +89,9 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.linkArgumentsDocs = new System.Windows.Forms.LinkLabel();
-            this.linkProjectGithub = new System.Windows.Forms.LinkLabel();
+            this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._unityInstallDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -347,12 +348,14 @@
             this.gridUnityList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridUnityList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._unityVersion,
-            this._unityPath});
+            this._unityPath,
+            this._unityInstallDate});
             this.gridUnityList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.gridUnityList.Location = new System.Drawing.Point(3, 27);
             this.gridUnityList.MultiSelect = false;
             this.gridUnityList.Name = "gridUnityList";
             this.gridUnityList.ReadOnly = true;
+            this.gridUnityList.RowHeadersWidth = 18;
             this.gridUnityList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridUnityList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridUnityList.ShowCellErrors = false;
@@ -362,23 +365,6 @@
             this.gridUnityList.StandardTab = true;
             this.gridUnityList.TabIndex = 10;
             this.gridUnityList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.unityGridView_KeyDown);
-            // 
-            // _unityVersion
-            // 
-            this._unityVersion.HeaderText = "Version";
-            this._unityVersion.MinimumWidth = 150;
-            this._unityVersion.Name = "_unityVersion";
-            this._unityVersion.ReadOnly = true;
-            this._unityVersion.Width = 150;
-            // 
-            // _unityPath
-            // 
-            this._unityPath.HeaderText = "Path";
-            this._unityPath.MinimumWidth = 300;
-            this._unityPath.Name = "_unityPath";
-            this._unityPath.ReadOnly = true;
-            this._unityPath.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._unityPath.Width = 300;
             // 
             // tabPackages
             // 
@@ -482,7 +468,7 @@
             this.btnOpenUpdateWebsite.Size = new System.Drawing.Size(572, 35);
             this.btnOpenUpdateWebsite.TabIndex = 24;
             this.btnOpenUpdateWebsite.Text = "Open Website";
-            this.toolTip1.SetToolTip(this.btnOpenUpdateWebsite, "Launch selected project");
+            this.toolTip1.SetToolTip(this.btnOpenUpdateWebsite, "Open Release Page");
             this.btnOpenUpdateWebsite.UseVisualStyleBackColor = true;
             this.btnOpenUpdateWebsite.Click += new System.EventHandler(this.btnOpenUpdateWebsite_Click);
             // 
@@ -572,6 +558,36 @@
             this.tabSettings.TabIndex = 3;
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
+            // 
+            // linkProjectGithub
+            // 
+            this.linkProjectGithub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkProjectGithub.AutoSize = true;
+            this.linkProjectGithub.LinkArea = new System.Windows.Forms.LinkArea(20, 6);
+            this.linkProjectGithub.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
+            this.linkProjectGithub.Location = new System.Drawing.Point(439, 532);
+            this.linkProjectGithub.Name = "linkProjectGithub";
+            this.linkProjectGithub.Size = new System.Drawing.Size(138, 17);
+            this.linkProjectGithub.TabIndex = 39;
+            this.linkProjectGithub.TabStop = true;
+            this.linkProjectGithub.Text = "Visit UnityLauncher Github";
+            this.linkProjectGithub.UseCompatibleTextRendering = true;
+            this.linkProjectGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkProjectGithub_LinkClicked);
+            // 
+            // linkArgumentsDocs
+            // 
+            this.linkArgumentsDocs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.linkArgumentsDocs.AutoSize = true;
+            this.linkArgumentsDocs.LinkArea = new System.Windows.Forms.LinkArea(1, 4);
+            this.linkArgumentsDocs.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
+            this.linkArgumentsDocs.Location = new System.Drawing.Point(385, 387);
+            this.linkArgumentsDocs.Name = "linkArgumentsDocs";
+            this.linkArgumentsDocs.Size = new System.Drawing.Size(36, 17);
+            this.linkArgumentsDocs.TabIndex = 38;
+            this.linkArgumentsDocs.TabStop = true;
+            this.linkArgumentsDocs.Text = "(docs)";
+            this.linkArgumentsDocs.UseCompatibleTextRendering = true;
+            this.linkArgumentsDocs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkArgumentsDocs_LinkClicked);
             // 
             // chkShowGitBranchColumn
             // 
@@ -789,8 +805,6 @@
             this.statusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(135, 22);
@@ -803,35 +817,29 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // linkArgumentsDocs
+            // _unityVersion
             // 
-            this.linkArgumentsDocs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.linkArgumentsDocs.AutoSize = true;
-            this.linkArgumentsDocs.LinkArea = new System.Windows.Forms.LinkArea(1, 4);
-            this.linkArgumentsDocs.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
-            this.linkArgumentsDocs.Location = new System.Drawing.Point(385, 387);
-            this.linkArgumentsDocs.Name = "linkArgumentsDocs";
-            this.linkArgumentsDocs.Size = new System.Drawing.Size(36, 17);
-            this.linkArgumentsDocs.TabIndex = 38;
-            this.linkArgumentsDocs.TabStop = true;
-            this.linkArgumentsDocs.Text = "(docs)";
-            this.linkArgumentsDocs.UseCompatibleTextRendering = true;
-            this.linkArgumentsDocs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkArgumentsDocs_LinkClicked);
+            this._unityVersion.HeaderText = "Version";
+            this._unityVersion.MinimumWidth = 150;
+            this._unityVersion.Name = "_unityVersion";
+            this._unityVersion.ReadOnly = true;
+            this._unityVersion.Width = 150;
             // 
-            // linkProjectGithub
+            // _unityPath
             // 
-            this.linkProjectGithub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkProjectGithub.AutoSize = true;
-            this.linkProjectGithub.LinkArea = new System.Windows.Forms.LinkArea(20, 6);
-            this.linkProjectGithub.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
-            this.linkProjectGithub.Location = new System.Drawing.Point(439, 532);
-            this.linkProjectGithub.Name = "linkProjectGithub";
-            this.linkProjectGithub.Size = new System.Drawing.Size(138, 17);
-            this.linkProjectGithub.TabIndex = 39;
-            this.linkProjectGithub.TabStop = true;
-            this.linkProjectGithub.Text = "Visit UnityLauncher Github";
-            this.linkProjectGithub.UseCompatibleTextRendering = true;
-            this.linkProjectGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkProjectGithub_LinkClicked);
+            this._unityPath.HeaderText = "Path";
+            this._unityPath.MinimumWidth = 300;
+            this._unityPath.Name = "_unityPath";
+            this._unityPath.ReadOnly = true;
+            this._unityPath.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this._unityPath.Width = 300;
+            // 
+            // _unityInstallDate
+            // 
+            this._unityInstallDate.HeaderText = "Installed";
+            this._unityInstallDate.Name = "_unityInstallDate";
+            this._unityInstallDate.ReadOnly = true;
+            this._unityInstallDate.Width = 150;
             // 
             // Form1
             // 
@@ -846,7 +854,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 650);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Hub Edition 18";
+            this.Text = "UnityLauncher - Hubs Edition 18";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
@@ -886,8 +894,6 @@
         private System.Windows.Forms.DataGridView gridUnityList;
         private System.Windows.Forms.Button btnExploreUnity;
         private System.Windows.Forms.Button btnLaunchUnity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _unityVersion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _unityPath;
         private System.Windows.Forms.ListBox lstRootFolders;
         private System.Windows.Forms.Button btnAddUnityFolder;
         private System.Windows.Forms.Button btnRemoveInstallFolder;
@@ -932,6 +938,9 @@
         private System.Windows.Forms.CheckBox chkShowLauncherArgumentsColumn;
         private System.Windows.Forms.LinkLabel linkArgumentsDocs;
         private System.Windows.Forms.LinkLabel linkProjectGithub;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _unityVersion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _unityPath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _unityInstallDate;
     }
 }
 

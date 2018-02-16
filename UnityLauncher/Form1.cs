@@ -262,9 +262,10 @@ namespace UnityLauncher
                                 if (unityList.ContainsKey(unityVersion) == false)
                                 {
                                     unityList.Add(unityVersion, unityExe);
-                                    gridUnityList.Rows.Add(unityVersion, unityExe);
+                                    var dataFolder = Path.Combine(directories[i], "Editor", "Data");
+                                    DateTime? installDate = GetLastModifiedTime(dataFolder);
+                                    gridUnityList.Rows.Add(unityVersion, unityExe, installDate);
                                 }
-                                //Console.WriteLine(unityVersion);
                             } // have unity.exe
                         } // have uninstaller.exe
                     } // got folders
@@ -401,7 +402,7 @@ namespace UnityLauncher
 
         DateTime? GetLastModifiedTime(string path)
         {
-            if (File.Exists(path) == true)
+            if (File.Exists(path) == true || Directory.Exists(path) == true)
             {
                 DateTime modification = File.GetLastWriteTime(path);
                 //return modification.ToShortDateString();
@@ -425,11 +426,14 @@ namespace UnityLauncher
                     Directory.CreateDirectory(assetsFolder);
                 }
 
-                // check for crashed backup scene first
-                var cancelLaunch = CheckCrashBackupScene(projectPath);
-                if (cancelLaunch == true)
+                // when opening project, check for crashed backup scene first
+                if (openProject == true)
                 {
-                    return;
+                    var cancelLaunch = CheckCrashBackupScene(projectPath);
+                    if (cancelLaunch == true)
+                    {
+                        return;
+                    }
                 }
 
                 if (HaveExactVersionInstalled(version) == true)
@@ -1272,7 +1276,6 @@ namespace UnityLauncher
             string path = GetSelectedRowData("_path");
             if (string.IsNullOrEmpty(path)) return;
 
-
             string arguments = GetSelectedRowData("_launchArguments");
 
             // check folder first
@@ -1295,7 +1298,10 @@ namespace UnityLauncher
             {
                 SetStatus("File error: " + exception.Message);
             }
-            // TODO: keep current row selected
+
+            // select the same row again (dont move to next), doesnt work here
+            //            var previousRow = gridRecent.CurrentCell.RowIndex;
+            //            gridRecent.Rows[previousRow].Selected = true;
         }
 
         // returns currently selected rows path string

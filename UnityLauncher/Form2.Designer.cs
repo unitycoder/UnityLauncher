@@ -99,7 +99,7 @@
             this.btn_GoInstallMissingVersion.Name = "btn_GoInstallMissingVersion";
             this.btn_GoInstallMissingVersion.Size = new System.Drawing.Size(111, 22);
             this.btn_GoInstallMissingVersion.TabIndex = 6;
-            this.btn_GoInstallMissingVersion.Text = "Download && Install";
+            this.btn_GoInstallMissingVersion.Text = "Download";
             this.btn_GoInstallMissingVersion.UseVisualStyleBackColor = true;
             this.btn_GoInstallMissingVersion.Click += new System.EventHandler(this.btn_GoInstallMissingVersion_Click);
             // 

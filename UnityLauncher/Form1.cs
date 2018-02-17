@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using UnityLauncherTools;
 
 namespace UnityLauncher
 {
@@ -33,19 +34,18 @@ namespace UnityLauncher
         void Start()
         {
             SetStatus("Initializing..");
-
             // check installations folder
-            var root = GetRootFolder();
+            var root = GetUnityInstallationsRootFolder();
             if (root == null || root.Length == 0)
             {
                 SetStatus("Missing root folder..");
-                AddRootFolder();
+                AddUnityInstallationRootFolder();
                 SetStatus("Ready");
             }
 
             LoadSettings();
 
-            // scan installed unitys, TODO: could cache results, at least fileinfo's
+            // scan installed unitys
             bool foundedUnitys = ScanUnityInstallations();
             if (foundedUnitys == false)
             {
@@ -65,7 +65,7 @@ namespace UnityLauncher
                     SetStatus("Launching from commandline..");
 
                     var projectPathArgument = args[2];
-                    var version = GetProjectVersion(projectPathArgument);
+                    var version = Tools.GetProjectVersion(projectPathArgument);
 
                     // try launching it
                     LaunchProject(projectPathArgument, version, true);
@@ -89,6 +89,7 @@ namespace UnityLauncher
             // preselect grid
             gridRecent.Select();
 
+            // subscribe to columnwidthchange event, so that can save column sizes
             this.gridRecent.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.gridRecent_ColumnWidthChanged);
         }
 
@@ -140,85 +141,7 @@ namespace UnityLauncher
         }
 
 
-        /// <summary>
-        /// parse project version from ProjectSettings data
-        /// </summary>
-        /// <param name="path">project base path</param>
-        /// <returns></returns>
-        string GetProjectVersion(string path)
-        {
-            var version = "";
-            if (Directory.Exists(Path.Combine(path, "ProjectSettings")))
-            {
-                var versionPath = Path.Combine(path, "ProjectSettings", "ProjectVersion.txt");
-                if (File.Exists(versionPath) == true) // 5.x and later
-                {
-                    var data = File.ReadAllLines(versionPath);
-
-                    if (data != null && data.Length > 0)
-                    {
-                        var dd = data[0];
-                        // check first line
-                        if (dd.Contains("m_EditorVersion"))
-                        {
-                            var t = dd.Split(new string[] { "m_EditorVersion: " }, StringSplitOptions.None);
-                            if (t != null && t.Length > 0)
-                            {
-                                version = t[1].Trim();
-                            }
-                            else
-                            {
-                                throw new InvalidDataException("invalid version data:" + data);
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Cannot find m_EditorVersion in '" + versionPath + "'.\n\nFile Content:\n" + string.Join("\n", data).ToString());
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid projectversion data found in '" + versionPath + "'.\n\nFile Content:\n" + string.Join("\n", data).ToString());
-                    }
-                }
-                else // maybe its 4.x
-                {
-                    versionPath = Path.Combine(path, "ProjectSettings", "ProjectSettings.asset");
-                    if (File.Exists(versionPath) == true)
-                    {
-                        // first try if its ascii format
-                        var data = File.ReadAllLines(versionPath);
-                        if (data != null && data.Length > 0 && data[0].IndexOf("YAML") > -1)
-                        {
-                            // in text format, then we need to try library file instead
-                            var newVersionPath = Path.Combine(path, "Library", "AnnotationManager");
-                            if (File.Exists(versionPath) == true)
-                            {
-                                versionPath = newVersionPath;
-                            }
-                        }
-
-                        // try to get version data out from binary asset
-                        var binData = File.ReadAllBytes(versionPath);
-                        if (binData != null && binData.Length > 0)
-                        {
-                            int dataLen = 7;
-                            int startIndex = 20;
-                            var bytes = new byte[dataLen];
-                            for (int i = 0; i < dataLen; i++)
-                            {
-                                bytes[i] = binData[startIndex + i];
-                            }
-                            version = Encoding.UTF8.GetString(bytes);
-                        }
-                    }
-                }
-            }
-            return version;
-        }
-
-
-        void AddRootFolder()
+        void AddUnityInstallationRootFolder()
         {
             folderBrowserDialog1.Description = "Select root folder";
             var d = folderBrowserDialog1.ShowDialog();
@@ -245,7 +168,6 @@ namespace UnityLauncher
             // iterate all root folders
             foreach (string root in lstRootFolders.Items)
             {
-                //                var root = GetRootFolder();
                 if (String.IsNullOrWhiteSpace(root) == false && Directory.Exists(root) == true)
                 {
                     // parse all folders here, and search for unity editor files
@@ -258,12 +180,12 @@ namespace UnityLauncher
                             var unityExe = Path.Combine(directories[i], "Editor", "Unity.exe");
                             if (File.Exists(uninstallExe) == true)
                             {
-                                var unityVersion = GetUnityVersion(uninstallExe).Replace("Unity", "").Trim();
+                                var unityVersion = Tools.GetFileVersionData(uninstallExe).Replace("Unity", "").Trim();
                                 if (unityList.ContainsKey(unityVersion) == false)
                                 {
                                     unityList.Add(unityVersion, unityExe);
                                     var dataFolder = Path.Combine(directories[i], "Editor", "Data");
-                                    DateTime? installDate = GetLastModifiedTime(dataFolder);
+                                    DateTime? installDate = Tools.GetLastModifiedTime(dataFolder);
                                     gridUnityList.Rows.Add(unityVersion, unityExe, installDate);
                                 }
                             } // have unity.exe
@@ -281,13 +203,6 @@ namespace UnityLauncher
             return unityList.Count > 0;
         }
 
-
-        private string GetUnityVersion(string path)
-        {
-            // todo check path
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(path);
-            return fvi.ProductName.Replace("(64-bit)", "").Trim();
-        }
 
         void FilterRecentProject(object sender, EventArgs e)
         {
@@ -373,23 +288,23 @@ namespace UnityLauncher
                         }
 
                         // get last modified date
-                        DateTime? lastUpdated = GetLastModifiedTime(csprojFile);
+                        DateTime? lastUpdated = Tools.GetLastModifiedTime(csprojFile);
 
                         // get project version
-                        string projectVersion = GetProjectVersion(projectPath);
+                        string projectVersion = Tools.GetProjectVersion(projectPath);
 
                         // get custom launch arguments, only if column in enabled
                         string customArgs = "";
                         if (chkShowLauncherArgumentsColumn.Checked == true)
                         {
-                            customArgs = ReadCustomLaunchArguments(projectPath);
+                            customArgs = Tools.ReadCustomLaunchArguments(projectPath, launcherArgumentsFile);
                         }
 
                         // get git branchinfo, only if column in enabled
                         string gitBranch = "";
                         if (chkShowGitBranchColumn.Checked == true)
                         {
-                            gitBranch = ReadGitBranchInfo(projectPath);
+                            gitBranch = Tools.ReadGitBranchInfo(projectPath);
                         }
 
                         gridRecent.Rows.Add(projectName, projectVersion, projectPath, lastUpdated, customArgs, gitBranch);
@@ -398,20 +313,6 @@ namespace UnityLauncher
                 }
             }
             SetStatus("Ready");
-        }
-
-        DateTime? GetLastModifiedTime(string path)
-        {
-            if (File.Exists(path) == true || Directory.Exists(path) == true)
-            {
-                DateTime modification = File.GetLastWriteTime(path);
-                //return modification.ToShortDateString();
-                return modification;
-            }
-            else
-            {
-                return null;
-            }
         }
 
         void LaunchProject(string projectPath, string version, bool openProject = true)
@@ -543,41 +444,16 @@ namespace UnityLauncher
         }
 
         /// <summary>
-        /// downloads unity installer and launches it
+        /// launches browser to download installer
         /// </summary>
-        /// <param name="url"></param>
-        void DownloadAndRun(string url)
+        /// <param name="url">full url to installer</param>
+        void DownloadInBrowser(string url)
         {
             string exeURL = GetDownloadUrlForUnityVersion(url);
-
             if (string.IsNullOrEmpty(exeURL) == false)
             {
-                SetStatus("Download installer: " + exeURL);
-                // download temp file
-                using (WebClient downloader = new WebClient())
-                {
-                    var f = GetFileNameFromUrl(exeURL);
-                    FileInfo fileInfo = new FileInfo(f);
-                    downloader.DownloadFile(exeURL, f);
-                    if (File.Exists(fileInfo.FullName))
-                    {
-                        SetStatus("Running installer");
-                        try
-                        {
-                            Process myProcess = new Process();
-                            myProcess.StartInfo.FileName = fileInfo.FullName;
-                            myProcess.Start();
-                            myProcess.WaitForExit();
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex);
-                            SetStatus("Failed running installer");
-                        }
-
-                    }
-                }
-                SetStatus("Finished Running installer");
+                SetStatus("Download installer in browser: " + exeURL);
+                Process.Start(exeURL);
             }
             else // not found
             {
@@ -587,22 +463,10 @@ namespace UnityLauncher
         }
 
         /// <summary>
-        /// parse unity installer filename from url
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        string GetFileNameFromUrl(string url)
-        {
-            var uri = new Uri(url);
-            var filename = uri.Segments.Last();
-            return filename;
-        }
-
-        /// <summary>
         /// get rootfolder from settings, default is c:\program files\
         /// </summary>
         /// <returns></returns>
-        string[] GetRootFolder()
+        string[] GetUnityInstallationsRootFolder()
         {
             string[] rootFolders = null;
             try
@@ -613,28 +477,11 @@ namespace UnityLauncher
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 // this doesnt work?
                 Properties.Settings.Default.Reset();
                 Properties.Settings.Default.Save();
             }
             return rootFolders;
-        }
-
-        /// <summary>
-        /// launch windows explorer to selected project folder
-        /// </summary>
-        /// <param name="folder"></param>
-        void LaunchExplorer(string folder)
-        {
-            if (Directory.Exists(folder) == true)
-            {
-                Process.Start(folder);
-            }
-            else
-            {
-                SetStatus("Error> Directory not found: " + folder);
-            }
         }
 
         void SetStatus(string msg)
@@ -658,7 +505,7 @@ namespace UnityLauncher
             {
                 SetStatus("Launching project..");
                 var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
-                var version = GetProjectVersion(projectPath);
+                var version = Tools.GetProjectVersion(projectPath);
                 LaunchProject(projectPath, version, openProject);
                 SetStatus("Ready");
             }
@@ -688,26 +535,6 @@ namespace UnityLauncher
             }
         }
 
-
-        string GetUnityReleaseURL(string version)
-        {
-            string url = "";
-            if (version.Contains("f")) // archived
-            {
-                version = Regex.Replace(version, @"f.", "", RegexOptions.IgnoreCase);
-                url = "https://unity3d.com/unity/whats-new/unity-" + version;
-            }
-            if (version.Contains("p")) // patch version
-            {
-                url = "https://unity3d.com/unity/qa/patch-releases/" + version;
-            }
-            if (version.Contains("b")) // beta version
-            {
-                url = "https://unity3d.com/unity/beta/unity" + version;
-            }
-            return url;
-        }
-
         void AddPackageFolder()
         {
             folderBrowserDialog1.Description = "Select package folder";
@@ -722,59 +549,12 @@ namespace UnityLauncher
             }
         }
 
-        void AddContextMenuRegistry()
-        {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(contextRegRoot, true);
-            if (key != null)
-            {
-                var appName = "UnityLauncher";
-                key.CreateSubKey(appName);
-
-                key = key.OpenSubKey(appName, true);
-                key.SetValue("", "Open with UnityLauncher");
-                key.SetValue("Icon", "\"" + Application.ExecutablePath + "\"");
-
-                key.CreateSubKey("command");
-                key = key.OpenSubKey("command", true);
-                var executeString = "\"" + Application.ExecutablePath + "\"";
-                executeString += " -projectPath \"%V\"";
-                key.SetValue("", executeString);
-                SetStatus("Added context menu registry items");
-            }
-            else
-            {
-                SetStatus("Error> Cannot find registry key: " + contextRegRoot);
-            }
-        }
-
-        void RemoveContextMenuRegistry()
-        {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(contextRegRoot, true);
-            if (key != null)
-            {
-                var appName = "UnityLauncher";
-                RegistryKey appKey = Registry.CurrentUser.OpenSubKey(contextRegRoot + "\\" + appName, false);
-                if (appKey != null)
-                {
-                    key.DeleteSubKeyTree(appName);
-                    SetStatus("Removed context menu registry items");
-                }
-                else
-                {
-                    SetStatus("Nothing to uninstall..");
-                }
-            }
-            else
-            {
-                SetStatus("Error> Cannot find registry key: " + contextRegRoot);
-            }
-        }
 
         #region Buttons and UI events
 
         private void btnRemoveRegister_Click(object sender, EventArgs e)
         {
-            RemoveContextMenuRegistry();
+            Tools.RemoveContextMenuRegistry(contextRegRoot);
         }
 
         private void chkMinimizeToTaskbar_CheckedChanged(object sender, EventArgs e)
@@ -804,7 +584,14 @@ namespace UnityLauncher
             if (selected > -1)
             {
                 var version = gridUnityList.Rows[selected].Cells["_unityVersion"].Value.ToString();
-                OpenReleaseNotes(version);
+                if (Tools.OpenReleaseNotes(version) == true)
+                {
+                    SetStatus("Opening release notes for version " + version);
+                }
+                else
+                {
+                    SetStatus("Failed opening Release Notes URL for version " + version);
+                }
             }
         }
 
@@ -819,13 +606,16 @@ namespace UnityLauncher
             if (selected > -1)
             {
                 var unityPath = Path.GetDirectoryName(gridUnityList.Rows[selected].Cells["_unityPath"].Value.ToString());
-                LaunchExplorer(unityPath);
+                if (Tools.LaunchExplorer(unityPath) == false)
+                {
+                    SetStatus("Error> Directory not found: " + unityPath);
+                }
             }
         }
 
         private void btnAddUnityFolder_Click(object sender, EventArgs e)
         {
-            AddRootFolder();
+            AddUnityInstallationRootFolder();
             ScanUnityInstallations();
         }
 
@@ -932,7 +722,7 @@ namespace UnityLauncher
         // set basefolder of all unity installations
         private void btn_setinstallfolder_Click(object sender, EventArgs e)
         {
-            AddRootFolder();
+            AddUnityInstallationRootFolder();
             ScanUnityInstallations();
             UpdateRecentProjectsList();
         }
@@ -973,7 +763,11 @@ namespace UnityLauncher
             var selected = gridRecent.CurrentCell.RowIndex;
             if (selected > -1)
             {
-                LaunchExplorer(gridRecent.Rows[selected].Cells["_path"].Value.ToString());
+                string folder = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
+                if (Tools.LaunchExplorer(folder) == false)
+                {
+                    SetStatus("Error> Directory not found: " + folder);
+                }
             }
         }
 
@@ -983,8 +777,11 @@ namespace UnityLauncher
             //Console.WriteLine(lstPackageFolders.Items[selected].ToString());
             if (selected > -1)
             {
-                var path = lstPackageFolders.Items[selected].ToString();
-                LaunchExplorer(path);
+                string folder = lstPackageFolders.Items[selected].ToString();
+                if (Tools.LaunchExplorer(folder) == false)
+                {
+                    SetStatus("Error> Directory not found: " + folder);
+                }
             }
         }
 
@@ -1004,7 +801,7 @@ namespace UnityLauncher
 
         private void btnAddRegister_Click(object sender, EventArgs e)
         {
-            AddContextMenuRegistry();
+            Tools.AddContextMenuRegistry(contextRegRoot);
         }
 
         private void ChkQuitAfterOpen_CheckedChanged(object sender, EventArgs e)
@@ -1032,10 +829,12 @@ namespace UnityLauncher
         private void btnOpenLogFolder_Click(object sender, EventArgs e)
         {
             var logfolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Unity", "Editor");
-            //Console.WriteLine(logfolder);
             if (Directory.Exists(logfolder) == true)
             {
-                LaunchExplorer(logfolder);
+                if (Tools.LaunchExplorer(logfolder) == false)
+                {
+                    SetStatus("Error> Directory not found: " + logfolder);
+                }
             }
         }
 
@@ -1065,7 +864,7 @@ namespace UnityLauncher
             if (selected != null && selected > -1)
             {
                 var version = gridUnityUpdates.Rows[(int)selected].Cells["_UnityUpdateVersion"].Value.ToString();
-                OpenReleaseNotes(version);
+                Tools.OpenReleaseNotes(version);
             }
         }
 
@@ -1107,168 +906,17 @@ namespace UnityLauncher
             if (chkShowGitBranchColumn.Checked == true) UpdateRecentProjectsList();
         }
 
+
         private void linkArgumentsDocs_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            OpenURL("https://docs.unity3d.com/Manual/CommandLineArguments.html");
+            Tools.OpenURL("https://docs.unity3d.com/Manual/CommandLineArguments.html");
         }
 
         private void linkProjectGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            OpenURL("https://github.com/unitycoder/UnityLauncher/releases");
+            Tools.OpenURL("https://github.com/unitycoder/UnityLauncher/releases");
         }
 
-        #endregion UI events
-
-
-
-        void OpenReleaseNotes(string version)
-        {
-            SetStatus("Opening release notes for version " + version);
-            var url = GetUnityReleaseURL(version);
-            if (string.IsNullOrEmpty(url) == false)
-            {
-                Process.Start(url);
-            }
-            else
-            {
-                SetStatus("Failed opening Release Notes URL for version " + version);
-            }
-        }
-
-        public static string FindNearestVersion(string version, List<string> allAvailable)
-        {
-            if (version.Contains("2017"))
-            {
-                return FindNearestVersionFromSimilarVersions(version, allAvailable.Where(x => x.Contains("2017")));
-            }
-            return FindNearestVersionFromSimilarVersions(version, allAvailable.Where(x => !x.Contains("2017")));
-        }
-
-        private static string FindNearestVersionFromSimilarVersions(string version, IEnumerable<string> allAvailable)
-        {
-            Dictionary<string, string> stripped = new Dictionary<string, string>();
-            var enumerable = allAvailable as string[] ?? allAvailable.ToArray();
-
-            foreach (var t in enumerable)
-            {
-                stripped.Add(new Regex("[a-zA-z]").Replace(t, "."), t);
-            }
-
-            var comparableVersion = new Regex("[a-zA-z]").Replace(version, ".");
-            if (!stripped.ContainsKey(comparableVersion))
-            {
-                stripped.Add(comparableVersion, version);
-            }
-
-            var comparables = stripped.Keys.OrderBy(x => x).ToList();
-            var actualIndex = comparables.IndexOf(comparableVersion);
-
-            if (actualIndex < stripped.Count - 1) return stripped[comparables[actualIndex + 1]];
-            return null;
-        }
-
-        // displays version selector to upgrade project
-        void UpgradeProject()
-        {
-            var selected = gridRecent.CurrentCell.RowIndex;
-            if (selected > -1)
-            {
-                SetStatus("Upgrading project..");
-
-                var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
-                var currentVersion = GetProjectVersion(projectPath);
-
-                if (string.IsNullOrEmpty(currentVersion) == true)
-                {
-                    // TODO no version info available, should handle errors?
-                }
-                else // have version info
-                {
-                    bool haveExactVersion = HaveExactVersionInstalled(currentVersion);
-                    if (haveExactVersion == true)
-                    {
-                        // you already have exact version, are you sure about upgrade?
-                    }
-                }
-                DisplayUpgradeDialog(currentVersion, projectPath, true);
-            }
-        }
-
-        void DisplayUpgradeDialog(string currentVersion, string projectPath, bool launchProject = true)
-        {
-            // display upgrade dialog (version selector)
-            Form2 upgradeDialog = new Form2();
-            Form2.currentVersion = currentVersion;
-
-            // check what user selected
-            var results = upgradeDialog.ShowDialog(this);
-            switch (results)
-            {
-                case DialogResult.Ignore: // view release notes page
-                    OpenReleaseNotes(currentVersion);
-                    // display window again for now..
-                    DisplayUpgradeDialog(currentVersion, projectPath, launchProject);
-                    break;
-                case DialogResult.Cancel: // cancelled
-                    SetStatus("Cancelled project upgrade");
-                    break;
-                case DialogResult.Retry: // download and install missing version
-                    SetStatus("Download and Install missing version " + currentVersion);
-                    string url = GetUnityReleaseURL(currentVersion);
-                    if (string.IsNullOrEmpty(url) == false)
-                    {
-                        DownloadAndRun(url);
-                    }
-                    else
-                    {
-                        SetStatus("Failed getting Unity Installer URL");
-                    }
-                    break;
-                case DialogResult.Yes: // upgrade
-                    SetStatus("Upgrading project to " + Form2.currentVersion);
-                    if (launchProject == true) LaunchProject(projectPath, Form2.currentVersion);
-                    break;
-                default:
-                    Console.WriteLine("Unknown DialogResult: " + results);
-                    break;
-            }
-            upgradeDialog.Close();
-        }
-
-        void FetchListOfUnityUpdates()
-        {
-            if (isDownloadUnityList == true)
-            {
-                SetStatus("We are already downloading..");
-                return;
-            }
-            isDownloadUnityList = true;
-            SetStatus("Downloading list of unity versions..");
-
-            // download list of unity versions
-            using (WebClient webClient = new WebClient())
-            {
-                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(UnityVersionsListDownloaded);
-                var unityVersionsURL = @"http://symbolserver.unity3d.com/000Admin/history.txt";
-                webClient.DownloadStringAsync(new Uri(unityVersionsURL));
-            }
-        }
-
-        private void UnityVersionsListDownloaded(object sender, DownloadStringCompletedEventArgs e)
-        {
-            // TODO check for error..
-            SetStatus("Downloading list of unity versions..Done");
-            isDownloadUnityList = false;
-            // parse to list
-            var unityList = e.Result.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            Array.Reverse(unityList);
-            gridUnityUpdates.Rows.Clear();
-            for (int i = 0, len = unityList.Length; i < len; i++)
-            {
-                var row = unityList[i].Split(',');
-                gridUnityUpdates.Rows.Add(row[3], row[6].Trim('"'));
-            }
-        }
 
         // after editing launch arguments cell
         private void gridRecent_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -1304,6 +952,111 @@ namespace UnityLauncher
             //            gridRecent.Rows[previousRow].Selected = true;
         }
 
+        #endregion UI events
+
+        // displays version selector to upgrade project
+        void UpgradeProject()
+        {
+            var selected = gridRecent.CurrentCell.RowIndex;
+            if (selected > -1)
+            {
+                SetStatus("Upgrading project..");
+
+                var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
+                var currentVersion = Tools.GetProjectVersion(projectPath);
+
+                if (string.IsNullOrEmpty(currentVersion) == true)
+                {
+                    // TODO no version info available, should handle errors?
+                }
+                else // have version info
+                {
+                    bool haveExactVersion = HaveExactVersionInstalled(currentVersion);
+                    if (haveExactVersion == true)
+                    {
+                        // you already have exact version, are you sure about upgrade?
+                    }
+                }
+                DisplayUpgradeDialog(currentVersion, projectPath, true);
+            }
+        }
+
+        void DisplayUpgradeDialog(string currentVersion, string projectPath, bool launchProject = true)
+        {
+            // display upgrade dialog (version selector)
+            Form2 upgradeDialog = new Form2();
+            Form2.currentVersion = currentVersion;
+
+            // check what user selected
+            var results = upgradeDialog.ShowDialog(this);
+            switch (results)
+            {
+                case DialogResult.Ignore: // view release notes page
+                    Tools.OpenReleaseNotes(currentVersion);
+                    // display window again for now..
+                    DisplayUpgradeDialog(currentVersion, projectPath, launchProject);
+                    break;
+                case DialogResult.Cancel: // cancelled
+                    SetStatus("Cancelled project upgrade");
+                    break;
+                case DialogResult.Retry: // download and install missing version
+                    SetStatus("Download and Install missing version " + currentVersion);
+                    string url = Tools.GetUnityReleaseURL(currentVersion);
+                    if (string.IsNullOrEmpty(url) == false)
+                    {
+                        DownloadInBrowser(url);
+                    }
+                    else
+                    {
+                        SetStatus("Failed getting Unity Installer URL");
+                    }
+                    break;
+                case DialogResult.Yes: // upgrade
+                    SetStatus("Upgrading project to " + Form2.currentVersion);
+                    if (launchProject == true) LaunchProject(projectPath, Form2.currentVersion);
+                    break;
+                default:
+                    Console.WriteLine("Unknown DialogResult: " + results);
+                    break;
+            }
+            upgradeDialog.Close();
+        }
+
+        private void FetchListOfUnityUpdates()
+        {
+            if (isDownloadUnityList == true)
+            {
+                SetStatus("We are already downloading..");
+                return;
+            }
+            isDownloadUnityList = true;
+            SetStatus("Downloading list of unity versions..");
+
+            // download list of unity versions
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(UnityVersionsListDownloaded);
+                var unityVersionsURL = @"http://symbolserver.unity3d.com/000Admin/history.txt";
+                webClient.DownloadStringAsync(new Uri(unityVersionsURL));
+            }
+        }
+
+        private void UnityVersionsListDownloaded(object sender, DownloadStringCompletedEventArgs e)
+        {
+            // TODO check for error..
+            SetStatus("Downloading list of unity versions..Done");
+            isDownloadUnityList = false;
+            // parse to list
+            var unityList = e.Result.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            Array.Reverse(unityList);
+            gridUnityUpdates.Rows.Clear();
+            for (int i = 0, len = unityList.Length; i < len; i++)
+            {
+                var row = unityList[i].Split(',');
+                gridUnityUpdates.Rows.Add(row[3], row[6].Trim('"'));
+            }
+        }
+
         // returns currently selected rows path string
         string GetSelectedRowData(string key)
         {
@@ -1314,36 +1067,6 @@ namespace UnityLauncher
                 path = gridRecent.Rows[selected].Cells[key].Value?.ToString();
             }
             return path;
-        }
-
-        string ReadCustomLaunchArguments(string projectPath)
-        {
-            string results = null;
-            string argumentsFile = Path.Combine(projectPath, "ProjectSettings", launcherArgumentsFile);
-            if (File.Exists(argumentsFile) == true)
-            {
-                results = File.ReadAllText(argumentsFile);
-            }
-            return results;
-        }
-
-        string ReadGitBranchInfo(string projectPath)
-        {
-            string results = null;
-            string branchFile = Path.Combine(projectPath, ".git", "HEAD");
-            if (File.Exists(branchFile) == true)
-            {
-                results = File.ReadAllText(branchFile);
-                // get branch only
-                int pos = results.LastIndexOf("/") + 1;
-                results = results.Substring(pos, results.Length - pos);
-            }
-            return results;
-        }
-
-        private void OpenURL(string url)
-        {
-            Process.Start(url);
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UnityLauncherTools;
 
 namespace UnityLauncher
 {
@@ -32,7 +33,7 @@ namespace UnityLauncher
             // show available versions, autoselect nearest one
             if (string.IsNullOrEmpty(currentVersion) == false)
             {
-                string nearestVersion = Form1.FindNearestVersion(currentVersion, Form1.unityList.Keys.ToList());
+                string nearestVersion = Tools.FindNearestVersion(currentVersion, Form1.unityList.Keys.ToList());
                 //Console.WriteLine("nearest:" + nearestVersion);
 
                 // preselect most likely version

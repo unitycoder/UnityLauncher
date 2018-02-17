@@ -50,6 +50,9 @@
             this.btnExploreUnity = new System.Windows.Forms.Button();
             this.btnLaunchUnity = new System.Windows.Forms.Button();
             this.gridUnityList = new System.Windows.Forms.DataGridView();
+            this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._unityInstallDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPackages = new System.Windows.Forms.TabPage();
             this.btnAddAssetStoreFolder = new System.Windows.Forms.Button();
             this.btnExplorePackageFolder = new System.Windows.Forms.Button();
@@ -89,9 +92,6 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._unityInstallDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -101,7 +101,6 @@
             this.tabUpdates.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).BeginInit();
             this.tabSettings.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -365,6 +364,30 @@
             this.gridUnityList.StandardTab = true;
             this.gridUnityList.TabIndex = 10;
             this.gridUnityList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.unityGridView_KeyDown);
+            // 
+            // _unityVersion
+            // 
+            this._unityVersion.HeaderText = "Version";
+            this._unityVersion.MinimumWidth = 150;
+            this._unityVersion.Name = "_unityVersion";
+            this._unityVersion.ReadOnly = true;
+            this._unityVersion.Width = 150;
+            // 
+            // _unityPath
+            // 
+            this._unityPath.HeaderText = "Path";
+            this._unityPath.MinimumWidth = 300;
+            this._unityPath.Name = "_unityPath";
+            this._unityPath.ReadOnly = true;
+            this._unityPath.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this._unityPath.Width = 300;
+            // 
+            // _unityInstallDate
+            // 
+            this._unityInstallDate.HeaderText = "Installed";
+            this._unityInstallDate.Name = "_unityInstallDate";
+            this._unityInstallDate.ReadOnly = true;
+            this._unityInstallDate.Width = 150;
             // 
             // tabPackages
             // 
@@ -807,7 +830,7 @@
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(135, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(150, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -816,30 +839,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            // 
-            // _unityVersion
-            // 
-            this._unityVersion.HeaderText = "Version";
-            this._unityVersion.MinimumWidth = 150;
-            this._unityVersion.Name = "_unityVersion";
-            this._unityVersion.ReadOnly = true;
-            this._unityVersion.Width = 150;
-            // 
-            // _unityPath
-            // 
-            this._unityPath.HeaderText = "Path";
-            this._unityPath.MinimumWidth = 300;
-            this._unityPath.Name = "_unityPath";
-            this._unityPath.ReadOnly = true;
-            this._unityPath.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._unityPath.Width = 300;
-            // 
-            // _unityInstallDate
-            // 
-            this._unityInstallDate.HeaderText = "Installed";
-            this._unityInstallDate.Name = "_unityInstallDate";
-            this._unityInstallDate.ReadOnly = true;
-            this._unityInstallDate.Width = 150;
             // 
             // Form1
             // 
@@ -854,7 +853,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 650);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Hubs Edition 18";
+            this.Text = "UnityLauncher - Too Sunny Edition 19";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
@@ -871,8 +870,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

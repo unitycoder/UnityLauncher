@@ -64,24 +64,34 @@ namespace UnityLauncher
             string[] args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 2)
             {
+                // first argument needs to be -projectPath
                 var commandLineArgs = args[1];
                 if (commandLineArgs == "-projectPath")
                 {
                     SetStatus("Launching from commandline..");
 
+                    // path
                     var projectPathArgument = args[2];
+
                     var version = Tools.GetProjectVersion(projectPathArgument);
 
-                    // try launching it
-                    LaunchProject(projectPathArgument, version, true);
+                    // take extra arguments also
+                    var commandLineArguments = "";
+                    for (int i = 3, len = args.Length; i < len; i++)
+                    {
+                        commandLineArguments += " " + args[i];
+                    }
 
-                    SetStatus("Ready");
+                    // try launching it
+                    LaunchProject(projectPathArgument, version, openProject: true, commandLineArguments: commandLineArguments);
 
                     // quit after launch if enabled in settings
                     if (Properties.Settings.Default.closeAfterExplorer == true)
                     {
                         Application.Exit();
                     }
+
+                    SetStatus("Ready");
                 }
                 else
                 {
@@ -329,7 +339,7 @@ namespace UnityLauncher
             SetStatus("Ready");
         }
 
-        void LaunchProject(string projectPath, string version, bool openProject = true)
+        void LaunchProject(string projectPath, string version, bool openProject = true, string commandLineArguments = "")
         {
             if (Directory.Exists(projectPath) == true)
             {
@@ -372,7 +382,7 @@ namespace UnityLauncher
                                 pars += " " + customArguments;
                             }
 
-                            myProcess.StartInfo.Arguments = pars;
+                            myProcess.StartInfo.Arguments = pars + commandLineArguments;
                         }
                         myProcess.Start();
 

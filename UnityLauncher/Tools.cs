@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -323,6 +324,40 @@ namespace UnityLauncherTools
             }
             return result;
         }
+
+        public static string CheckUpdates(string githubReleaseURL, string previousGitRelease)
+        {
+            string result = null;
+            using (WebClient client = new WebClient())
+            {
+                client.Headers.Add("user-agent", "MuskBrowser");
+                string json = client.DownloadString(githubReleaseURL);
+                var arr = json.Split(new string[] { "\"tag_name\":" }, StringSplitOptions.None);
+
+                // have tagname
+                if (arr.Length > 1)
+                {
+                    var arr2 = arr[1].Trim().Split('"');
+                    // have "
+                    if (arr2.Length > 1)
+                    {
+                        var currentlyAvailableLatestReleaseTag = arr2[1];
+                        // compare with this build release version
+                        if (currentlyAvailableLatestReleaseTag != previousGitRelease)
+                        {
+                            result = currentlyAvailableLatestReleaseTag;
+                            Console.WriteLine("update available: [" + currentlyAvailableLatestReleaseTag + "] / [" + previousGitRelease + "]");
+                        }
+                        else
+                        {
+                            Console.WriteLine("no update available: [" + currentlyAvailableLatestReleaseTag + "] / [" + previousGitRelease + "]");
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
 
     }
 }

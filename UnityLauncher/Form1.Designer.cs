@@ -92,6 +92,7 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnCheckUpdates = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -556,6 +557,7 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.btnCheckUpdates);
             this.tabSettings.Controls.Add(this.linkProjectGithub);
             this.tabSettings.Controls.Add(this.linkArgumentsDocs);
             this.tabSettings.Controls.Add(this.chkShowGitBranchColumn);
@@ -588,7 +590,7 @@
             this.linkProjectGithub.AutoSize = true;
             this.linkProjectGithub.LinkArea = new System.Windows.Forms.LinkArea(20, 6);
             this.linkProjectGithub.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
-            this.linkProjectGithub.Location = new System.Drawing.Point(439, 532);
+            this.linkProjectGithub.Location = new System.Drawing.Point(434, 532);
             this.linkProjectGithub.Name = "linkProjectGithub";
             this.linkProjectGithub.Size = new System.Drawing.Size(138, 17);
             this.linkProjectGithub.TabIndex = 39;
@@ -663,9 +665,9 @@
             // btnOpenLogFolder
             // 
             this.btnOpenLogFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenLogFolder.Location = new System.Drawing.Point(435, 285);
+            this.btnOpenLogFolder.Location = new System.Drawing.Point(453, 285);
             this.btnOpenLogFolder.Name = "btnOpenLogFolder";
-            this.btnOpenLogFolder.Size = new System.Drawing.Size(137, 23);
+            this.btnOpenLogFolder.Size = new System.Drawing.Size(119, 23);
             this.btnOpenLogFolder.TabIndex = 32;
             this.btnOpenLogFolder.Text = "Open Editor Log Folder";
             this.btnOpenLogFolder.UseVisualStyleBackColor = true;
@@ -776,7 +778,7 @@
             this.lstRootFolders.FormattingEnabled = true;
             this.lstRootFolders.Location = new System.Drawing.Point(20, 31);
             this.lstRootFolders.Name = "lstRootFolders";
-            this.lstRootFolders.Size = new System.Drawing.Size(552, 186);
+            this.lstRootFolders.Size = new System.Drawing.Size(563, 186);
             this.lstRootFolders.TabIndex = 20;
             // 
             // lbl_unityCount
@@ -784,7 +786,7 @@
             this.lbl_unityCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_unityCount.AutoSize = true;
             this.lbl_unityCount.Enabled = false;
-            this.lbl_unityCount.Location = new System.Drawing.Point(472, 15);
+            this.lbl_unityCount.Location = new System.Drawing.Point(483, 15);
             this.lbl_unityCount.Name = "lbl_unityCount";
             this.lbl_unityCount.Size = new System.Drawing.Size(97, 13);
             this.lbl_unityCount.TabIndex = 18;
@@ -793,9 +795,9 @@
             // btnRefresh
             // 
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.Location = new System.Drawing.Point(435, 223);
+            this.btnRefresh.Location = new System.Drawing.Point(453, 223);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(137, 23);
+            this.btnRefresh.Size = new System.Drawing.Size(119, 23);
             this.btnRefresh.TabIndex = 19;
             this.btnRefresh.Text = "Refresh Unity List";
             this.toolTip1.SetToolTip(this.btnRefresh, "Refresh Unity Installations List");
@@ -825,12 +827,13 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.toolStripStatusLabel1});
             this.statusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(150, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(202, 22);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -839,6 +842,17 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // btnCheckUpdates
+            // 
+            this.btnCheckUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCheckUpdates.Location = new System.Drawing.Point(434, 495);
+            this.btnCheckUpdates.Name = "btnCheckUpdates";
+            this.btnCheckUpdates.Size = new System.Drawing.Size(138, 23);
+            this.btnCheckUpdates.TabIndex = 40;
+            this.btnCheckUpdates.Text = "Check Updates";
+            this.btnCheckUpdates.UseVisualStyleBackColor = true;
+            this.btnCheckUpdates.Click += new System.EventHandler(this.btnCheckUpdates_Click);
             // 
             // Form1
             // 
@@ -938,6 +952,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _unityVersion;
         private System.Windows.Forms.DataGridViewTextBoxColumn _unityPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn _unityInstallDate;
+        private System.Windows.Forms.Button btnCheckUpdates;
     }
 }
 

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -17,8 +18,12 @@ namespace UnityLauncher
     {
         public static Dictionary<string, string> unityList = new Dictionary<string, string>();
         const string contextRegRoot = "Software\\Classes\\Directory\\Background\\shell";
-        bool isDownloadUnityList = false;
         const string launcherArgumentsFile = "LauncherArguments.txt";
+        const string githubReleaseCheckURL = "https://api.github.com/repos/unitycoder/unitylauncher/releases/latest";
+        const string githubReleasesURL = "https://github.com/unitycoder/UnityLauncher/releases";
+
+        bool isDownloadUnityList = false;
+        string previousGitRelease = null;
 
 
         public Form1()
@@ -91,6 +96,15 @@ namespace UnityLauncher
 
             // subscribe to columnwidthchange event, so that can save column sizes
             this.gridRecent.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.gridRecent_ColumnWidthChanged);
+
+
+            // get previous version build info string
+            // this string is release tag for latest release when this app was compiled
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UnityLauncher." + "PreviousVersion.txt"))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                previousGitRelease = reader.ReadToEnd().Trim();
+            }
         }
 
         void LoadSettings()
@@ -952,6 +966,11 @@ namespace UnityLauncher
             //            gridRecent.Rows[previousRow].Selected = true;
         }
 
+        private void btnCheckUpdates_Click(object sender, EventArgs e)
+        {
+            CheckUpdates();
+        }
+
         #endregion UI events
 
         // displays version selector to upgrade project
@@ -1067,6 +1086,24 @@ namespace UnityLauncher
                 path = gridRecent.Rows[selected].Cells[key].Value?.ToString();
             }
             return path;
+        }
+
+        void CheckUpdates()
+        {
+            var result = Tools.CheckUpdates(githubReleaseCheckURL, previousGitRelease);
+            if (string.IsNullOrEmpty(result) == false)
+            {
+                SetStatus("Update available: " + result);
+                DialogResult dialogResult = MessageBox.Show("Update " + result + " is available, open download page?", "UnityLauncher - Check Update", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes) // open download page
+                {
+                    Tools.OpenURL(githubReleasesURL);
+                }
+            }
+            else
+            {
+                SetStatus("No updates available..");
+            }
         }
     }
 }

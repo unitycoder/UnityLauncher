@@ -1,15 +1,17 @@
 # UnityLauncher
 
-Autotically launch projects with correct Unity versions and some extra features to manager your projects and Unity versions!
+Handle all your Unity versions and Projects easily!
 
 # Features
 - Automagically Open Projects with Correct Unity Version
-- Display Recent Projects list with last modified date and Unity version info
+- Display Recent Projects list with last modified date and project version info
 - Quickly Explore Project Folder
 - List installed Unity versions, can easily Run, Explore installation folder, View release notes
 - Download Missing Unity Versions Easily
-- Can be used in commandline `UnityLauncher.exe -projectPath "c:/project/path/"`
+- Can be used from commandline `UnityLauncher.exe -projectPath "c:/project/path/"`
 - Can add custom Explorer context menu item to launch folder as a project: https://github.com/unitycoder/UnityLauncher/wiki/Adding-Explorer-Context-Menu
+- Use custom launcher arguments per project!
+- Show project git branch info
 - List of custom package folders (quicly explore them and then can import packages)
 - Show list of available Unity versions/updates
 

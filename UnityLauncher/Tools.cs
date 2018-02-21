@@ -325,11 +325,18 @@ namespace UnityLauncherTools
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="githubReleaseURL">api to check releases</param>
+        /// <param name="previousGitRelease">embedded previous release version</param>
+        /// <returns>null if no info available, otherwise returns current github release number</returns>
         public static string CheckUpdates(string githubReleaseURL, string previousGitRelease)
         {
             string result = null;
             using (WebClient client = new WebClient())
             {
+                // fetch current release info
                 client.Headers.Add("user-agent", "MuskBrowser");
                 string json = client.DownloadString(githubReleaseURL);
                 var arr = json.Split(new string[] { "\"tag_name\":" }, StringSplitOptions.None);
@@ -342,8 +349,9 @@ namespace UnityLauncherTools
                     if (arr2.Length > 1)
                     {
                         var currentlyAvailableLatestReleaseTag = arr2[1];
-                        // compare with this build release version
-                        if (currentlyAvailableLatestReleaseTag != previousGitRelease)
+                        // compare online version with build in release version, return github version if different from embedded version
+                        if (Math.Abs(float.Parse(currentlyAvailableLatestReleaseTag)-float.Parse(previousGitRelease))>0.1f)
+//                            if (currentlyAvailableLatestReleaseTag != previousGitRelease)
                         {
                             result = currentlyAvailableLatestReleaseTag;
                             Console.WriteLine("update available: [" + currentlyAvailableLatestReleaseTag + "] / [" + previousGitRelease + "]");

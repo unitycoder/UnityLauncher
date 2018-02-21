@@ -19,7 +19,7 @@ namespace UnityLauncher
         public static Dictionary<string, string> unityList = new Dictionary<string, string>();
         const string contextRegRoot = "Software\\Classes\\Directory\\Background\\shell";
         const string launcherArgumentsFile = "LauncherArguments.txt";
-        const string githubReleaseCheckURL = "https://api.github.com/repos/unitycoder/unitylauncher/releases/latest";
+        const string githubReleaseAPICheckURL = "https://api.github.com/repos/unitycoder/unitylauncher/releases/latest";
         const string githubReleasesURL = "https://github.com/unitycoder/UnityLauncher/releases";
 
         bool isDownloadUnityList = false;
@@ -135,6 +135,7 @@ namespace UnityLauncher
             gridRecent.Columns["_gitBranch"].Visible = chkShowGitBranchColumn.Checked;
 
             // update installations folder listbox
+            lstRootFolders.Items.Clear();
             lstRootFolders.Items.AddRange(Properties.Settings.Default.rootFolders.Cast<string>().ToArray());
             // update packages folder listbox
             lstPackageFolders.Items.AddRange(Properties.Settings.Default.packageFolders.Cast<string>().ToArray());
@@ -167,7 +168,7 @@ namespace UnityLauncher
 
         void AddUnityInstallationRootFolder()
         {
-            folderBrowserDialog1.Description = "Select root folder";
+            folderBrowserDialog1.Description = "Select Unity installations root folder";
             var d = folderBrowserDialog1.ShowDialog();
             var newRoot = folderBrowserDialog1.SelectedPath;
 
@@ -363,8 +364,14 @@ namespace UnityLauncher
 
                 if (HaveExactVersionInstalled(version) == true)
                 {
-                    //Console.WriteLine("Opening unity version " + version);
-                    SetStatus("Launching project in unity " + version);
+                    if (openProject == true)
+                    {
+                        SetStatus("Launching project in Unity " + version);
+                    }
+                    else
+                    {
+                        SetStatus("Launching Unity " + version);
+                    }
 
                     try
                     {
@@ -527,7 +534,6 @@ namespace UnityLauncher
             var selected = gridRecent.CurrentCell.RowIndex;
             if (selected > -1)
             {
-                SetStatus("Launching project..");
                 var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
                 var version = Tools.GetProjectVersion(projectPath);
                 LaunchProject(projectPath, version, openProject);
@@ -1100,10 +1106,10 @@ namespace UnityLauncher
 
         void CheckUpdates()
         {
-            var result = Tools.CheckUpdates(githubReleaseCheckURL, previousGitRelease);
+            var result = Tools.CheckUpdates(githubReleaseAPICheckURL, previousGitRelease);
             if (string.IsNullOrEmpty(result) == false)
             {
-                SetStatus("Update available: " + result);
+                SetStatus("Update available: " + result + " - Previous release was:" + previousGitRelease);
                 DialogResult dialogResult = MessageBox.Show("Update " + result + " is available, open download page?", "UnityLauncher - Check Update", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes) // open download page
                 {
@@ -1112,7 +1118,7 @@ namespace UnityLauncher
             }
             else
             {
-                SetStatus("No updates available..");
+                SetStatus("No updates available. Current release is " + previousGitRelease);
             }
         }
     }

@@ -67,6 +67,7 @@
             this._Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._UnityUpdateVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.btnCheckUpdates = new System.Windows.Forms.Button();
             this.linkProjectGithub = new System.Windows.Forms.LinkLabel();
             this.linkArgumentsDocs = new System.Windows.Forms.LinkLabel();
             this.chkShowGitBranchColumn = new System.Windows.Forms.CheckBox();
@@ -92,7 +93,6 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnCheckUpdates = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -102,6 +102,7 @@
             this.tabUpdates.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).BeginInit();
             this.tabSettings.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -584,6 +585,17 @@
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
+            // btnCheckUpdates
+            // 
+            this.btnCheckUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCheckUpdates.Location = new System.Drawing.Point(434, 495);
+            this.btnCheckUpdates.Name = "btnCheckUpdates";
+            this.btnCheckUpdates.Size = new System.Drawing.Size(138, 23);
+            this.btnCheckUpdates.TabIndex = 40;
+            this.btnCheckUpdates.Text = "Check Updates";
+            this.btnCheckUpdates.UseVisualStyleBackColor = true;
+            this.btnCheckUpdates.Click += new System.EventHandler(this.btnCheckUpdates_Click);
+            // 
             // linkProjectGithub
             // 
             this.linkProjectGithub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -843,17 +855,6 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // btnCheckUpdates
-            // 
-            this.btnCheckUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCheckUpdates.Location = new System.Drawing.Point(434, 495);
-            this.btnCheckUpdates.Name = "btnCheckUpdates";
-            this.btnCheckUpdates.Size = new System.Drawing.Size(138, 23);
-            this.btnCheckUpdates.TabIndex = 40;
-            this.btnCheckUpdates.Text = "Check Updates";
-            this.btnCheckUpdates.UseVisualStyleBackColor = true;
-            this.btnCheckUpdates.Click += new System.EventHandler(this.btnCheckUpdates_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -867,7 +868,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 650);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Too Sunny Edition 19";
+            this.Text = "UnityLauncher - \'4 Months To Go\' Edition 20";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
@@ -884,6 +885,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

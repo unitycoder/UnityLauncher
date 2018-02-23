@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UnityLauncherTools
@@ -336,9 +335,19 @@ namespace UnityLauncherTools
             string result = null;
             using (WebClient client = new WebClient())
             {
+                // apparently this is now required..otherwise: "The request was aborted: Could not create SSL/TLS secure channel"
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
                 // fetch current release info
                 client.Headers.Add("user-agent", "MuskBrowser");
                 string json = client.DownloadString(githubReleaseURL);
+
+                if (json.IndexOf('{') != 0)
+                {
+                    // invalid json
+                    return result;
+                }
+
                 var arr = json.Split(new string[] { "\"tag_name\":" }, StringSplitOptions.None);
 
                 // have tagname
@@ -349,9 +358,14 @@ namespace UnityLauncherTools
                     if (arr2.Length > 1)
                     {
                         var currentlyAvailableLatestReleaseTag = arr2[1];
+
                         // compare online version with build in release version, return github version if different from embedded version
-                        if (Math.Abs(float.Parse(currentlyAvailableLatestReleaseTag)-float.Parse(previousGitRelease))>0.1f)
-//                            if (currentlyAvailableLatestReleaseTag != previousGitRelease)
+                        float previous = 0;
+                        float current = 0;
+                        if (float.TryParse(previousGitRelease, out previous) == false) return result;
+                        if (float.TryParse(currentlyAvailableLatestReleaseTag, out current) == false) return result;
+
+                        if (Math.Abs(previous - current) > 0.1f)
                         {
                             result = currentlyAvailableLatestReleaseTag;
                             Console.WriteLine("update available: [" + currentlyAvailableLatestReleaseTag + "] / [" + previousGitRelease + "]");

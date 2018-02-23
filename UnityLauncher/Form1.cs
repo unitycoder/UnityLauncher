@@ -20,10 +20,10 @@ namespace UnityLauncher
         const string contextRegRoot = "Software\\Classes\\Directory\\Background\\shell";
         const string launcherArgumentsFile = "LauncherArguments.txt";
         const string githubReleaseAPICheckURL = "https://api.github.com/repos/unitycoder/unitylauncher/releases/latest";
-        const string githubReleasesURL = "https://github.com/unitycoder/UnityLauncher/releases";
+        const string githubReleasesLinkURL = "https://github.com/unitycoder/UnityLauncher/releases";
 
         bool isDownloadUnityList = false;
-        string previousGitRelease = null;
+        string previousGitRelease = "0";
 
 
         public Form1()
@@ -106,7 +106,6 @@ namespace UnityLauncher
 
             // subscribe to columnwidthchange event, so that can save column sizes
             this.gridRecent.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.gridRecent_ColumnWidthChanged);
-
 
             // get previous version build info string
             // this string is release tag for latest release when this app was compiled
@@ -1113,7 +1112,7 @@ namespace UnityLauncher
                 DialogResult dialogResult = MessageBox.Show("Update " + result + " is available, open download page?", "UnityLauncher - Check Update", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes) // open download page
                 {
-                    Tools.OpenURL(githubReleasesURL);
+                    Tools.OpenURL(githubReleasesLinkURL);
                 }
             }
             else

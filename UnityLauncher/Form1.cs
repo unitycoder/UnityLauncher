@@ -507,6 +507,8 @@ namespace UnityLauncher
             }
             catch (Exception e)
             {
+                MessageBox.Show("Rare Error while checking unity installation folder settings: " + e.Message, "UnityLauncher", MessageBoxButtons.OK);
+
                 // this doesnt work?
                 Properties.Settings.Default.Reset();
                 Properties.Settings.Default.Save();

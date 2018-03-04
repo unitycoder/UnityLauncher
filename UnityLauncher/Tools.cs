@@ -30,15 +30,42 @@ namespace UnityLauncherTools
         public static string ReadGitBranchInfo(string projectPath)
         {
             string results = null;
-            string branchFile = Path.Combine(projectPath, ".git", "HEAD");
-            if (File.Exists(branchFile) == true)
+            DirectoryInfo gitDirectory = FindDir(".git", projectPath);
+            if (gitDirectory != null )
             {
-                results = File.ReadAllText(branchFile);
-                // get branch only
-                int pos = results.LastIndexOf("/") + 1;
-                results = results.Substring(pos, results.Length - pos);
+                string branchFile = Path.Combine(gitDirectory.FullName, "HEAD");
+                if (File.Exists(branchFile))
+                {
+                    results = File.ReadAllText(branchFile);
+                    // get branch only
+                    int pos = results.LastIndexOf("/") + 1;
+                    results = results.Substring(pos, results.Length - pos);
+                }
             }
             return results;
+        }
+
+        /// <summary>
+        /// Searches for a directory beginning with "startPath".
+        /// If the directory is not found, then parent folders are searched until
+        /// either it is found or the root folder has been reached.
+        /// Null is returned if the directory was not found.
+        /// </summary>
+        /// <param name="dirName"></param>
+        /// <param name="startPath"></param>
+        /// <returns></returns>
+        public static DirectoryInfo FindDir(string dirName, string startPath)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(Path.Combine(startPath, dirName));
+            while ( !dirInfo.Exists )
+            {
+                if(dirInfo.Parent.Parent == null )
+                {
+                    return null;
+                }
+                dirInfo = new DirectoryInfo(Path.Combine(dirInfo.Parent.Parent.FullName, dirName));
+            }
+            return dirInfo;
         }
 
         /// <summary>

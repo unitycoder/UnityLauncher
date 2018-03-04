@@ -871,12 +871,21 @@ namespace UnityLauncher
 
         private void gridRecent_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
-            List<int> gridWidths = new List<int>(Properties.Settings.Default.gridColumnWidths);
+            List<int> gridWidths;
+            if (Properties.Settings.Default.gridColumnWidths != null )
+            {
+                gridWidths = new List<int>(Properties.Settings.Default.gridColumnWidths);
+            }
+            else
+            {
+                gridWidths = new List<int>();
+            }
+            
             // restore data grid view widths
             var colum = gridRecent.Columns[0];
             for (int i = 0; i < gridRecent.Columns.Count; ++i)
             {
-                if (Properties.Settings.Default.gridColumnWidths.Length > i)
+                if (Properties.Settings.Default.gridColumnWidths != null && Properties.Settings.Default.gridColumnWidths.Length > i)
                 {
                     gridWidths[i] = gridRecent.Columns[i].Width;
                 }

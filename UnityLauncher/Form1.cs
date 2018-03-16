@@ -284,9 +284,9 @@ namespace UnityLauncher
                         string projectName = "";
 
                         // get project name from full path
-                        if (projectPath.IndexOf(Path.PathSeparator) > -1)
+                        if (projectPath.IndexOf(Path.DirectorySeparatorChar) > -1)
                         {
-                            projectName = projectPath.Substring(projectPath.LastIndexOf(Path.PathSeparator) + 1);
+                            projectName = projectPath.Substring(projectPath.LastIndexOf(Path.DirectorySeparatorChar) + 1);
                         }
                         else if (projectPath.IndexOf(Path.AltDirectorySeparatorChar) > -1)
                         {
@@ -997,6 +997,16 @@ namespace UnityLauncher
             CheckUpdates();
         }
 
+        private void btnRefreshProjectList_Click(object sender, EventArgs e)
+        {
+            UpdateRecentProjectsList();
+        }
+
+        private void btnBrowseForProject_Click(object sender, EventArgs e)
+        {
+            BrowseForExistingProjectFolder();
+        }
+
         #endregion UI events
 
         // displays version selector to upgrade project
@@ -1128,7 +1138,85 @@ namespace UnityLauncher
             }
             else
             {
-                SetStatus("No updates available. Current release is " + previousGitRelease);
+                SetStatus("No updates available. Current release is " + (float.Parse(previousGitRelease)+0.01f));
+            }
+        }
+
+
+
+        void BrowseForExistingProjectFolder()
+        {
+            folderBrowserDialog1.Description = "Select Existing Project Folder";
+            var d = folderBrowserDialog1.ShowDialog();
+            var projectPath = folderBrowserDialog1.SelectedPath;
+            if (String.IsNullOrWhiteSpace(projectPath) == false && Directory.Exists(projectPath) == true)
+            {
+
+                // TODO: remove duplicate code (from UpdateRecentList())
+
+                string projectName = "";
+
+                Console.WriteLine(Path.DirectorySeparatorChar);
+                Console.WriteLine(Path.AltDirectorySeparatorChar);
+
+                // get project name from full path
+                if (projectPath.IndexOf(Path.DirectorySeparatorChar) > -1)
+                {
+                    projectName = projectPath.Substring(projectPath.LastIndexOf(Path.DirectorySeparatorChar) + 1);
+                    Console.WriteLine("1");
+                }
+                else if (projectPath.IndexOf(Path.AltDirectorySeparatorChar) > -1)
+                {
+                    projectName = projectPath.Substring(projectPath.LastIndexOf(Path.AltDirectorySeparatorChar) + 1);
+                    Console.WriteLine("2");
+                }
+                else // no path separator founded
+                {
+                    projectName = projectPath;
+                    Console.WriteLine("3");
+                }
+
+                string csprojFile = Path.Combine(projectPath, projectName + ".csproj");
+
+                // editor only project
+                if (File.Exists(csprojFile) == false)
+                {
+                    csprojFile = Path.Combine(projectPath, projectName + ".Editor.csproj");
+                }
+
+                // maybe 4.x project
+                if (File.Exists(csprojFile) == false)
+                {
+                    csprojFile = Path.Combine(projectPath, "Assembly-CSharp.csproj");
+                }
+
+                // get last modified date
+                DateTime? lastUpdated = Tools.GetLastModifiedTime(csprojFile);
+
+                // get project version
+                string projectVersion = Tools.GetProjectVersion(projectPath);
+
+                // get custom launch arguments, only if column in enabled
+                string customArgs = "";
+                if (chkShowLauncherArgumentsColumn.Checked == true)
+                {
+                    customArgs = Tools.ReadCustomLaunchArguments(projectPath, launcherArgumentsFile);
+                }
+
+                // get git branchinfo, only if column in enabled
+                string gitBranch = "";
+                if (chkShowGitBranchColumn.Checked == true)
+                {
+                    gitBranch = Tools.ReadGitBranchInfo(projectPath);
+                }
+
+                // NOTE: list item will disappear if you dont open the project once..
+
+                // TODO: dont add if not a project??
+
+                gridRecent.Rows.Insert(0, projectName, projectVersion, projectPath, lastUpdated, customArgs, gitBranch);
+                gridRecent.Rows[0].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ? Color.Green : Color.Red;
+                gridRecent.Rows[0].Selected = true;
             }
         }
     }

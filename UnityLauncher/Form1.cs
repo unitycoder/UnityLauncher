@@ -281,6 +281,12 @@ namespace UnityLauncher
                             projectPath = (string)key.GetValue(valueName);
                         }
 
+                        // first check if whole folder exists, if not, skip
+                        if (Directory.Exists(projectPath)==false)
+                        {
+                            continue;
+                        }
+
                         string projectName = "";
 
                         // get project name from full path

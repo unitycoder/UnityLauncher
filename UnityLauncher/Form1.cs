@@ -282,7 +282,7 @@ namespace UnityLauncher
                         }
 
                         // first check if whole folder exists, if not, skip
-                        if (Directory.Exists(projectPath)==false)
+                        if (Directory.Exists(projectPath) == false)
                         {
                             continue;
                         }
@@ -304,6 +304,12 @@ namespace UnityLauncher
                         }
 
                         string csprojFile = Path.Combine(projectPath, projectName + ".csproj");
+
+                        // solution only
+                        if (File.Exists(csprojFile) == false)
+                        {
+                            csprojFile = Path.Combine(projectPath, projectName + ".sln");
+                        }
 
                         // editor only project
                         if (File.Exists(csprojFile) == false)
@@ -878,7 +884,7 @@ namespace UnityLauncher
         private void gridRecent_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
             List<int> gridWidths;
-            if (Properties.Settings.Default.gridColumnWidths != null )
+            if (Properties.Settings.Default.gridColumnWidths != null)
             {
                 gridWidths = new List<int>(Properties.Settings.Default.gridColumnWidths);
             }
@@ -886,7 +892,7 @@ namespace UnityLauncher
             {
                 gridWidths = new List<int>();
             }
-            
+
             // restore data grid view widths
             var colum = gridRecent.Columns[0];
             for (int i = 0; i < gridRecent.Columns.Count; ++i)
@@ -1144,7 +1150,7 @@ namespace UnityLauncher
             }
             else
             {
-                SetStatus("No updates available. Current release is " + (float.Parse(previousGitRelease)+0.01f));
+                SetStatus("No updates available. Current release is " + (float.Parse(previousGitRelease) + 0.01f));
             }
         }
 

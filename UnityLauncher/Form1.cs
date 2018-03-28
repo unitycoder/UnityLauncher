@@ -73,6 +73,12 @@ namespace UnityLauncher
                     // path
                     var projectPathArgument = args[2];
 
+                    // resolve full path if path parameter isn't a rooted path
+                    if (!Path.IsPathRooted(projectPathArgument))
+                    {
+                        projectPathArgument = Directory.GetCurrentDirectory() + projectPathArgument;
+                    }
+
                     var version = Tools.GetProjectVersion(projectPathArgument);
 
                     // take extra arguments also

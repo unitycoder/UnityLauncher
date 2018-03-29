@@ -38,12 +38,12 @@ namespace UnityLauncher
 
         void Start()
         {
-            SetStatus("Initializing..");
+            SetStatus("Initializing ...");
             // check installations folder
             var root = GetUnityInstallationsRootFolder();
             if (root == null || root.Length == 0)
             {
-                SetStatus("Missing root folder..");
+                SetStatus("Missing root folder ...");
                 AddUnityInstallationRootFolder();
                 SetStatus("Ready");
             }
@@ -51,10 +51,10 @@ namespace UnityLauncher
             LoadSettings();
 
             // scan installed unitys
-            bool foundedUnitys = ScanUnityInstallations();
-            if (foundedUnitys == false)
+            bool foundUnitys = ScanUnityInstallations();
+            if (foundUnitys == false)
             {
-                SetStatus("Error> Did not found any Unity installations, try setting correct root folder..");
+                SetStatus("Error> Did not find any Unity installations, try setting correct root folder ...");
                 UpdateRecentProjectsList();
                 tabControl1.SelectedIndex = tabControl1.TabCount - 1; // last tab is settings
                 return;
@@ -68,7 +68,7 @@ namespace UnityLauncher
                 var commandLineArgs = args[1];
                 if (commandLineArgs == "-projectPath")
                 {
-                    SetStatus("Launching from commandline..");
+                    SetStatus("Launching from commandline ...");
 
                     // path
                     var projectPathArgument = args[2];
@@ -181,7 +181,7 @@ namespace UnityLauncher
 
         bool ScanUnityInstallations()
         {
-            SetStatus("Scanning unity installations..");
+            SetStatus("Scanning Unity installations ...");
 
             // dictionary to keep version and path
             unityList.Clear();
@@ -219,18 +219,18 @@ namespace UnityLauncher
             } // all root folders
 
 
-            lbl_unityCount.Text = "Founded " + unityList.Count.ToString() + " versions";
+            lbl_unityCount.Text = "Found " + unityList.Count.ToString() + " versions";
 
             SetStatus("Finished scanning");
 
-            // founded any unity installations?
+            // found any Unity installations?
             return unityList.Count > 0;
         }
 
 
         void FilterRecentProject(object sender, EventArgs e)
         {
-            SetStatus("Filtering recent projects list..");
+            SetStatus("Filtering recent projects list ...");
             foreach (DataGridViewRow recentProject in gridRecent.Rows)
             {
                 if (recentProject.Cells["_project"].Value.ToString().IndexOf(tbSearchBar.Text, StringComparison.OrdinalIgnoreCase) > -1)
@@ -249,7 +249,7 @@ namespace UnityLauncher
         /// </summary>
         void UpdateRecentProjectsList()
         {
-            SetStatus("Updating recent projects list..");
+            SetStatus("Updating recent projects list ...");
 
             gridRecent.Rows.Clear();
 
@@ -298,7 +298,7 @@ namespace UnityLauncher
                         {
                             projectName = projectPath.Substring(projectPath.LastIndexOf(Path.AltDirectorySeparatorChar) + 1);
                         }
-                        else // no path separator founded
+                        else // no path separator found
                         {
                             projectName = projectPath;
                         }
@@ -416,13 +416,13 @@ namespace UnityLauncher
                 }
                 else // we dont have this version installed (or no version info available)
                 {
-                    SetStatus("Missing unity version: " + version);
+                    SetStatus("Missing Unity version: " + version);
                     DisplayUpgradeDialog(version, projectPath);
                 }
             }
             else // given path doesnt exists, strange
             {
-                SetStatus("Invalid Path: " + projectPath);
+                SetStatus("Invalid path: " + projectPath);
             }
         }
 
@@ -432,7 +432,7 @@ namespace UnityLauncher
             var recoveryFile = Path.Combine(projectPath, "Temp", "__Backupscenes", "0.backup");
             if (File.Exists(recoveryFile))
             {
-                DialogResult dialogResult = MessageBox.Show("Crash recovery scene founded, do you want to copy it into Assets/_Recovery/-folder?", "UnityLauncher - Scene Recovery", MessageBoxButtons.YesNoCancel);
+                DialogResult dialogResult = MessageBox.Show("Crash recovery scene found, do you want to copy it into Assets/_Recovery/-folder?", "UnityLauncher - Scene Recovery", MessageBoxButtons.YesNoCancel);
                 if (dialogResult == DialogResult.Yes) // restore
                 {
                     var restoreFolder = Path.Combine(projectPath, "Assets", "_Recovery");
@@ -453,7 +453,7 @@ namespace UnityLauncher
                         cancelRunningUnity = true;
                     }
                 }
-                else if (dialogResult == DialogResult.Cancel) // dont do restore, but run unity
+                else if (dialogResult == DialogResult.Cancel) // dont do restore, but run Unity
                 {
                     cancelRunningUnity = true;
                 }
@@ -461,7 +461,7 @@ namespace UnityLauncher
             return cancelRunningUnity;
         }
 
-        // parse unity installer exe from release page
+        // parse Unity installer exe from release page
         // thanks to https://github.com/softfruit
         string GetDownloadUrlForUnityVersion(string releaseUrl)
         {
@@ -479,7 +479,7 @@ namespace UnityLauncher
                 }
                 else
                 {
-                    SetStatus("Cannot find UnityDownloadAssistant.exe for this version..");
+                    SetStatus("Cannot find UnityDownloadAssistant.exe for this version.");
                 }
             }
             return url;
@@ -499,7 +499,7 @@ namespace UnityLauncher
             }
             else // not found
             {
-                SetStatus("Error> Cannot find installer exe.. opening website instead");
+                SetStatus("Error> Cannot find installer executable ... opening website instead");
                 Process.Start(url + "#installer-exe-not-found");
             }
         }
@@ -519,7 +519,7 @@ namespace UnityLauncher
             }
             catch (Exception e)
             {
-                MessageBox.Show("Rare Error while checking unity installation folder settings: " + e.Message, "UnityLauncher", MessageBoxButtons.OK);
+                MessageBox.Show("Rare error while checking Unity installation folder settings: " + e.Message, "UnityLauncher", MessageBoxButtons.OK);
 
                 // this doesnt work?
                 Properties.Settings.Default.Reset();
@@ -682,11 +682,11 @@ namespace UnityLauncher
         {
             switch (e.KeyCode)
             {
-                case Keys.Return: // launch selected unity
+                case Keys.Return: // launch selected Unity
                     e.SuppressKeyPress = true;
                     LaunchSelectedUnity();
                     break;
-                case Keys.F5: // refresh installed unitys list
+                case Keys.F5: // refresh installed Unity versions list
                     ScanUnityInstallations();
                     break;
                 default:
@@ -762,7 +762,7 @@ namespace UnityLauncher
             }
         }
 
-        // set basefolder of all unity installations
+        // set basefolder of all Unity installations
         private void btn_setinstallfolder_Click(object sender, EventArgs e)
         {
             AddUnityInstallationRootFolder();
@@ -922,7 +922,7 @@ namespace UnityLauncher
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // if enter Updates tab, then automatically fetch list of unity versions if list is empty (not fetched)
+            // if enter Updates tab, then automatically fetch list of Unity versions if list is empty (not fetched)
             if (((TabControl)sender).SelectedIndex == 3) // FIXME: fixed index 3 for this tab..
             {
                 if (gridUnityUpdates.Rows.Count == 0)
@@ -1027,7 +1027,7 @@ namespace UnityLauncher
             var selected = gridRecent.CurrentCell.RowIndex;
             if (selected > -1)
             {
-                SetStatus("Upgrading project..");
+                SetStatus("Upgrading project ...");
 
                 var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
                 var currentVersion = Tools.GetProjectVersion(projectPath);
@@ -1067,7 +1067,7 @@ namespace UnityLauncher
                     SetStatus("Cancelled project upgrade");
                     break;
                 case DialogResult.Retry: // download and install missing version
-                    SetStatus("Download and Install missing version " + currentVersion);
+                    SetStatus("Download and install missing version " + currentVersion);
                     string url = Tools.GetUnityReleaseURL(currentVersion);
                     if (string.IsNullOrEmpty(url) == false)
                     {
@@ -1093,13 +1093,13 @@ namespace UnityLauncher
         {
             if (isDownloadUnityList == true)
             {
-                SetStatus("We are already downloading..");
+                SetStatus("We are already downloading ...");
                 return;
             }
             isDownloadUnityList = true;
-            SetStatus("Downloading list of unity versions..");
+            SetStatus("Downloading list of Unity versions ...");
 
-            // download list of unity versions
+            // download list of Unity versions
             using (WebClient webClient = new WebClient())
             {
                 webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(UnityVersionsListDownloaded);
@@ -1111,7 +1111,7 @@ namespace UnityLauncher
         private void UnityVersionsListDownloaded(object sender, DownloadStringCompletedEventArgs e)
         {
             // TODO check for error..
-            SetStatus("Downloading list of unity versions..Done");
+            SetStatus("Downloading list of Unity versions ... done");
             isDownloadUnityList = false;
             // parse to list
             var unityList = e.Result.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
@@ -1158,7 +1158,7 @@ namespace UnityLauncher
 
         void BrowseForExistingProjectFolder()
         {
-            folderBrowserDialog1.Description = "Select Existing Project Folder";
+            folderBrowserDialog1.Description = "Select existing project folder";
             var d = folderBrowserDialog1.ShowDialog();
             var projectPath = folderBrowserDialog1.SelectedPath;
             if (String.IsNullOrWhiteSpace(projectPath) == false && Directory.Exists(projectPath) == true)
@@ -1182,7 +1182,7 @@ namespace UnityLauncher
                     projectName = projectPath.Substring(projectPath.LastIndexOf(Path.AltDirectorySeparatorChar) + 1);
                     Console.WriteLine("2");
                 }
-                else // no path separator founded
+                else // no path separator found
                 {
                     projectName = projectPath;
                     Console.WriteLine("3");

@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProjects = new System.Windows.Forms.TabPage();
+            this.btnBrowseForProject = new System.Windows.Forms.Button();
+            this.btnRefreshProjectList = new System.Windows.Forms.Button();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
             this.btnUpgradeProject = new System.Windows.Forms.Button();
             this.btnRunUnityOnly = new System.Windows.Forms.Button();
@@ -93,8 +95,6 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnRefreshProjectList = new System.Windows.Forms.Button();
-            this.btnBrowseForProject = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -140,6 +140,32 @@
             this.tabProjects.TabIndex = 0;
             this.tabProjects.Text = "Projects";
             this.tabProjects.UseVisualStyleBackColor = true;
+            // 
+            // btnBrowseForProject
+            // 
+            this.btnBrowseForProject.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowseForProject.Location = new System.Drawing.Point(469, 3);
+            this.btnBrowseForProject.Name = "btnBrowseForProject";
+            this.btnBrowseForProject.Size = new System.Drawing.Size(80, 23);
+            this.btnBrowseForProject.TabIndex = 23;
+            this.btnBrowseForProject.Text = "+ Add Project";
+            this.toolTip1.SetToolTip(this.btnBrowseForProject, "Browse for a Project");
+            this.btnBrowseForProject.UseVisualStyleBackColor = true;
+            this.btnBrowseForProject.Click += new System.EventHandler(this.btnBrowseForProject_Click);
+            // 
+            // btnRefreshProjectList
+            // 
+            this.btnRefreshProjectList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRefreshProjectList.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRefreshProjectList.Location = new System.Drawing.Point(555, 3);
+            this.btnRefreshProjectList.Name = "btnRefreshProjectList";
+            this.btnRefreshProjectList.Size = new System.Drawing.Size(22, 23);
+            this.btnRefreshProjectList.TabIndex = 22;
+            this.btnRefreshProjectList.Text = "⟳";
+            this.toolTip1.SetToolTip(this.btnRefreshProjectList, "Refresh Unity Installations List");
+            this.btnRefreshProjectList.UseCompatibleTextRendering = true;
+            this.btnRefreshProjectList.UseVisualStyleBackColor = true;
+            this.btnRefreshProjectList.Click += new System.EventHandler(this.btnRefreshProjectList_Click);
             // 
             // tbSearchBar
             // 
@@ -284,7 +310,7 @@
             this.tabUnitys.Name = "tabUnitys";
             this.tabUnitys.Size = new System.Drawing.Size(580, 549);
             this.tabUnitys.TabIndex = 1;
-            this.tabUnitys.Text = "Unity\'s";
+            this.tabUnitys.Text = "Unitys";
             this.tabUnitys.UseVisualStyleBackColor = true;
             // 
             // btn_refreshUnityList
@@ -594,7 +620,7 @@
             this.btnCheckUpdates.Name = "btnCheckUpdates";
             this.btnCheckUpdates.Size = new System.Drawing.Size(138, 23);
             this.btnCheckUpdates.TabIndex = 40;
-            this.btnCheckUpdates.Text = "Check Updates";
+            this.btnCheckUpdates.Text = "Check for Updates";
             this.btnCheckUpdates.UseVisualStyleBackColor = true;
             this.btnCheckUpdates.Click += new System.EventHandler(this.btnCheckUpdates_Click);
             // 
@@ -717,7 +743,7 @@
             this.btnRemoveRegister.Name = "btnRemoveRegister";
             this.btnRemoveRegister.Size = new System.Drawing.Size(64, 23);
             this.btnRemoveRegister.TabIndex = 29;
-            this.btnRemoveRegister.Text = "uninstall";
+            this.btnRemoveRegister.Text = "Uninstall";
             this.btnRemoveRegister.UseVisualStyleBackColor = true;
             this.btnRemoveRegister.Click += new System.EventHandler(this.btnRemoveRegister_Click);
             // 
@@ -861,32 +887,6 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(550, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnRefreshProjectList
-            // 
-            this.btnRefreshProjectList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefreshProjectList.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRefreshProjectList.Location = new System.Drawing.Point(555, 3);
-            this.btnRefreshProjectList.Name = "btnRefreshProjectList";
-            this.btnRefreshProjectList.Size = new System.Drawing.Size(22, 23);
-            this.btnRefreshProjectList.TabIndex = 22;
-            this.btnRefreshProjectList.Text = "⟳";
-            this.toolTip1.SetToolTip(this.btnRefreshProjectList, "Refresh Unity Installations List");
-            this.btnRefreshProjectList.UseCompatibleTextRendering = true;
-            this.btnRefreshProjectList.UseVisualStyleBackColor = true;
-            this.btnRefreshProjectList.Click += new System.EventHandler(this.btnRefreshProjectList_Click);
-            // 
-            // btnBrowseForProject
-            // 
-            this.btnBrowseForProject.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowseForProject.Location = new System.Drawing.Point(469, 3);
-            this.btnBrowseForProject.Name = "btnBrowseForProject";
-            this.btnBrowseForProject.Size = new System.Drawing.Size(80, 23);
-            this.btnBrowseForProject.TabIndex = 23;
-            this.btnBrowseForProject.Text = "+ Add Project";
-            this.toolTip1.SetToolTip(this.btnBrowseForProject, "Open File Explorer");
-            this.btnBrowseForProject.UseVisualStyleBackColor = true;
-            this.btnBrowseForProject.Click += new System.EventHandler(this.btnBrowseForProject_Click);
             // 
             // Form1
             // 

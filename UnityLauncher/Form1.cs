@@ -1128,10 +1128,10 @@ namespace UnityLauncher
         string GetSelectedRowData(string key)
         {
             string path = null;
-            var selected = gridRecent.CurrentCell.RowIndex;
-            if (selected > -1)
+            var selected = gridRecent?.CurrentCell?.RowIndex;
+            if (selected.HasValue && selected > -1)
             {
-                path = gridRecent.Rows[selected].Cells[key].Value?.ToString();
+                path = gridRecent.Rows[selected.Value].Cells[key].Value?.ToString();
             }
             return path;
         }

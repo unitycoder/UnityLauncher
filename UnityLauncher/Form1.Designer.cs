@@ -143,7 +143,7 @@
             // 
             // btnBrowseForProject
             // 
-            this.btnBrowseForProject.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowseForProject.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBrowseForProject.Location = new System.Drawing.Point(469, 3);
             this.btnBrowseForProject.Name = "btnBrowseForProject";
             this.btnBrowseForProject.Size = new System.Drawing.Size(80, 23);
@@ -901,7 +901,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 650);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - 2018 Edition 23";
+            this.Text = "UnityLauncher - 2018 Super Edition 24";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);

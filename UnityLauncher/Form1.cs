@@ -36,6 +36,8 @@ namespace UnityLauncher
             Start();
         }
 
+
+
         void Start()
         {
             SetStatus("Initializing ...");
@@ -109,9 +111,6 @@ namespace UnityLauncher
 
             // preselect grid
             gridRecent.Select();
-
-            // subscribe to columnwidthchange event, so that can save column sizes
-            this.gridRecent.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.gridRecent_ColumnWidthChanged);
 
             // get previous version build info string
             // this string is release tag for latest release when this app was compiled
@@ -887,35 +886,6 @@ namespace UnityLauncher
             }
         }
 
-        private void gridRecent_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
-        {
-            List<int> gridWidths;
-            if (Properties.Settings.Default.gridColumnWidths != null)
-            {
-                gridWidths = new List<int>(Properties.Settings.Default.gridColumnWidths);
-            }
-            else
-            {
-                gridWidths = new List<int>();
-            }
-
-            // restore data grid view widths
-            var colum = gridRecent.Columns[0];
-            for (int i = 0; i < gridRecent.Columns.Count; ++i)
-            {
-                if (Properties.Settings.Default.gridColumnWidths != null && Properties.Settings.Default.gridColumnWidths.Length > i)
-                {
-                    gridWidths[i] = gridRecent.Columns[i].Width;
-                }
-                else
-                {
-                    gridWidths.Add(gridRecent.Columns[i].Width);
-                }
-            }
-            Properties.Settings.Default.gridColumnWidths = gridWidths.ToArray();
-            Properties.Settings.Default.Save();
-        }
-
         private void btnOpenUpdateWebsite_Click(object sender, EventArgs e)
         {
             var selected = gridUnityUpdates?.CurrentCell?.RowIndex;
@@ -1025,7 +995,15 @@ namespace UnityLauncher
             BrowseForExistingProjectFolder();
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettingsOnExit();
+        }
+
         #endregion UI events
+
+
+
 
         // displays version selector to upgrade project
         void UpgradeProject()
@@ -1237,5 +1215,37 @@ namespace UnityLauncher
                 gridRecent.Rows[0].Selected = true;
             }
         }
-    }
-}
+
+        private void SaveSettingsOnExit()
+        {
+            // save list column widths
+            List<int> gridWidths;
+            if (Properties.Settings.Default.gridColumnWidths != null)
+            {
+                gridWidths = new List<int>(Properties.Settings.Default.gridColumnWidths);
+            }
+            else
+            {
+                gridWidths = new List<int>();
+            }
+
+            // restore data grid view widths
+            var colum = gridRecent.Columns[0];
+            for (int i = 0; i < gridRecent.Columns.Count; ++i)
+            {
+                if (Properties.Settings.Default.gridColumnWidths != null && Properties.Settings.Default.gridColumnWidths.Length > i)
+                {
+                    gridWidths[i] = gridRecent.Columns[i].Width;
+                }
+                else
+                {
+                    gridWidths.Add(gridRecent.Columns[i].Width);
+                }
+            }
+            Properties.Settings.Default.gridColumnWidths = gridWidths.ToArray();
+            Properties.Settings.Default.Save();
+        }
+
+
+    } // class Form 
+} // namespace

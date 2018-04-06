@@ -251,7 +251,12 @@ namespace UnityLauncherTools
         public static string GetProjectVersion(string path)
         {
             var version = "";
-            if (Directory.Exists(Path.Combine(path, "ProjectSettings")))
+
+            if(File.Exists(Path.Combine(path, "ProjectVersionOverride.txt")))
+            {
+                version = File.ReadAllText(Path.Combine(path, "ProjectVersionOverride.txt"));
+            }
+            else if (Directory.Exists(Path.Combine(path, "ProjectSettings")))
             {
                 var versionPath = Path.Combine(path, "ProjectSettings", "ProjectVersion.txt");
                 if (File.Exists(versionPath) == true) // 5.x and later

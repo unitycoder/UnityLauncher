@@ -52,9 +52,6 @@
             this.btnExploreUnity = new System.Windows.Forms.Button();
             this.btnLaunchUnity = new System.Windows.Forms.Button();
             this.gridUnityList = new System.Windows.Forms.DataGridView();
-            this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._unityInstallDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPackages = new System.Windows.Forms.TabPage();
             this.btnAddAssetStoreFolder = new System.Windows.Forms.Button();
             this.btnExplorePackageFolder = new System.Windows.Forms.Button();
@@ -95,6 +92,10 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._unityInstallDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._Platforms = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -104,6 +105,7 @@
             this.tabUpdates.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).BeginInit();
             this.tabSettings.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -377,13 +379,14 @@
             this.gridUnityList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._unityVersion,
             this._unityPath,
-            this._unityInstallDate});
+            this._unityInstallDate,
+            this._Platforms});
             this.gridUnityList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.gridUnityList.Location = new System.Drawing.Point(3, 27);
             this.gridUnityList.MultiSelect = false;
             this.gridUnityList.Name = "gridUnityList";
             this.gridUnityList.ReadOnly = true;
-            this.gridUnityList.RowHeadersWidth = 18;
+            this.gridUnityList.RowHeadersWidth = 15;
             this.gridUnityList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridUnityList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridUnityList.ShowCellErrors = false;
@@ -393,30 +396,6 @@
             this.gridUnityList.StandardTab = true;
             this.gridUnityList.TabIndex = 10;
             this.gridUnityList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.unityGridView_KeyDown);
-            // 
-            // _unityVersion
-            // 
-            this._unityVersion.HeaderText = "Version";
-            this._unityVersion.MinimumWidth = 150;
-            this._unityVersion.Name = "_unityVersion";
-            this._unityVersion.ReadOnly = true;
-            this._unityVersion.Width = 150;
-            // 
-            // _unityPath
-            // 
-            this._unityPath.HeaderText = "Path";
-            this._unityPath.MinimumWidth = 300;
-            this._unityPath.Name = "_unityPath";
-            this._unityPath.ReadOnly = true;
-            this._unityPath.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._unityPath.Width = 300;
-            // 
-            // _unityInstallDate
-            // 
-            this._unityInstallDate.HeaderText = "Installed";
-            this._unityInstallDate.Name = "_unityInstallDate";
-            this._unityInstallDate.ReadOnly = true;
-            this._unityInstallDate.Width = 150;
             // 
             // tabPackages
             // 
@@ -887,6 +866,36 @@
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // _unityVersion
+            // 
+            this._unityVersion.HeaderText = "Version";
+            this._unityVersion.MinimumWidth = 120;
+            this._unityVersion.Name = "_unityVersion";
+            this._unityVersion.ReadOnly = true;
+            this._unityVersion.Width = 120;
+            // 
+            // _unityPath
+            // 
+            this._unityPath.HeaderText = "Path";
+            this._unityPath.MinimumWidth = 300;
+            this._unityPath.Name = "_unityPath";
+            this._unityPath.ReadOnly = true;
+            this._unityPath.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this._unityPath.Width = 300;
+            // 
+            // _unityInstallDate
+            // 
+            this._unityInstallDate.HeaderText = "Installed";
+            this._unityInstallDate.Name = "_unityInstallDate";
+            this._unityInstallDate.ReadOnly = true;
+            this._unityInstallDate.Width = 120;
+            // 
+            // _Platforms
+            // 
+            this._Platforms.HeaderText = "Platforms";
+            this._Platforms.Name = "_Platforms";
+            this._Platforms.ReadOnly = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -918,6 +927,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -982,12 +993,13 @@
         private System.Windows.Forms.CheckBox chkShowLauncherArgumentsColumn;
         private System.Windows.Forms.LinkLabel linkArgumentsDocs;
         private System.Windows.Forms.LinkLabel linkProjectGithub;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _unityVersion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _unityPath;
-        private System.Windows.Forms.DataGridViewTextBoxColumn _unityInstallDate;
         private System.Windows.Forms.Button btnCheckUpdates;
         private System.Windows.Forms.Button btnRefreshProjectList;
         private System.Windows.Forms.Button btnBrowseForProject;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _unityVersion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _unityPath;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _unityInstallDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn _Platforms;
     }
 }
 

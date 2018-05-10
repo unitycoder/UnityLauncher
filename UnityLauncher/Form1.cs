@@ -215,6 +215,7 @@ namespace UnityLauncher
                                     unityList.Add(unityVersion, unityExe);
                                     var dataFolder = Path.Combine(directories[i], "Editor", "Data");
                                     DateTime? installDate = Tools.GetLastModifiedTime(dataFolder);
+                                    // TODO add platforms: PC|iOS|tvOS|Android|UWP|WebGL|Facebook|XBox|PSVita|PS4
                                     gridUnityList.Rows.Add(unityVersion, unityExe, installDate);
                                 }
                             } // have unity.exe
@@ -1213,6 +1214,7 @@ namespace UnityLauncher
                 gridRecent.Rows.Insert(0, projectName, projectVersion, projectPath, lastUpdated, customArgs, gitBranch);
                 gridRecent.Rows[0].Cells[1].Style.ForeColor = HaveExactVersionInstalled(projectVersion) ? Color.Green : Color.Red;
                 gridRecent.Rows[0].Selected = true;
+                gridRecent.CurrentCell = gridRecent[0, 0]; // reset position to first item
             }
         }
 

@@ -300,7 +300,7 @@ namespace UnityLauncherTools
                         {
                             // in text format, then we need to try library file instead
                             var newVersionPath = Path.Combine(path, "Library", "AnnotationManager");
-                            if (File.Exists(versionPath) == true)
+                            if (File.Exists(newVersionPath) == true)
                             {
                                 versionPath = newVersionPath;
                             }

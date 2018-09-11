@@ -52,6 +52,10 @@
             this.btnExploreUnity = new System.Windows.Forms.Button();
             this.btnLaunchUnity = new System.Windows.Forms.Button();
             this.gridUnityList = new System.Windows.Forms.DataGridView();
+            this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._unityInstallDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._Platforms = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPackages = new System.Windows.Forms.TabPage();
             this.btnAddAssetStoreFolder = new System.Windows.Forms.Button();
             this.btnExplorePackageFolder = new System.Windows.Forms.Button();
@@ -92,10 +96,8 @@
             this.btnAddPackFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this._unityVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._unityPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._unityInstallDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._Platforms = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.tbSearchUpdates = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -397,6 +399,36 @@
             this.gridUnityList.TabIndex = 10;
             this.gridUnityList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.unityGridView_KeyDown);
             // 
+            // _unityVersion
+            // 
+            this._unityVersion.HeaderText = "Version";
+            this._unityVersion.MinimumWidth = 120;
+            this._unityVersion.Name = "_unityVersion";
+            this._unityVersion.ReadOnly = true;
+            this._unityVersion.Width = 120;
+            // 
+            // _unityPath
+            // 
+            this._unityPath.HeaderText = "Path";
+            this._unityPath.MinimumWidth = 300;
+            this._unityPath.Name = "_unityPath";
+            this._unityPath.ReadOnly = true;
+            this._unityPath.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this._unityPath.Width = 300;
+            // 
+            // _unityInstallDate
+            // 
+            this._unityInstallDate.HeaderText = "Installed";
+            this._unityInstallDate.Name = "_unityInstallDate";
+            this._unityInstallDate.ReadOnly = true;
+            this._unityInstallDate.Width = 120;
+            // 
+            // _Platforms
+            // 
+            this._Platforms.HeaderText = "Platforms";
+            this._Platforms.Name = "_Platforms";
+            this._Platforms.ReadOnly = true;
+            // 
             // tabPackages
             // 
             this.tabPackages.Controls.Add(this.btnAddAssetStoreFolder);
@@ -479,6 +511,7 @@
             // 
             // tabUpdates
             // 
+            this.tabUpdates.Controls.Add(this.tbSearchUpdates);
             this.tabUpdates.Controls.Add(this.btnOpenUpdateWebsite);
             this.tabUpdates.Controls.Add(this.btnFetchUnityVersions);
             this.tabUpdates.Controls.Add(this.gridUnityUpdates);
@@ -532,7 +565,7 @@
             this._Date,
             this._UnityUpdateVersion});
             this.gridUnityUpdates.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.gridUnityUpdates.Location = new System.Drawing.Point(3, 27);
+            this.gridUnityUpdates.Location = new System.Drawing.Point(3, 30);
             this.gridUnityUpdates.MultiSelect = false;
             this.gridUnityUpdates.Name = "gridUnityUpdates";
             this.gridUnityUpdates.ReadOnly = true;
@@ -542,7 +575,7 @@
             this.gridUnityUpdates.ShowCellErrors = false;
             this.gridUnityUpdates.ShowCellToolTips = false;
             this.gridUnityUpdates.ShowEditingIcon = false;
-            this.gridUnityUpdates.Size = new System.Drawing.Size(574, 478);
+            this.gridUnityUpdates.Size = new System.Drawing.Size(574, 475);
             this.gridUnityUpdates.StandardTab = true;
             this.gridUnityUpdates.TabIndex = 22;
             // 
@@ -866,35 +899,13 @@
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // _unityVersion
+            // tbSearchUpdates
             // 
-            this._unityVersion.HeaderText = "Version";
-            this._unityVersion.MinimumWidth = 120;
-            this._unityVersion.Name = "_unityVersion";
-            this._unityVersion.ReadOnly = true;
-            this._unityVersion.Width = 120;
-            // 
-            // _unityPath
-            // 
-            this._unityPath.HeaderText = "Path";
-            this._unityPath.MinimumWidth = 300;
-            this._unityPath.Name = "_unityPath";
-            this._unityPath.ReadOnly = true;
-            this._unityPath.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this._unityPath.Width = 300;
-            // 
-            // _unityInstallDate
-            // 
-            this._unityInstallDate.HeaderText = "Installed";
-            this._unityInstallDate.Name = "_unityInstallDate";
-            this._unityInstallDate.ReadOnly = true;
-            this._unityInstallDate.Width = 120;
-            // 
-            // _Platforms
-            // 
-            this._Platforms.HeaderText = "Platforms";
-            this._Platforms.Name = "_Platforms";
-            this._Platforms.ReadOnly = true;
+            this.tbSearchUpdates.Location = new System.Drawing.Point(3, 5);
+            this.tbSearchUpdates.Name = "tbSearchUpdates";
+            this.tbSearchUpdates.Size = new System.Drawing.Size(460, 20);
+            this.tbSearchUpdates.TabIndex = 8;
+            this.tbSearchUpdates.TextChanged += new System.EventHandler(this.FilterUnityUpdates);
             // 
             // Form1
             // 
@@ -909,7 +920,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 650);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Spring Edition 25";
+            this.Text = "UnityLauncher - Getting Darker Edition 26";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
@@ -924,6 +935,7 @@
             this.tabPackages.ResumeLayout(false);
             this.tabPackages.PerformLayout();
             this.tabUpdates.ResumeLayout(false);
+            this.tabUpdates.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
@@ -1000,6 +1012,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _unityPath;
         private System.Windows.Forms.DataGridViewTextBoxColumn _unityInstallDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn _Platforms;
+        private System.Windows.Forms.TextBox tbSearchUpdates;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

@@ -31,7 +31,7 @@ namespace UnityLauncherTools
         {
             string results = null;
             DirectoryInfo gitDirectory = FindDir(".git", projectPath);
-            if (gitDirectory != null )
+            if (gitDirectory != null)
             {
                 string branchFile = Path.Combine(gitDirectory.FullName, "HEAD");
                 if (File.Exists(branchFile))
@@ -57,9 +57,9 @@ namespace UnityLauncherTools
         public static DirectoryInfo FindDir(string dirName, string startPath)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(Path.Combine(startPath, dirName));
-            while ( !dirInfo.Exists )
+            while (!dirInfo.Exists)
             {
-                if(dirInfo.Parent.Parent == null )
+                if (dirInfo.Parent.Parent == null)
                 {
                     return null;
                 }
@@ -111,6 +111,10 @@ namespace UnityLauncherTools
         /// <returns></returns>
         public static string FindNearestVersion(string currentVersion, List<string> allAvailable)
         {
+            if (currentVersion.Contains("2018"))
+            {
+                return FindNearestVersionFromSimilarVersions(currentVersion, allAvailable.Where(x => x.Contains("2018")));
+            }
             if (currentVersion.Contains("2017"))
             {
                 return FindNearestVersionFromSimilarVersions(currentVersion, allAvailable.Where(x => x.Contains("2017")));
@@ -173,7 +177,7 @@ namespace UnityLauncherTools
             if (version.Contains("f")) // archived
             {
                 version = Regex.Replace(version, @"f.", "", RegexOptions.IgnoreCase);
-                url = "https://unity3d.com/unity/whats-new/unity-" + version;
+                url = "https://unity3d.com/unity/whatsnew/unity-" + version;
             }
             if (version.Contains("p")) // patch version
             {
@@ -252,7 +256,7 @@ namespace UnityLauncherTools
         {
             var version = "";
 
-            if(File.Exists(Path.Combine(path, "ProjectVersionOverride.txt")))
+            if (File.Exists(Path.Combine(path, "ProjectVersionOverride.txt")))
             {
                 version = File.ReadAllText(Path.Combine(path, "ProjectVersionOverride.txt"));
             }

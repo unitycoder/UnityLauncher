@@ -237,15 +237,33 @@ namespace UnityLauncher
         void FilterRecentProject(object sender, EventArgs e)
         {
             SetStatus("Filtering recent projects list ...");
-            foreach (DataGridViewRow recentProject in gridRecent.Rows)
+            string searchString = tbSearchBar.Text;
+            foreach (DataGridViewRow row in gridRecent.Rows)
             {
-                if (recentProject.Cells["_project"].Value.ToString().IndexOf(tbSearchBar.Text, StringComparison.OrdinalIgnoreCase) > -1)
+                if (row.Cells["_project"].Value.ToString().IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1)
                 {
-                    recentProject.Visible = true;
+                    row.Visible = true;
                 }
                 else
                 {
-                    recentProject.Visible = false;
+                    row.Visible = false;
+                }
+            }
+        }
+
+        void FilterUnityUpdates(object sender, EventArgs e)
+        {
+            SetStatus("Filtering Unity updates list ...");
+            string searchString = tbSearchUpdates.Text;
+            foreach (DataGridViewRow row in gridUnityUpdates.Rows)
+            {
+                if (row.Cells["_UnityUpdateVersion"].Value.ToString().IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1)
+                {
+                    row.Visible = true;
+                }
+                else
+                {
+                    row.Visible = false;
                 }
             }
         }
@@ -666,6 +684,7 @@ namespace UnityLauncher
         {
             AddUnityInstallationRootFolder();
             ScanUnityInstallations();
+            UpdateRecentProjectsList();
         }
 
         private void btnRemoveInstallFolder_Click(object sender, EventArgs e)
@@ -694,6 +713,7 @@ namespace UnityLauncher
                     break;
                 case Keys.F5: // refresh installed Unity versions list
                     ScanUnityInstallations();
+                    UpdateRecentProjectsList();
                     break;
                 default:
                     break;
@@ -712,10 +732,14 @@ namespace UnityLauncher
 
             switch ((int)e.KeyChar)
             {
-                case 27: // ESC - clear search
+                case 27: // ESCAPE - clear search
                     if (tabControl1.SelectedIndex == 0 && tbSearchBar.Text != "")
                     {
                         tbSearchBar.Text = "";
+                    }
+                    else if (tabControl1.SelectedIndex == 3 && tbSearchUpdates.Text != "")
+                    {
+                        tbSearchUpdates.Text = "";
                     }
                     break;
                 default: // any key
@@ -800,6 +824,7 @@ namespace UnityLauncher
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             ScanUnityInstallations();
+            UpdateRecentProjectsList();
         }
 
         private void notifyIcon_MouseClick(object sender, MouseEventArgs e)

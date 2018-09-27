@@ -64,12 +64,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lstPackageFolders = new System.Windows.Forms.ListBox();
             this.tabUpdates = new System.Windows.Forms.TabPage();
+            this.tbSearchUpdates = new System.Windows.Forms.TextBox();
             this.btnOpenUpdateWebsite = new System.Windows.Forms.Button();
             this.btnFetchUnityVersions = new System.Windows.Forms.Button();
             this.gridUnityUpdates = new System.Windows.Forms.DataGridView();
             this._Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._UnityUpdateVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.chkDarkSkin = new System.Windows.Forms.CheckBox();
             this.btnCheckUpdates = new System.Windows.Forms.Button();
             this.linkProjectGithub = new System.Windows.Forms.LinkLabel();
             this.linkArgumentsDocs = new System.Windows.Forms.LinkLabel();
@@ -97,7 +99,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.tbSearchUpdates = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -522,6 +523,14 @@
             this.tabUpdates.Text = "Updates";
             this.tabUpdates.UseVisualStyleBackColor = true;
             // 
+            // tbSearchUpdates
+            // 
+            this.tbSearchUpdates.Location = new System.Drawing.Point(3, 5);
+            this.tbSearchUpdates.Name = "tbSearchUpdates";
+            this.tbSearchUpdates.Size = new System.Drawing.Size(460, 20);
+            this.tbSearchUpdates.TabIndex = 8;
+            this.tbSearchUpdates.TextChanged += new System.EventHandler(this.FilterUnityUpdates);
+            // 
             // btnOpenUpdateWebsite
             // 
             this.btnOpenUpdateWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -597,6 +606,7 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.chkDarkSkin);
             this.tabSettings.Controls.Add(this.btnCheckUpdates);
             this.tabSettings.Controls.Add(this.linkProjectGithub);
             this.tabSettings.Controls.Add(this.linkArgumentsDocs);
@@ -623,6 +633,18 @@
             this.tabSettings.TabIndex = 3;
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
+            // 
+            // chkDarkSkin
+            // 
+            this.chkDarkSkin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkDarkSkin.AutoSize = true;
+            this.chkDarkSkin.Location = new System.Drawing.Point(20, 416);
+            this.chkDarkSkin.Name = "chkDarkSkin";
+            this.chkDarkSkin.Size = new System.Drawing.Size(85, 17);
+            this.chkDarkSkin.TabIndex = 41;
+            this.chkDarkSkin.Text = "Dark Theme";
+            this.chkDarkSkin.UseVisualStyleBackColor = true;
+            this.chkDarkSkin.CheckedChanged += new System.EventHandler(this.chkDarkSkin_CheckedChanged);
             // 
             // btnCheckUpdates
             // 
@@ -656,7 +678,7 @@
             this.linkArgumentsDocs.AutoSize = true;
             this.linkArgumentsDocs.LinkArea = new System.Windows.Forms.LinkArea(1, 4);
             this.linkArgumentsDocs.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
-            this.linkArgumentsDocs.Location = new System.Drawing.Point(385, 387);
+            this.linkArgumentsDocs.Location = new System.Drawing.Point(385, 348);
             this.linkArgumentsDocs.Name = "linkArgumentsDocs";
             this.linkArgumentsDocs.Size = new System.Drawing.Size(36, 17);
             this.linkArgumentsDocs.TabIndex = 38;
@@ -669,7 +691,7 @@
             // 
             this.chkShowGitBranchColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkShowGitBranchColumn.AutoSize = true;
-            this.chkShowGitBranchColumn.Location = new System.Drawing.Point(266, 409);
+            this.chkShowGitBranchColumn.Location = new System.Drawing.Point(266, 370);
             this.chkShowGitBranchColumn.Name = "chkShowGitBranchColumn";
             this.chkShowGitBranchColumn.Size = new System.Drawing.Size(76, 17);
             this.chkShowGitBranchColumn.TabIndex = 36;
@@ -683,7 +705,7 @@
             this.label5.AutoSize = true;
             this.label5.Enabled = false;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(263, 361);
+            this.label5.Location = new System.Drawing.Point(263, 322);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(105, 13);
             this.label5.TabIndex = 35;
@@ -693,7 +715,7 @@
             // 
             this.chkShowLauncherArgumentsColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkShowLauncherArgumentsColumn.AutoSize = true;
-            this.chkShowLauncherArgumentsColumn.Location = new System.Drawing.Point(266, 386);
+            this.chkShowLauncherArgumentsColumn.Location = new System.Drawing.Point(266, 347);
             this.chkShowLauncherArgumentsColumn.Name = "chkShowLauncherArgumentsColumn";
             this.chkShowLauncherArgumentsColumn.Size = new System.Drawing.Size(124, 17);
             this.chkShowLauncherArgumentsColumn.TabIndex = 34;
@@ -705,7 +727,7 @@
             // 
             this.ChkQuitAfterOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ChkQuitAfterOpen.AutoSize = true;
-            this.ChkQuitAfterOpen.Location = new System.Drawing.Point(20, 409);
+            this.ChkQuitAfterOpen.Location = new System.Drawing.Point(20, 370);
             this.ChkQuitAfterOpen.Name = "ChkQuitAfterOpen";
             this.ChkQuitAfterOpen.Size = new System.Drawing.Size(172, 17);
             this.ChkQuitAfterOpen.TabIndex = 33;
@@ -728,7 +750,7 @@
             // 
             this.chkQuitAfterCommandline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkQuitAfterCommandline.AutoSize = true;
-            this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 432);
+            this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 393);
             this.chkQuitAfterCommandline.Name = "chkQuitAfterCommandline";
             this.chkQuitAfterCommandline.Size = new System.Drawing.Size(189, 17);
             this.chkQuitAfterCommandline.TabIndex = 31;
@@ -774,7 +796,7 @@
             this.label2.AutoSize = true;
             this.label2.Enabled = false;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(17, 361);
+            this.label2.Location = new System.Drawing.Point(17, 322);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 26;
@@ -784,7 +806,7 @@
             // 
             this.chkMinimizeToTaskbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkMinimizeToTaskbar.AutoSize = true;
-            this.chkMinimizeToTaskbar.Location = new System.Drawing.Point(20, 386);
+            this.chkMinimizeToTaskbar.Location = new System.Drawing.Point(20, 347);
             this.chkMinimizeToTaskbar.Name = "chkMinimizeToTaskbar";
             this.chkMinimizeToTaskbar.Size = new System.Drawing.Size(116, 17);
             this.chkMinimizeToTaskbar.TabIndex = 25;
@@ -899,14 +921,6 @@
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tbSearchUpdates
-            // 
-            this.tbSearchUpdates.Location = new System.Drawing.Point(3, 5);
-            this.tbSearchUpdates.Name = "tbSearchUpdates";
-            this.tbSearchUpdates.Size = new System.Drawing.Size(460, 20);
-            this.tbSearchUpdates.TabIndex = 8;
-            this.tbSearchUpdates.TextChanged += new System.EventHandler(this.FilterUnityUpdates);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1014,6 +1028,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn _Platforms;
         private System.Windows.Forms.TextBox tbSearchUpdates;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.CheckBox chkDarkSkin;
     }
 }
 

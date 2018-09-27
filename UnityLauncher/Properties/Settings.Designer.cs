@@ -144,5 +144,17 @@ namespace UnityLauncher.Properties {
                 this["showGitBranchColumn"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool useDarkSkin {
+            get {
+                return ((bool)(this["useDarkSkin"]));
+            }
+            set {
+                this["useDarkSkin"] = value;
+            }
+        }
     }
 }

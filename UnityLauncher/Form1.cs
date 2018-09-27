@@ -133,6 +133,7 @@ namespace UnityLauncher
             ChkQuitAfterOpen.Checked = Properties.Settings.Default.closeAfterProject;
             chkShowLauncherArgumentsColumn.Checked = Properties.Settings.Default.showArgumentsColumn;
             chkShowGitBranchColumn.Checked = Properties.Settings.Default.showGitBranchColumn;
+            chkDarkSkin.Checked = Properties.Settings.Default.useDarkSkin;
 
             // update optional grid columns, hidden or visible
             gridRecent.Columns["_launchArguments"].Visible = chkShowLauncherArgumentsColumn.Checked;
@@ -154,6 +155,8 @@ namespace UnityLauncher
                     gridRecent.Columns[i].Width = gridColumnWidths[i];
                 }
             }
+
+            // TODO assign colors, if using dark/light theme
         }
 
         /// <summary>
@@ -890,6 +893,12 @@ namespace UnityLauncher
             Properties.Settings.Default.Save();
         }
 
+        private void chkDarkSkin_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.useDarkSkin = chkDarkSkin.Checked;
+            Properties.Settings.Default.Save();
+        }
+
         private void btnRunUnityOnly_Click(object sender, EventArgs e)
         {
             LaunchSelectedProject(openProject: false);
@@ -1272,7 +1281,6 @@ namespace UnityLauncher
             Properties.Settings.Default.gridColumnWidths = gridWidths.ToArray();
             Properties.Settings.Default.Save();
         }
-
 
     } // class Form 
 } // namespace

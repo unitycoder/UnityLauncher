@@ -156,7 +156,26 @@ namespace UnityLauncher
                 }
             }
 
-            // TODO assign colors, if using dark/light theme
+            // TODO assign colors for dark theme
+            if (chkDarkSkin.Checked == true)
+            {
+                var darkBg = Color.FromArgb(32, 37, 41);
+                var darkRaised = Color.FromArgb(50, 56, 61);
+                var darkBright = Color.FromArgb(161, 180, 196);
+                
+
+                this.BackColor = darkBg;
+                tabProjects.BackColor = darkRaised;
+                gridRecent.BackgroundColor = darkRaised;
+
+                gridRecent.GridColor = darkBg;
+                var dgs = new DataGridViewCellStyle();
+                dgs.BackColor = darkRaised;
+                dgs.ForeColor = darkBright;
+                gridRecent.DefaultCellStyle = dgs;
+
+                statusStrip1.BackColor = darkRaised;
+            }
         }
 
         /// <summary>

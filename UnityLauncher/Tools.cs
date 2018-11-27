@@ -224,6 +224,13 @@ namespace UnityLauncherTools
         public static void AddContextMenuRegistry(string contextRegRoot)
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(contextRegRoot, true);
+
+            // add folder if missing
+            if (key == null)
+            {
+                key = Registry.CurrentUser.CreateSubKey(@"Software\Classes\Directory\Background\Shell");
+            }
+
             if (key != null)
             {
                 var appName = "UnityLauncher";
@@ -238,11 +245,10 @@ namespace UnityLauncherTools
                 var executeString = "\"" + Application.ExecutablePath + "\"";
                 executeString += " -projectPath \"%V\"";
                 key.SetValue("", executeString);
-                //SetStatus("Added context menu registry items");
             }
             else
             {
-                //SetStatus("Error> Cannot find registry key: " + contextRegRoot);
+                Console.WriteLine("Error> Cannot find registry key: " + contextRegRoot);
             }
         }
 

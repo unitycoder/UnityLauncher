@@ -179,13 +179,20 @@ namespace UnityLauncherTools
                 version = Regex.Replace(version, @"f.", "", RegexOptions.IgnoreCase);
                 url = "https://unity3d.com/unity/whatsnew/unity-" + version;
             }
+            else
             if (version.Contains("p")) // patch version
             {
                 url = "https://unity3d.com/unity/qa/patch-releases/" + version;
             }
+            else
             if (version.Contains("b")) // beta version
             {
-                url = "https://unity3d.com/unity/beta/unity" + version;
+                url = "https://unity3d.com/unity/beta/" + version;
+            }
+            else
+            if (version.Contains("a")) // alpha version
+            {
+                url = "https://unity3d.com/unity/alpha/" + version;
             }
             return url;
         }

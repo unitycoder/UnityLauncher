@@ -307,7 +307,14 @@ namespace UnityLauncher
             {
                 RegistryKey key = hklm.OpenSubKey(registryPathsToCheck[i]);
 
-                if (key == null) continue;
+                if (key == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    Console.WriteLine("Null registry key at "+ registryPathsToCheck[i]);
+                }
 
                 // parse recent project path
                 foreach (var valueName in key.GetValueNames())
@@ -320,7 +327,7 @@ namespace UnityLauncher
                         if (valueKind == RegistryValueKind.Binary)
                         {
                             byte[] projectPathBytes = (byte[])key.GetValue(valueName);
-                            projectPath = Encoding.Default.GetString(projectPathBytes, 0, projectPathBytes.Length - 1);
+                            projectPath = Encoding.UTF8.GetString(projectPathBytes, 0, projectPathBytes.Length - 1);
                         }
                         else // should be string then
                         {
@@ -330,6 +337,7 @@ namespace UnityLauncher
                         // first check if whole folder exists, if not, skip
                         if (Directory.Exists(projectPath) == false)
                         {
+                            Console.WriteLine("Recent project directory not found, skipping: "+ projectPath);
                             continue;
                         }
 

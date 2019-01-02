@@ -313,7 +313,7 @@ namespace UnityLauncher
                 }
                 else
                 {
-                    Console.WriteLine("Null registry key at "+ registryPathsToCheck[i]);
+                    Console.WriteLine("Null registry key at " + registryPathsToCheck[i]);
                 }
 
                 // parse recent project path
@@ -337,7 +337,7 @@ namespace UnityLauncher
                         // first check if whole folder exists, if not, skip
                         if (Directory.Exists(projectPath) == false)
                         {
-                            Console.WriteLine("Recent project directory not found, skipping: "+ projectPath);
+                            Console.WriteLine("Recent project directory not found, skipping: " + projectPath);
                             continue;
                         }
 
@@ -598,7 +598,16 @@ namespace UnityLauncher
 
         void LaunchSelectedProject(bool openProject = true)
         {
+            if (gridRecent.CurrentCell == null)
+            {
+                if (gridRecent.SelectedRows.Count != 0)
+                {
+                    DataGridViewRow row = gridRecent.SelectedRows[0];
+                    gridRecent.CurrentCell = row.Cells[0];
+                }
+            }
             var selected = gridRecent.CurrentCell.RowIndex;
+
             if (selected > -1)
             {
                 var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();

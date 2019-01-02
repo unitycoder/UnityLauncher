@@ -177,7 +177,9 @@ namespace UnityLauncherTools
             if (version.Contains("f")) // archived
             {
                 version = Regex.Replace(version, @"f.", "", RegexOptions.IgnoreCase);
-                url = "https://unity3d.com/unity/whatsnew/unity-" + version;
+                string padding = "unity-";
+                if (version.Contains("2018.2")) padding = "";
+                url = "https://unity3d.com/unity/whats-new/" + padding + version;
             }
             else
             if (version.Contains("p")) // patch version

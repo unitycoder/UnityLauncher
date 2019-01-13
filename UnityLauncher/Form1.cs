@@ -598,19 +598,12 @@ namespace UnityLauncher
 
         void LaunchSelectedProject(bool openProject = true)
         {
-            if (gridRecent.CurrentCell == null)
-            {
-                if (gridRecent.SelectedRows.Count != 0)
-                {
-                    DataGridViewRow row = gridRecent.SelectedRows[0];
-                    gridRecent.CurrentCell = row.Cells[0];
-                }
-            }
-            var selected = gridRecent.CurrentCell.RowIndex;
+            FixSelectedRow();
+            var selected = gridRecent?.CurrentCell?.RowIndex;
 
-            if (selected > -1)
+            if (selected.HasValue && selected > -1)
             {
-                var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
+                var projectPath = gridRecent.Rows[(int)selected].Cells["_path"].Value.ToString();
                 var version = Tools.GetProjectVersion(projectPath);
                 LaunchProject(projectPath, version, openProject);
                 SetStatus("Ready");
@@ -621,11 +614,12 @@ namespace UnityLauncher
 
         void LaunchSelectedUnity()
         {
-            var selected = gridUnityList.CurrentCell.RowIndex;
-            if (selected > -1)
+            FixSelectedRow();
+            var selected = gridRecent?.CurrentCell?.RowIndex;
+            if (selected.HasValue && selected > -1)
             {
                 SetStatus("Launching Unity..");
-                var version = gridUnityList.Rows[selected].Cells["_unityVersion"].Value.ToString();
+                var version = gridUnityList.Rows[(int)selected].Cells["_unityVersion"].Value.ToString();
                 try
                 {
                     Process myProcess = new Process();
@@ -686,10 +680,11 @@ namespace UnityLauncher
 
         private void btnOpenReleasePage_Click(object sender, EventArgs e)
         {
-            var selected = gridUnityList.CurrentCell.RowIndex;
-            if (selected > -1)
+            FixSelectedRow();
+            var selected = gridRecent?.CurrentCell?.RowIndex;
+            if (selected.HasValue && selected > -1)
             {
-                var version = gridUnityList.Rows[selected].Cells["_unityVersion"].Value.ToString();
+                var version = gridUnityList.Rows[(int)selected].Cells["_unityVersion"].Value.ToString();
                 if (Tools.OpenReleaseNotes(version) == true)
                 {
                     SetStatus("Opening release notes for version " + version);
@@ -708,10 +703,11 @@ namespace UnityLauncher
 
         private void btnExploreUnity_Click(object sender, EventArgs e)
         {
-            var selected = gridUnityList.CurrentCell.RowIndex;
-            if (selected > -1)
+            FixSelectedRow();
+            var selected = gridRecent?.CurrentCell?.RowIndex;
+            if (selected.HasValue && selected > -1)
             {
-                var unityPath = Path.GetDirectoryName(gridUnityList.Rows[selected].Cells["_unityPath"].Value.ToString());
+                var unityPath = Path.GetDirectoryName(gridUnityList.Rows[(int)selected].Cells["_unityPath"].Value.ToString());
                 if (Tools.LaunchExplorer(unityPath) == false)
                 {
                     SetStatus("Error> Directory not found: " + unityPath);
@@ -873,10 +869,11 @@ namespace UnityLauncher
 
         private void btn_openFolder_Click(object sender, EventArgs e)
         {
-            var selected = gridRecent.CurrentCell.RowIndex;
-            if (selected > -1)
+            FixSelectedRow();
+            var selected = gridRecent?.CurrentCell?.RowIndex;
+            if (selected.HasValue && selected > -1)
             {
-                string folder = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
+                string folder = gridRecent.Rows[(int)selected].Cells["_path"].Value.ToString();
                 if (Tools.LaunchExplorer(folder) == false)
                 {
                     SetStatus("Error> Directory not found: " + folder);
@@ -959,8 +956,9 @@ namespace UnityLauncher
 
         private void btnOpenUpdateWebsite_Click(object sender, EventArgs e)
         {
+            FixSelectedRow();
             var selected = gridUnityUpdates?.CurrentCell?.RowIndex;
-            if (selected != null && selected > -1)
+            if (selected.HasValue && selected > -1)
             {
                 var version = gridUnityUpdates.Rows[(int)selected].Cells["_UnityUpdateVersion"].Value.ToString();
                 Tools.OpenReleaseNotes(version);
@@ -1079,12 +1077,13 @@ namespace UnityLauncher
         // displays version selector to upgrade project
         void UpgradeProject()
         {
-            var selected = gridRecent.CurrentCell.RowIndex;
-            if (selected > -1)
+            FixSelectedRow();
+            var selected = gridRecent?.CurrentCell?.RowIndex;
+            if (selected.HasValue && selected > -1)
             {
                 SetStatus("Upgrading project ...");
 
-                var projectPath = gridRecent.Rows[selected].Cells["_path"].Value.ToString();
+                var projectPath = gridRecent.Rows[(int)selected].Cells["_path"].Value.ToString();
                 var currentVersion = Tools.GetProjectVersion(projectPath);
 
                 if (string.IsNullOrEmpty(currentVersion) == true)
@@ -1183,10 +1182,11 @@ namespace UnityLauncher
         string GetSelectedRowData(string key)
         {
             string path = null;
+            FixSelectedRow();
             var selected = gridRecent?.CurrentCell?.RowIndex;
             if (selected.HasValue && selected > -1)
             {
-                path = gridRecent.Rows[selected.Value].Cells[key].Value?.ToString();
+                path = gridRecent.Rows[(int)selected].Cells[key].Value?.ToString();
             }
             return path;
         }
@@ -1316,6 +1316,18 @@ namespace UnityLauncher
             }
             Properties.Settings.Default.gridColumnWidths = gridWidths.ToArray();
             Properties.Settings.Default.Save();
+        }
+
+        void FixSelectedRow()
+        {
+            if (gridRecent.CurrentCell == null)
+            {
+                if (gridRecent.SelectedRows.Count != 0)
+                {
+                    DataGridViewRow row = gridRecent.SelectedRows[0];
+                    gridRecent.CurrentCell = row.Cells[0];
+                }
+            }
         }
 
     } // class Form 

@@ -22,7 +22,7 @@ namespace UnityLauncher
         const string githubReleaseAPICheckURL = "https://api.github.com/repos/unitycoder/unitylauncher/releases/latest";
         const string githubReleasesLinkURL = "https://github.com/unitycoder/UnityLauncher/releases";
 
-        bool isDownloadUnityList = false;
+        bool isDownloadingUnityList = false;
         string previousGitRelease = "0";
 
 
@@ -1145,12 +1145,12 @@ namespace UnityLauncher
 
         private void FetchListOfUnityUpdates()
         {
-            if (isDownloadUnityList == true)
+            if (isDownloadingUnityList == true)
             {
                 SetStatus("We are already downloading ...");
                 return;
             }
-            isDownloadUnityList = true;
+            isDownloadingUnityList = true;
             SetStatus("Downloading list of Unity versions ...");
 
             // download list of Unity versions
@@ -1166,15 +1166,21 @@ namespace UnityLauncher
         {
             // TODO check for error..
             SetStatus("Downloading list of Unity versions ... done");
-            isDownloadUnityList = false;
+            isDownloadingUnityList = false;
+
             // parse to list
-            var unityList = e.Result.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            Array.Reverse(unityList);
+            var receivedList = e.Result.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            Array.Reverse(receivedList);
             gridUnityUpdates.Rows.Clear();
-            for (int i = 0, len = unityList.Length; i < len; i++)
+            // fill in, TODO: show only top 50 or so
+            for (int i = 0, len = receivedList.Length; i < len; i++)
             {
-                var row = unityList[i].Split(',');
-                gridUnityUpdates.Rows.Add(row[3], row[6].Trim('"'));
+                var row = receivedList[i].Split(',');
+                var versionTemp = row[6].Trim('"');
+                gridUnityUpdates.Rows.Add(row[3], versionTemp);
+
+                // set color if we already have it installed
+                gridUnityUpdates.Rows[i].Cells[1].Style.ForeColor = unityList.ContainsKey(versionTemp) ? Color.Black : Color.Red;
             }
         }
 

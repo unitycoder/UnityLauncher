@@ -174,10 +174,12 @@ namespace UnityLauncherTools
         public static string GetUnityReleaseURL(string version)
         {
             string url = "";
+
+
             if (version.Contains("f")) // archived
             {
                 version = Regex.Replace(version, @"f.", "", RegexOptions.IgnoreCase);
-                string padding = "unity-";
+                string padding = "";
                 if (version.Contains("2018.2")) padding = "";
                 url = "https://unity3d.com/unity/whats-new/" + padding + version;
             }
@@ -196,6 +198,7 @@ namespace UnityLauncherTools
             {
                 url = "https://unity3d.com/unity/alpha/" + version;
             }
+
             return url;
         }
 

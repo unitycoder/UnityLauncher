@@ -614,8 +614,8 @@ namespace UnityLauncher
 
         void LaunchSelectedUnity()
         {
-            FixSelectedRow();
-            var selected = gridRecent?.CurrentCell?.RowIndex;
+            
+            var selected = gridUnityList?.CurrentCell?.RowIndex;
             if (selected.HasValue && selected > -1)
             {
                 SetStatus("Launching Unity..");
@@ -680,8 +680,7 @@ namespace UnityLauncher
 
         private void btnOpenReleasePage_Click(object sender, EventArgs e)
         {
-            FixSelectedRow();
-            var selected = gridRecent?.CurrentCell?.RowIndex;
+            var selected = gridUnityList?.CurrentCell?.RowIndex;
             if (selected.HasValue && selected > -1)
             {
                 var version = gridUnityList.Rows[(int)selected].Cells["_unityVersion"].Value.ToString();
@@ -703,8 +702,8 @@ namespace UnityLauncher
 
         private void btnExploreUnity_Click(object sender, EventArgs e)
         {
-            FixSelectedRow();
-            var selected = gridRecent?.CurrentCell?.RowIndex;
+            
+            var selected = gridUnityList?.CurrentCell?.RowIndex;
             if (selected.HasValue && selected > -1)
             {
                 var unityPath = Path.GetDirectoryName(gridUnityList.Rows[(int)selected].Cells["_unityPath"].Value.ToString());
@@ -1180,7 +1179,7 @@ namespace UnityLauncher
                 gridUnityUpdates.Rows.Add(row[3], versionTemp);
 
                 // set color if we already have it installed
-                gridUnityUpdates.Rows[i].Cells[1].Style.ForeColor = unityList.ContainsKey(versionTemp) ? Color.Black : Color.Red;
+                gridUnityUpdates.Rows[i].Cells[1].Style.ForeColor = unityList.ContainsKey(versionTemp) ? Color.Green : Color.Black;
             }
         }
 

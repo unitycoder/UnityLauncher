@@ -19,7 +19,6 @@ namespace UnityLauncher
         public static Dictionary<string, string> unityList = new Dictionary<string, string>();
         const string contextRegRoot = "Software\\Classes\\Directory\\Background\\shell";
         const string launcherArgumentsFile = "LauncherArguments.txt";
-        const string githubReleaseAPICheckURL = "https://api.github.com/repos/unitycoder/unitylauncher/releases/latest";
         const string githubReleasesLinkURL = "https://github.com/unitycoder/UnityLauncher/releases";
 
         bool isDownloadingUnityList = false;
@@ -229,8 +228,9 @@ namespace UnityLauncher
                         if (File.Exists(uninstallExe) == true)
                         {
                             var unityExe = Path.Combine(directories[i], "Editor", "Unity.exe");
-                            if (File.Exists(uninstallExe) == true)
+                            if (File.Exists(unityExe) == true)
                             {
+                                // get full version number from uninstaller
                                 var unityVersion = Tools.GetFileVersionData(uninstallExe).Replace("Unity", "").Trim();
                                 if (unityList.ContainsKey(unityVersion) == false)
                                 {
@@ -245,7 +245,6 @@ namespace UnityLauncher
                     } // got folders
                 } // failed check
             } // all root folders
-
 
             lbl_unityCount.Text = "Found " + unityList.Count.ToString() + " versions";
 
@@ -313,7 +312,7 @@ namespace UnityLauncher
                 }
                 else
                 {
-                    Console.WriteLine("Null registry key at " + registryPathsToCheck[i]);
+                    //Console.WriteLine("Null registry key at " + registryPathsToCheck[i]);
                 }
 
                 // parse recent project path
@@ -1050,7 +1049,7 @@ namespace UnityLauncher
 
         private void btnCheckUpdates_Click(object sender, EventArgs e)
         {
-            CheckUpdates();
+            Tools.OpenURL("https://github.com/unitycoder/UnityLauncher/releases");
         }
 
         private void btnRefreshProjectList_Click(object sender, EventArgs e)
@@ -1195,26 +1194,6 @@ namespace UnityLauncher
             }
             return path;
         }
-
-        void CheckUpdates()
-        {
-            var result = Tools.CheckUpdates(githubReleaseAPICheckURL, previousGitRelease);
-            if (string.IsNullOrEmpty(result) == false)
-            {
-                SetStatus("Update available: " + result + " - Previous release was:" + previousGitRelease);
-                DialogResult dialogResult = MessageBox.Show("Update " + result + " is available, open download page?", "UnityLauncher - Check Update", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes) // open download page
-                {
-                    Tools.OpenURL(githubReleasesLinkURL);
-                }
-            }
-            else
-            {
-                SetStatus("No updates available. Current release is " + (float.Parse(previousGitRelease) + 0.01f));
-            }
-        }
-
-
 
         void BrowseForExistingProjectFolder()
         {

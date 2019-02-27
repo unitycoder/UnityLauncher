@@ -111,6 +111,10 @@ namespace UnityLauncherTools
         /// <returns></returns>
         public static string FindNearestVersion(string currentVersion, List<string> allAvailable)
         {
+            if (currentVersion.Contains("2019"))
+            {
+                return FindNearestVersionFromSimilarVersions(currentVersion, allAvailable.Where(x => x.Contains("2019")));
+            }
             if (currentVersion.Contains("2018"))
             {
                 return FindNearestVersionFromSimilarVersions(currentVersion, allAvailable.Where(x => x.Contains("2018")));
@@ -377,63 +381,6 @@ namespace UnityLauncherTools
             }
             return result;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="githubReleaseURL">api to check releases</param>
-        /// <param name="previousGitRelease">embedded previous release version</param>
-        /// <returns>null if no info available, otherwise returns current github release number</returns>
-        public static string CheckUpdates(string githubReleaseURL, string previousGitRelease)
-        {
-            string result = null;
-            using (WebClient client = new WebClient())
-            {
-                // apparently this is now required..otherwise: "The request was aborted: Could not create SSL/TLS secure channel"
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                // fetch current release info
-                client.Headers.Add("user-agent", "MuskBrowser");
-                string json = client.DownloadString(githubReleaseURL);
-
-                if (json.IndexOf('{') != 0)
-                {
-                    // invalid json
-                    return result;
-                }
-
-                var arr = json.Split(new string[] { "\"tag_name\":" }, StringSplitOptions.None);
-
-                // have tagname
-                if (arr.Length > 1)
-                {
-                    var arr2 = arr[1].Trim().Split('"');
-                    // have "
-                    if (arr2.Length > 1)
-                    {
-                        var currentlyAvailableLatestReleaseTag = arr2[1];
-
-                        // compare online version with build in release version, return github version if different from embedded version
-                        float previous = 0;
-                        float current = 0;
-                        if (float.TryParse(previousGitRelease, out previous) == false) return result;
-                        if (float.TryParse(currentlyAvailableLatestReleaseTag, out current) == false) return result;
-
-                        if (Math.Abs(previous - current) > 0.1f)
-                        {
-                            result = currentlyAvailableLatestReleaseTag;
-                            Console.WriteLine("update available: [" + currentlyAvailableLatestReleaseTag + "] / [" + previousGitRelease + "]");
-                        }
-                        else
-                        {
-                            Console.WriteLine("no update available: [" + currentlyAvailableLatestReleaseTag + "] / [" + previousGitRelease + "]");
-                        }
-                    }
-                }
-            }
-            return result;
-        }
-
 
     }
 }

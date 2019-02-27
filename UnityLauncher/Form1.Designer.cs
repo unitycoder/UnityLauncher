@@ -649,11 +649,11 @@
             // btnCheckUpdates
             // 
             this.btnCheckUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCheckUpdates.Location = new System.Drawing.Point(434, 495);
+            this.btnCheckUpdates.Location = new System.Drawing.Point(415, 495);
             this.btnCheckUpdates.Name = "btnCheckUpdates";
-            this.btnCheckUpdates.Size = new System.Drawing.Size(138, 23);
+            this.btnCheckUpdates.Size = new System.Drawing.Size(157, 23);
             this.btnCheckUpdates.TabIndex = 40;
-            this.btnCheckUpdates.Text = "Check for Updates";
+            this.btnCheckUpdates.Text = "Open Github Releases Page";
             this.btnCheckUpdates.UseVisualStyleBackColor = true;
             this.btnCheckUpdates.Click += new System.EventHandler(this.btnCheckUpdates_Click);
             // 
@@ -904,8 +904,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.statusStrip1.AutoSize = false;
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(579, 22);

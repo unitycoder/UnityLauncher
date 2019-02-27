@@ -132,6 +132,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>powershell.exe -command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;$web = New-Object System.Net.WebClient;$web.Headers['User-Agent'] = 'DefinitelyBrowser';$results = $web.DownloadString('https://api.github.com/repos/unitycoder/unitylauncher/releases/latest');$results = $results | ConvertFrom-Json;$results = $results | select -expand tag_name;echo $results | Out-File \"$(ProjectDir)PreviousVersion.txt\";"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

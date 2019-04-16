@@ -242,6 +242,23 @@ namespace UnityLauncher
                                 }
                             } // have unity.exe
                         } // have uninstaller.exe
+                        else // no uninstaller, probably preview builds
+                        {
+                            var unityExe = Path.Combine(directories[i], "Editor", "Unity.exe");
+                            if (File.Exists(unityExe) == true)
+                            {
+                                // get full version number from uninstaller
+                                var unityVersion = Tools.GetFileVersionData(unityExe).Replace("Unity", "").Trim();
+                                if (unityList.ContainsKey(unityVersion) == false)
+                                {
+                                    unityList.Add(unityVersion, unityExe);
+                                    var dataFolder = Path.Combine(directories[i], "Editor", "Data");
+                                    DateTime? installDate = Tools.GetLastModifiedTime(dataFolder);
+                                    // TODO add platforms: PC|iOS|tvOS|Android|UWP|WebGL|Facebook|XBox|PSVita|PS4
+                                    gridUnityList.Rows.Add(unityVersion, unityExe, installDate);
+                                }
+                            } // have unity.exe
+                        }
                     } // got folders
                 } // failed check
             } // all root folders

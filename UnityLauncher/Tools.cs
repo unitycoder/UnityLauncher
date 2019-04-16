@@ -183,9 +183,14 @@ namespace UnityLauncherTools
             if (version.Contains("f")) // archived
             {
                 version = Regex.Replace(version, @"f.", "", RegexOptions.IgnoreCase);
-                string padding = "";
-                if (version.Contains("2018.2")) padding = "";
-                url = "https://unity3d.com/unity/whats-new/" + padding + version;
+                string padding = "unity-";
+                string whatsnew = "whats-new";
+                if (version.Contains("5.6")) padding = "";
+                if (version.Contains("2017.1")) whatsnew = "whatsnew";
+                if (version.Contains("2017.4")) padding = "";
+                if (version.Contains("2018")) padding = "";
+                if (version.Contains("2019")) padding = "";
+                url = "https://unity3d.com/unity/"+ whatsnew +"/" + padding + version;
             }
             else
             if (version.Contains("p")) // patch version
@@ -358,9 +363,9 @@ namespace UnityLauncherTools
         /// <returns></returns>
         public static string GetFileVersionData(string path)
         {
-            // TODO check if path exists
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(path);
             return fvi.ProductName.Replace("(64-bit)", "").Trim();
+            //return fvi.FileVersion.Replace("(64-bit)", "").Trim();
         }
 
         /// <summary>

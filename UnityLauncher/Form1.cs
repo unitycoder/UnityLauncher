@@ -570,6 +570,7 @@ namespace UnityLauncher
             else // not found
             {
                 SetStatus("Error> Cannot find installer executable ... opening website instead");
+                url = "https://unity3d.com/get-unity/download/archive";
                 Process.Start(url + "#installer-exe-not-found");
             }
         }

@@ -188,9 +188,10 @@ namespace UnityLauncherTools
                 if (version.Contains("5.6")) padding = "";
                 if (version.Contains("2017.1")) whatsnew = "whatsnew";
                 if (version.Contains("2017.4")) padding = "";
-                if (version.Contains("2018")) padding = "";
+                if (version.Contains("2018.2")) whatsnew = "whatsnew";
+                if (version.Contains("2018.3")) padding = "";
                 if (version.Contains("2019")) padding = "";
-                url = "https://unity3d.com/unity/"+ whatsnew +"/" + padding + version;
+                url = "https://unity3d.com/unity/" + whatsnew + "/" + padding + version;
             }
             else
             if (version.Contains("p")) // patch version

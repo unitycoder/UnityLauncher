@@ -34,13 +34,17 @@ namespace UnityLauncher
             if (string.IsNullOrEmpty(currentVersion) == false)
             {
                 string nearestVersion = Tools.FindNearestVersion(currentVersion, Form1.unityList.Keys.ToList());
-                //Console.WriteLine("nearest:" + nearestVersion);
 
                 // preselect most likely version
                 int likelyIndex = lstUnityVersions.FindString(nearestVersion);
                 if (likelyIndex > -1)
                 {
                     lstUnityVersions.SetSelected(likelyIndex, true);
+                }
+                else
+                {
+                    // just select first item then
+                    lstUnityVersions.SetSelected(0, true);
                 }
 
                 // enable release and dl buttons
@@ -54,6 +58,8 @@ namespace UnityLauncher
                 btn_OpenMissingVersionReleasePage.Enabled = false;
 
                 currentVersion = "None";
+                // just select first item then
+                if (lstUnityVersions != null && lstUnityVersions.Items.Count > 0) lstUnityVersions.SetSelected(0, true);
             }
 
             // fill textbox
@@ -64,15 +70,7 @@ namespace UnityLauncher
 
         private void btnConfirmUpgrade_Click(object sender, EventArgs e)
         {
-            if (lstUnityVersions.SelectedIndex > -1)
-            {
-                currentVersion = lstUnityVersions.Items[lstUnityVersions.SelectedIndex].ToString();
-                DialogResult = DialogResult.Yes;
-            }
-            else
-            {
-                // no version selected
-            }
+            UpgradeToSelected();
         }
 
         private void btnCancelUpgrade_Click(object sender, EventArgs e)
@@ -91,5 +89,30 @@ namespace UnityLauncher
         }
 
         #endregion
+
+        private void lstUnityVersions_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                UpgradeToSelected();
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                DialogResult = DialogResult.Cancel;
+            }
+        }
+
+        void UpgradeToSelected()
+        {
+            if (lstUnityVersions.SelectedIndex > -1)
+            {
+                currentVersion = lstUnityVersions.Items[lstUnityVersions.SelectedIndex].ToString();
+                DialogResult = DialogResult.Yes;
+            }
+            else
+            {
+                // no version selected
+            }
+        }
     }
 }

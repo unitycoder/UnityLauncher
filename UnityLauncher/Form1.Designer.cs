@@ -71,6 +71,7 @@
             this._Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._UnityUpdateVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.btnOpenLogcatCmd = new System.Windows.Forms.Button();
             this.chkDarkSkin = new System.Windows.Forms.CheckBox();
             this.btnCheckUpdates = new System.Windows.Forms.Button();
             this.linkProjectGithub = new System.Windows.Forms.LinkLabel();
@@ -108,7 +109,6 @@
             this.tabUpdates.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).BeginInit();
             this.tabSettings.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -606,6 +606,7 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.btnOpenLogcatCmd);
             this.tabSettings.Controls.Add(this.chkDarkSkin);
             this.tabSettings.Controls.Add(this.btnCheckUpdates);
             this.tabSettings.Controls.Add(this.linkProjectGithub);
@@ -634,11 +635,23 @@
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
+            // btnOpenLogcatCmd
+            // 
+            this.btnOpenLogcatCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenLogcatCmd.Location = new System.Drawing.Point(453, 311);
+            this.btnOpenLogcatCmd.Name = "btnOpenLogcatCmd";
+            this.btnOpenLogcatCmd.Size = new System.Drawing.Size(119, 23);
+            this.btnOpenLogcatCmd.TabIndex = 42;
+            this.btnOpenLogcatCmd.Text = "ADB logcat (cmd)";
+            this.toolTip1.SetToolTip(this.btnOpenLogcatCmd, "adb logcat -s Unity ActivityManager PackageManager dalvikvm DEBUG -v color");
+            this.btnOpenLogcatCmd.UseVisualStyleBackColor = true;
+            this.btnOpenLogcatCmd.Click += new System.EventHandler(this.btnOpenLogcatCmd_Click);
+            // 
             // chkDarkSkin
             // 
             this.chkDarkSkin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkDarkSkin.AutoSize = true;
-            this.chkDarkSkin.Location = new System.Drawing.Point(20, 416);
+            this.chkDarkSkin.Location = new System.Drawing.Point(20, 443);
             this.chkDarkSkin.Name = "chkDarkSkin";
             this.chkDarkSkin.Size = new System.Drawing.Size(85, 17);
             this.chkDarkSkin.TabIndex = 41;
@@ -678,7 +691,7 @@
             this.linkArgumentsDocs.AutoSize = true;
             this.linkArgumentsDocs.LinkArea = new System.Windows.Forms.LinkArea(1, 4);
             this.linkArgumentsDocs.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
-            this.linkArgumentsDocs.Location = new System.Drawing.Point(385, 348);
+            this.linkArgumentsDocs.Location = new System.Drawing.Point(385, 375);
             this.linkArgumentsDocs.Name = "linkArgumentsDocs";
             this.linkArgumentsDocs.Size = new System.Drawing.Size(36, 17);
             this.linkArgumentsDocs.TabIndex = 38;
@@ -691,7 +704,7 @@
             // 
             this.chkShowGitBranchColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkShowGitBranchColumn.AutoSize = true;
-            this.chkShowGitBranchColumn.Location = new System.Drawing.Point(266, 370);
+            this.chkShowGitBranchColumn.Location = new System.Drawing.Point(266, 397);
             this.chkShowGitBranchColumn.Name = "chkShowGitBranchColumn";
             this.chkShowGitBranchColumn.Size = new System.Drawing.Size(76, 17);
             this.chkShowGitBranchColumn.TabIndex = 36;
@@ -705,7 +718,7 @@
             this.label5.AutoSize = true;
             this.label5.Enabled = false;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(263, 322);
+            this.label5.Location = new System.Drawing.Point(263, 349);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(105, 13);
             this.label5.TabIndex = 35;
@@ -715,7 +728,7 @@
             // 
             this.chkShowLauncherArgumentsColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkShowLauncherArgumentsColumn.AutoSize = true;
-            this.chkShowLauncherArgumentsColumn.Location = new System.Drawing.Point(266, 347);
+            this.chkShowLauncherArgumentsColumn.Location = new System.Drawing.Point(266, 374);
             this.chkShowLauncherArgumentsColumn.Name = "chkShowLauncherArgumentsColumn";
             this.chkShowLauncherArgumentsColumn.Size = new System.Drawing.Size(124, 17);
             this.chkShowLauncherArgumentsColumn.TabIndex = 34;
@@ -727,7 +740,7 @@
             // 
             this.ChkQuitAfterOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ChkQuitAfterOpen.AutoSize = true;
-            this.ChkQuitAfterOpen.Location = new System.Drawing.Point(20, 370);
+            this.ChkQuitAfterOpen.Location = new System.Drawing.Point(20, 397);
             this.ChkQuitAfterOpen.Name = "ChkQuitAfterOpen";
             this.ChkQuitAfterOpen.Size = new System.Drawing.Size(172, 17);
             this.ChkQuitAfterOpen.TabIndex = 33;
@@ -738,7 +751,7 @@
             // btnOpenLogFolder
             // 
             this.btnOpenLogFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenLogFolder.Location = new System.Drawing.Point(453, 285);
+            this.btnOpenLogFolder.Location = new System.Drawing.Point(453, 273);
             this.btnOpenLogFolder.Name = "btnOpenLogFolder";
             this.btnOpenLogFolder.Size = new System.Drawing.Size(119, 23);
             this.btnOpenLogFolder.TabIndex = 32;
@@ -750,7 +763,7 @@
             // 
             this.chkQuitAfterCommandline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkQuitAfterCommandline.AutoSize = true;
-            this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 393);
+            this.chkQuitAfterCommandline.Location = new System.Drawing.Point(20, 420);
             this.chkQuitAfterCommandline.Name = "chkQuitAfterCommandline";
             this.chkQuitAfterCommandline.Size = new System.Drawing.Size(189, 17);
             this.chkQuitAfterCommandline.TabIndex = 31;
@@ -761,7 +774,7 @@
             // btnAddRegister
             // 
             this.btnAddRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddRegister.Location = new System.Drawing.Point(139, 481);
+            this.btnAddRegister.Location = new System.Drawing.Point(139, 493);
             this.btnAddRegister.Name = "btnAddRegister";
             this.btnAddRegister.Size = new System.Drawing.Size(64, 23);
             this.btnAddRegister.TabIndex = 30;
@@ -772,7 +785,7 @@
             // btnRemoveRegister
             // 
             this.btnRemoveRegister.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemoveRegister.Location = new System.Drawing.Point(209, 481);
+            this.btnRemoveRegister.Location = new System.Drawing.Point(209, 493);
             this.btnRemoveRegister.Name = "btnRemoveRegister";
             this.btnRemoveRegister.Size = new System.Drawing.Size(64, 23);
             this.btnRemoveRegister.TabIndex = 29;
@@ -784,7 +797,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 486);
+            this.label4.Location = new System.Drawing.Point(19, 498);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(117, 13);
             this.label4.TabIndex = 28;
@@ -796,7 +809,7 @@
             this.label2.AutoSize = true;
             this.label2.Enabled = false;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(17, 322);
+            this.label2.Location = new System.Drawing.Point(17, 349);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 13);
             this.label2.TabIndex = 26;
@@ -806,7 +819,7 @@
             // 
             this.chkMinimizeToTaskbar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkMinimizeToTaskbar.AutoSize = true;
-            this.chkMinimizeToTaskbar.Location = new System.Drawing.Point(20, 347);
+            this.chkMinimizeToTaskbar.Location = new System.Drawing.Point(20, 374);
             this.chkMinimizeToTaskbar.Name = "chkMinimizeToTaskbar";
             this.chkMinimizeToTaskbar.Size = new System.Drawing.Size(116, 17);
             this.chkMinimizeToTaskbar.TabIndex = 25;
@@ -900,6 +913,8 @@
             // 
             // statusStrip1
             // 
+            // this next line keeps disappearing : this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.toolStripStatusLabel1});
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.toolStripStatusLabel1});
             this.statusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.statusStrip1.AutoSize = false;
@@ -932,7 +947,7 @@
             this.MinimumSize = new System.Drawing.Size(600, 650);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "UnityLauncher - Getting Darker Edition 26";
+            this.Text = "UnityLauncher - SummerEdition 28";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
@@ -951,8 +966,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridUnityUpdates)).EndInit();
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1027,6 +1040,7 @@
         private System.Windows.Forms.TextBox tbSearchUpdates;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.CheckBox chkDarkSkin;
+        private System.Windows.Forms.Button btnOpenLogcatCmd;
     }
 }
 

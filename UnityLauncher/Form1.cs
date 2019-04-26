@@ -184,10 +184,7 @@ namespace UnityLauncher
         /// <returns></returns>
         bool HaveExactVersionInstalled(string version)
         {
-            //Console.WriteLine("checking: '" + version + "'");
-            var installedExact = unityList.ContainsKey(version);
-            //Console.WriteLine("have exact:" + installedExact);
-            return installedExact;
+            return string.IsNullOrEmpty(version) == false && unityList.ContainsKey(version);
         }
 
 
@@ -545,7 +542,6 @@ namespace UnityLauncher
                 if (match.Success == true)
                 {
                     url = match.Groups[0].Captures[0].Value;
-                    //                    Console.WriteLine(url);
                 }
                 else
                 {
@@ -559,7 +555,7 @@ namespace UnityLauncher
         /// launches browser to download installer
         /// </summary>
         /// <param name="url">full url to installer</param>
-        void DownloadInBrowser(string url)
+        void DownloadInBrowser(string url, string version)
         {
             string exeURL = GetDownloadUrlForUnityVersion(url);
             if (string.IsNullOrEmpty(exeURL) == false)
@@ -571,7 +567,7 @@ namespace UnityLauncher
             {
                 SetStatus("Error> Cannot find installer executable ... opening website instead");
                 url = "https://unity3d.com/get-unity/download/archive";
-                Process.Start(url + "#installer-exe-not-found");
+                Process.Start(url + "#installer-not-found---version-" + version);
             }
         }
 
@@ -584,7 +580,7 @@ namespace UnityLauncher
             string[] rootFolders = null;
             try
             {
-                // if settings exists, use that
+                // if settings exists, use that value
                 rootFolders = new string[Properties.Settings.Default.rootFolders.Count];
                 Properties.Settings.Default.rootFolders.CopyTo(rootFolders, 0);
             }
@@ -622,6 +618,7 @@ namespace UnityLauncher
             {
                 var projectPath = gridRecent.Rows[(int)selected].Cells["_path"].Value.ToString();
                 var version = Tools.GetProjectVersion(projectPath);
+                Console.WriteLine("version: '" + version + "'");
                 LaunchProject(projectPath, version, openProject);
                 SetStatus("Ready");
             }
@@ -631,7 +628,7 @@ namespace UnityLauncher
 
         void LaunchSelectedUnity()
         {
-            
+
             var selected = gridUnityList?.CurrentCell?.RowIndex;
             if (selected.HasValue && selected > -1)
             {
@@ -719,7 +716,7 @@ namespace UnityLauncher
 
         private void btnExploreUnity_Click(object sender, EventArgs e)
         {
-            
+
             var selected = gridUnityList?.CurrentCell?.RowIndex;
             if (selected.HasValue && selected > -1)
             {
@@ -1141,7 +1138,7 @@ namespace UnityLauncher
                     string url = Tools.GetUnityReleaseURL(currentVersion);
                     if (string.IsNullOrEmpty(url) == false)
                     {
-                        DownloadInBrowser(url);
+                        DownloadInBrowser(url, currentVersion);
                     }
                     else
                     {
@@ -1218,31 +1215,27 @@ namespace UnityLauncher
             folderBrowserDialog1.Description = "Select existing project folder";
             var d = folderBrowserDialog1.ShowDialog();
             var projectPath = folderBrowserDialog1.SelectedPath;
+
+            // NOTE: if user didnt click enter or deselect-select newly created folder, this fails as it returns "new folder" instead of actual name
+            // https://social.msdn.microsoft.com/Forums/vstudio/en-US/cc7f1d54-c1a0-45de-9611-7f69873f32df/folderbrowserdialog-bug-when-click-ok-while-modify-new-folders-name?forum=netfxbcl
+
             if (String.IsNullOrWhiteSpace(projectPath) == false && Directory.Exists(projectPath) == true)
             {
-
                 // TODO: remove duplicate code (from UpdateRecentList())
-
                 string projectName = "";
-
-                Console.WriteLine(Path.DirectorySeparatorChar);
-                Console.WriteLine(Path.AltDirectorySeparatorChar);
 
                 // get project name from full path
                 if (projectPath.IndexOf(Path.DirectorySeparatorChar) > -1)
                 {
                     projectName = projectPath.Substring(projectPath.LastIndexOf(Path.DirectorySeparatorChar) + 1);
-                    Console.WriteLine("1");
                 }
                 else if (projectPath.IndexOf(Path.AltDirectorySeparatorChar) > -1)
                 {
                     projectName = projectPath.Substring(projectPath.LastIndexOf(Path.AltDirectorySeparatorChar) + 1);
-                    Console.WriteLine("2");
                 }
                 else // no path separator found
                 {
                     projectName = projectPath;
-                    Console.WriteLine("3");
                 }
 
                 string csprojFile = Path.Combine(projectPath, projectName + ".csproj");
@@ -1329,6 +1322,24 @@ namespace UnityLauncher
                     DataGridViewRow row = gridRecent.SelectedRows[0];
                     gridRecent.CurrentCell = row.Cells[0];
                 }
+            }
+        }
+
+        private void btnOpenLogcatCmd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process myProcess = new Process();
+                var cmd = "cmd.exe";
+                myProcess.StartInfo.FileName = cmd;
+                // NOTE windows 10 cmd line supports ansi colors, otherwise remove -v color
+                var pars = " /c adb logcat -s Unity ActivityManager PackageManager dalvikvm DEBUG -v color";
+                myProcess.StartInfo.Arguments = pars;
+                myProcess.Start();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
         }
 

@@ -54,6 +54,7 @@
             this.lstUnityVersions.Name = "lstUnityVersions";
             this.lstUnityVersions.Size = new System.Drawing.Size(235, 303);
             this.lstUnityVersions.TabIndex = 1;
+            this.lstUnityVersions.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstUnityVersions_KeyDown);
             // 
             // btnCancelUpgrade
             // 

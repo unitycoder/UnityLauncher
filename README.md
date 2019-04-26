@@ -46,6 +46,6 @@ https://forum.unity3d.com/threads/unitylauncher-launch-correct-unity-versions-fo
 
 ![image](https://user-images.githubusercontent.com/5438317/35776544-85f7c1f8-09d9-11e8-8ab7-ee08d01ebef3.png)
 
-![image](https://user-images.githubusercontent.com/5438317/35776558-d0692970-09d9-11e8-8191-f48da5d63ca8.png)
+![image](https://user-images.githubusercontent.com/5438317/56789044-ac867c80-6809-11e9-9187-b998dbed0d0d.png)
 
 ![image](https://user-images.githubusercontent.com/5438317/35776575-01c720bc-09da-11e8-99d1-f6e4ad3c0fab.png)

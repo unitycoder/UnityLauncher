@@ -530,24 +530,31 @@ namespace UnityLauncher
 
         // parse Unity installer exe from release page
         // thanks to https://github.com/softfruit
-        string GetDownloadUrlForUnityVersion(string releaseUrl)
+        string GetDownloadUrlForUnityVersion(string version)
         {
             string url = "";
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             using (WebClient client = new WebClient())
             {
-                string html = client.DownloadString(releaseUrl);
-                Regex regex = new Regex(@"(http).+(UnityDownloadAssistant)+[^\s*]*(.exe)");
-                Match match = regex.Match(html);
-                if (match.Success == true)
+                string htmlCode = client.DownloadString("https://unity3d.com/get-unity/download/archive");
+                string[] lines = htmlCode.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                
+                for (int i = 0; i < lines.Length; i++)
                 {
-                    url = match.Groups[0].Captures[0].Value;
-                }
-                else
-                {
-                    SetStatus("Cannot find UnityDownloadAssistant.exe for this version.");
-                }
+                    if (lines[i].Contains("UnitySetup64-" + version))
+                    {                        
+                        string line = lines[i-1];
+                        int start = line.IndexOf('"') + 1;
+                        int end = line.IndexOf('"', start);
+                        url = @"https://unity3d.com" + line.Substring(start, end - start);
+                        break;
+                    }
+                }                                
             }
+
+            if(string.IsNullOrEmpty(url))
+                SetStatus("Cannot find UnityDownloadAssistant.exe for this version.");
+
             return url;
         }
 
@@ -557,7 +564,7 @@ namespace UnityLauncher
         /// <param name="url">full url to installer</param>
         void DownloadInBrowser(string url, string version)
         {
-            string exeURL = GetDownloadUrlForUnityVersion(url);
+            string exeURL = GetDownloadUrlForUnityVersion(version);
             if (string.IsNullOrEmpty(exeURL) == false)
             {
                 SetStatus("Download installer in browser: " + exeURL);

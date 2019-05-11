@@ -49,3 +49,11 @@ https://forum.unity3d.com/threads/unitylauncher-launch-correct-unity-versions-fo
 ![image](https://user-images.githubusercontent.com/5438317/56789044-ac867c80-6809-11e9-9187-b998dbed0d0d.png)
 
 ![image](https://user-images.githubusercontent.com/5438317/35776575-01c720bc-09da-11e8-99d1-f6e4ad3c0fab.png)
+
+# Special Thanks (for fixes, updates, pull requests)
+- https://github.com/851marc
+- https://github.com/KyleOrth
+- https://github.com/Raebyn
+- Ville Tuhkanen
+- https://github.com/geo-at-github
+- https://github.com/yschuurmans

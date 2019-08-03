@@ -98,7 +98,7 @@ namespace UnityLauncher
                         Application.Exit();
                     }
 
-                    SetStatus("Ready");
+                    //SetStatus("Ready");
                 }
                 else
                 {
@@ -350,7 +350,7 @@ namespace UnityLauncher
                         // first check if whole folder exists, if not, skip
                         if (Directory.Exists(projectPath) == false)
                         {
-                            Console.WriteLine("Recent project directory not found, skipping: " + projectPath);
+                            //Console.WriteLine("Recent project directory not found, skipping: " + projectPath);
                             continue;
                         }
 
@@ -415,7 +415,7 @@ namespace UnityLauncher
                     }
                 }
             }
-            SetStatus("Ready");
+            //SetStatus("Ready");
         }
 
         void LaunchProject(string projectPath, string version, bool openProject = true, string commandLineArguments = "")
@@ -484,7 +484,8 @@ namespace UnityLauncher
                 else // we dont have this version installed (or no version info available)
                 {
                     SetStatus("Missing Unity version: " + version);
-                    DisplayUpgradeDialog(version, projectPath);
+                    // if only running only, stop here
+                    if (openProject == true) DisplayUpgradeDialog(version, projectPath);
                 }
             }
             else // given path doesnt exists, strange
@@ -538,21 +539,21 @@ namespace UnityLauncher
             {
                 string htmlCode = client.DownloadString("https://unity3d.com/get-unity/download/archive");
                 string[] lines = htmlCode.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-                
+
                 for (int i = 0; i < lines.Length; i++)
                 {
                     if (lines[i].Contains("UnitySetup64-" + version))
-                    {                        
-                        string line = lines[i-1];
+                    {
+                        string line = lines[i - 1];
                         int start = line.IndexOf('"') + 1;
                         int end = line.IndexOf('"', start);
                         url = @"https://unity3d.com" + line.Substring(start, end - start);
                         break;
                     }
-                }                                
+                }
             }
 
-            if(string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
                 SetStatus("Cannot find UnityDownloadAssistant.exe for this version.");
 
             return url;
@@ -627,11 +628,9 @@ namespace UnityLauncher
                 var version = Tools.GetProjectVersion(projectPath);
                 Console.WriteLine("version: '" + version + "'");
                 LaunchProject(projectPath, version, openProject);
-                SetStatus("Ready");
+                //SetStatus("Ready");
             }
         }
-
-
 
         void LaunchSelectedUnity()
         {
@@ -639,8 +638,8 @@ namespace UnityLauncher
             var selected = gridUnityList?.CurrentCell?.RowIndex;
             if (selected.HasValue && selected > -1)
             {
-                SetStatus("Launching Unity..");
                 var version = gridUnityList.Rows[(int)selected].Cells["_unityVersion"].Value.ToString();
+                SetStatus("Launching Unity: " + version);
                 try
                 {
                     Process myProcess = new Process();
@@ -652,7 +651,7 @@ namespace UnityLauncher
                 {
                     Console.WriteLine(ex);
                 }
-                SetStatus("Ready");
+                //SetStatus("Ready");
             }
         }
 
@@ -758,6 +757,7 @@ namespace UnityLauncher
             FetchListOfUnityUpdates();
         }
 
+        int lastKnownSelectedRow = -1;
         private void unityGridView_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -831,7 +831,10 @@ namespace UnityLauncher
                     LaunchSelectedProject();
                     break;
                 case Keys.F5: // refresh recent projects list
+                    lastKnownSelectedRow = GetSelectedRowIndex();
+                    Console.WriteLine(lastKnownSelectedRow);
                     UpdateRecentProjectsList();
+                    SetSelectedRowIndex(lastKnownSelectedRow);
                     break;
                 default:
                     break;
@@ -1350,5 +1353,38 @@ namespace UnityLauncher
             }
         }
 
+        int GetSelectedRowIndex()
+        {
+            var selected = gridRecent?.CurrentCell?.RowIndex;
+            if (selected.HasValue && selected > -1)
+            {
+                return (int)selected;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        void SetSelectedRowIndex(int index)
+        {
+            if (index > -1 && index < gridRecent.Rows.Count) gridRecent.Rows[index].Selected = true;
+        }
+
+        private void btnDownloadNewUnity_Click(object sender, EventArgs e)
+        {
+            FixSelectedRow();
+            var selected = gridUnityUpdates?.CurrentCell?.RowIndex;
+            if (selected.HasValue && selected > -1)
+            {
+                var version = gridUnityUpdates.Rows[(int)selected].Cells["_UnityUpdateVersion"].Value.ToString();
+                string url = Tools.GetUnityReleaseURL(version);
+                if (string.IsNullOrEmpty(url) == false)
+                {
+                    DownloadInBrowser(url, version);
+                }
+            }
+
+        }
     } // class Form 
 } // namespace

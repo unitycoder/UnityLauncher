@@ -182,14 +182,19 @@ namespace UnityLauncherTools
 
             if (version.Contains("f")) // archived
             {
+                // remove f#
                 version = Regex.Replace(version, @"f.", "", RegexOptions.IgnoreCase);
+
                 string padding = "unity-";
                 string whatsnew = "whats-new";
+
                 if (version.Contains("5.6")) padding = "";
                 if (version.Contains("2017.1")) whatsnew = "whatsnew";
-                if (version.Contains("2017.4")) padding = "";
                 if (version.Contains("2018.2")) whatsnew = "whatsnew";
                 if (version.Contains("2018.3")) padding = "";
+                if (version.Contains("2018.1")) whatsnew = "whatsnew"; // doesnt work
+                if (version.Contains("2017.4.")) padding = ""; //  doesnt work for all versions
+                if (version.Contains("2018.4.")) padding = "";
                 if (version.Contains("2019")) padding = "";
                 url = "https://unity3d.com/unity/" + whatsnew + "/" + padding + version;
             }

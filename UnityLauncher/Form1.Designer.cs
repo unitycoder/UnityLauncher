@@ -64,6 +64,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lstPackageFolders = new System.Windows.Forms.ListBox();
             this.tabUpdates = new System.Windows.Forms.TabPage();
+            this.btnDownloadNewUnity = new System.Windows.Forms.Button();
             this.tbSearchUpdates = new System.Windows.Forms.TextBox();
             this.btnOpenUpdateWebsite = new System.Windows.Forms.Button();
             this.btnFetchUnityVersions = new System.Windows.Forms.Button();
@@ -100,7 +101,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.btnDownloadNewUnity = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -526,6 +526,19 @@
             this.tabUpdates.Text = "Updates";
             this.tabUpdates.UseVisualStyleBackColor = true;
             // 
+            // btnDownloadNewUnity
+            // 
+            this.btnDownloadNewUnity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDownloadNewUnity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDownloadNewUnity.Location = new System.Drawing.Point(3, 511);
+            this.btnDownloadNewUnity.Name = "btnDownloadNewUnity";
+            this.btnDownloadNewUnity.Size = new System.Drawing.Size(239, 35);
+            this.btnDownloadNewUnity.TabIndex = 25;
+            this.btnDownloadNewUnity.Text = "Download in Browser";
+            this.toolTip1.SetToolTip(this.btnDownloadNewUnity, "Open Release Page");
+            this.btnDownloadNewUnity.UseVisualStyleBackColor = true;
+            this.btnDownloadNewUnity.Click += new System.EventHandler(this.btnDownloadNewUnity_Click);
+            // 
             // tbSearchUpdates
             // 
             this.tbSearchUpdates.Location = new System.Drawing.Point(3, 5);
@@ -536,8 +549,7 @@
             // 
             // btnOpenUpdateWebsite
             // 
-            this.btnOpenUpdateWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenUpdateWebsite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenUpdateWebsite.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOpenUpdateWebsite.Location = new System.Drawing.Point(248, 511);
             this.btnOpenUpdateWebsite.Name = "btnOpenUpdateWebsite";
@@ -916,12 +928,12 @@
             // 
             // statusStrip1
             // 
+            // this next line keeps disappearing : this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.toolStripStatusLabel1});
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.toolStripStatusLabel1 });
             this.statusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.statusStrip1.AutoSize = false;
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 590);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(579, 22);
@@ -936,20 +948,6 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(550, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnDownloadNewUnity
-            // 
-            this.btnDownloadNewUnity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDownloadNewUnity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDownloadNewUnity.Location = new System.Drawing.Point(3, 511);
-            this.btnDownloadNewUnity.Name = "btnDownloadNewUnity";
-            this.btnDownloadNewUnity.Size = new System.Drawing.Size(239, 35);
-            this.btnDownloadNewUnity.TabIndex = 25;
-            this.btnDownloadNewUnity.Text = "Download in Browser";
-            this.toolTip1.SetToolTip(this.btnDownloadNewUnity, "Open Release Page");
-            this.btnDownloadNewUnity.UseVisualStyleBackColor = true;
-            this.btnDownloadNewUnity.Click += new System.EventHandler(this.btnDownloadNewUnity_Click);
             // 
             // Form1
             // 

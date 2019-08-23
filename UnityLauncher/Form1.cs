@@ -61,6 +61,8 @@ namespace UnityLauncher
                 return;
             }
 
+
+
             // check if received -projectPath argument (that means opening from explorer / cmdline)
             string[] args = Environment.GetCommandLineArgs();
             if (args != null && args.Length > 2)
@@ -89,8 +91,17 @@ namespace UnityLauncher
                         commandLineArguments += " " + args[i];
                     }
 
-                    // try launching it
-                    LaunchProject(projectPathArgument, version, openProject: true, commandLineArguments: commandLineArguments);
+                    // check if force-update button is down
+                    if ((Control.ModifierKeys & Keys.Shift) != 0)
+                    {
+                        DisplayUpgradeDialog(version, projectPathArgument, launchProject: true, commandLineArguments: commandLineArguments);
+                    }
+                    else
+                    {
+                        // try launching it
+                        LaunchProject(projectPathArgument, version, openProject: true, commandLineArguments: commandLineArguments);
+                    }
+
 
                     // quit after launch if enabled in settings
                     if (Properties.Settings.Default.closeAfterExplorer == true)
@@ -1125,7 +1136,7 @@ namespace UnityLauncher
             }
         }
 
-        void DisplayUpgradeDialog(string currentVersion, string projectPath, bool launchProject = true)
+        void DisplayUpgradeDialog(string currentVersion, string projectPath, bool launchProject = true, string commandLineArguments = "")
         {
             // display upgrade dialog (version selector)
             Form2 upgradeDialog = new Form2();
@@ -1138,7 +1149,7 @@ namespace UnityLauncher
                 case DialogResult.Ignore: // view release notes page
                     Tools.OpenReleaseNotes(currentVersion);
                     // display window again for now..
-                    DisplayUpgradeDialog(currentVersion, projectPath, launchProject);
+                    DisplayUpgradeDialog(currentVersion, projectPath, launchProject, commandLineArguments);
                     break;
                 case DialogResult.Cancel: // cancelled
                     SetStatus("Cancelled project upgrade");

@@ -178,9 +178,7 @@ namespace UnityLauncherTools
         public static string GetUnityReleaseURL(string version)
         {
             string url = "";
-
-
-            if (version.Contains("f")) // archived
+            if (VersionIsArchived(version))
             {
                 // remove f#
                 version = Regex.Replace(version, @"f.", "", RegexOptions.IgnoreCase);
@@ -199,22 +197,45 @@ namespace UnityLauncherTools
                 url = "https://unity3d.com/unity/" + whatsnew + "/" + padding + version;
             }
             else
-            if (version.Contains("p")) // patch version
+            if (VersionIsPatch(version))
             {
                 url = "https://unity3d.com/unity/qa/patch-releases/" + version;
             }
             else
-            if (version.Contains("b")) // beta version
+            if (VersionIsBeta(version))
             {
                 url = "https://unity3d.com/unity/beta/" + version;
             }
             else
-            if (version.Contains("a")) // alpha version
+            if (VersionIsAlpha(version))
             {
                 url = "https://unity3d.com/unity/alpha/" + version;
             }
 
+            Console.WriteLine(url);
+
             return url;
+        }
+
+        // if version contains *f* its archived version
+        public static bool VersionIsArchived(string version)
+        {
+            return version.Contains("f");
+        }
+
+        public static bool VersionIsPatch(string version)
+        {
+            return version.Contains("p");
+        }
+
+        public static bool VersionIsBeta(string version)
+        {
+            return version.Contains("b");
+        }
+
+        public static bool VersionIsAlpha(string version)
+        {
+            return version.Contains("a");
         }
 
         /// <summary>

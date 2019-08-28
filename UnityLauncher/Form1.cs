@@ -1441,5 +1441,18 @@ namespace UnityLauncher
             }
 
         }
+
+        // open LocalLow folder
+        private void btnPlayerLogFolder_Click(object sender, EventArgs e)
+        {
+            var logfolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/../LocalLow");
+            if (Directory.Exists(logfolder) == true)
+            {
+                if (Tools.LaunchExplorer(logfolder) == false)
+                {
+                    SetStatus("Error> Directory not found: " + logfolder);
+                }
+            }
+        }
     } // class Form 
 } // namespace

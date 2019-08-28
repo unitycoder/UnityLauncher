@@ -101,6 +101,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btnPlayerLogFolder = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -621,6 +622,7 @@
             // 
             // tabSettings
             // 
+            this.tabSettings.Controls.Add(this.btnPlayerLogFolder);
             this.tabSettings.Controls.Add(this.btnOpenLogcatCmd);
             this.tabSettings.Controls.Add(this.chkDarkSkin);
             this.tabSettings.Controls.Add(this.btnCheckUpdates);
@@ -653,7 +655,7 @@
             // btnOpenLogcatCmd
             // 
             this.btnOpenLogcatCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenLogcatCmd.Location = new System.Drawing.Point(453, 311);
+            this.btnOpenLogcatCmd.Location = new System.Drawing.Point(453, 271);
             this.btnOpenLogcatCmd.Name = "btnOpenLogcatCmd";
             this.btnOpenLogcatCmd.Size = new System.Drawing.Size(119, 23);
             this.btnOpenLogcatCmd.TabIndex = 42;
@@ -766,7 +768,7 @@
             // btnOpenLogFolder
             // 
             this.btnOpenLogFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenLogFolder.Location = new System.Drawing.Point(453, 273);
+            this.btnOpenLogFolder.Location = new System.Drawing.Point(328, 271);
             this.btnOpenLogFolder.Name = "btnOpenLogFolder";
             this.btnOpenLogFolder.Size = new System.Drawing.Size(119, 23);
             this.btnOpenLogFolder.TabIndex = 32;
@@ -949,6 +951,17 @@
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // btnPlayerLogFolder
+            // 
+            this.btnPlayerLogFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPlayerLogFolder.Location = new System.Drawing.Point(328, 300);
+            this.btnPlayerLogFolder.Name = "btnPlayerLogFolder";
+            this.btnPlayerLogFolder.Size = new System.Drawing.Size(119, 23);
+            this.btnPlayerLogFolder.TabIndex = 43;
+            this.btnPlayerLogFolder.Text = "Player.log Folder";
+            this.btnPlayerLogFolder.UseVisualStyleBackColor = true;
+            this.btnPlayerLogFolder.Click += new System.EventHandler(this.btnPlayerLogFolder_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1059,6 +1072,7 @@
         private System.Windows.Forms.CheckBox chkDarkSkin;
         private System.Windows.Forms.Button btnOpenLogcatCmd;
         private System.Windows.Forms.Button btnDownloadNewUnity;
+        private System.Windows.Forms.Button btnPlayerLogFolder;
     }
 }
 

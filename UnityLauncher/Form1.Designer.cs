@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabProjects = new System.Windows.Forms.TabPage();
+            this.lblClearSearchField = new System.Windows.Forms.Label();
             this.btnBrowseForProject = new System.Windows.Forms.Button();
             this.btnRefreshProjectList = new System.Windows.Forms.Button();
             this.tbSearchBar = new System.Windows.Forms.TextBox();
@@ -72,6 +73,7 @@
             this._Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._UnityUpdateVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.btnPlayerLogFolder = new System.Windows.Forms.Button();
             this.btnOpenLogcatCmd = new System.Windows.Forms.Button();
             this.chkDarkSkin = new System.Windows.Forms.CheckBox();
             this.btnCheckUpdates = new System.Windows.Forms.Button();
@@ -101,7 +103,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.btnPlayerLogFolder = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabProjects.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecent)).BeginInit();
@@ -133,6 +134,7 @@
             // 
             // tabProjects
             // 
+            this.tabProjects.Controls.Add(this.lblClearSearchField);
             this.tabProjects.Controls.Add(this.btnBrowseForProject);
             this.tabProjects.Controls.Add(this.btnRefreshProjectList);
             this.tabProjects.Controls.Add(this.tbSearchBar);
@@ -147,6 +149,20 @@
             this.tabProjects.TabIndex = 0;
             this.tabProjects.Text = "Projects";
             this.tabProjects.UseVisualStyleBackColor = true;
+            // 
+            // lblClearSearchField
+            // 
+            this.lblClearSearchField.AutoSize = true;
+            this.lblClearSearchField.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblClearSearchField.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblClearSearchField.Location = new System.Drawing.Point(448, 8);
+            this.lblClearSearchField.Name = "lblClearSearchField";
+            this.lblClearSearchField.Size = new System.Drawing.Size(12, 13);
+            this.lblClearSearchField.TabIndex = 24;
+            this.lblClearSearchField.Text = "x";
+            this.lblClearSearchField.Click += new System.EventHandler(this.lblClearSearchField_Click);
+            this.lblClearSearchField.MouseEnter += new System.EventHandler(this.lblClearSearchField_MouseEnter);
+            this.lblClearSearchField.MouseLeave += new System.EventHandler(this.lblClearSearchField_MouseLeave);
             // 
             // btnBrowseForProject
             // 
@@ -652,6 +668,17 @@
             this.tabSettings.Text = "Settings";
             this.tabSettings.UseVisualStyleBackColor = true;
             // 
+            // btnPlayerLogFolder
+            // 
+            this.btnPlayerLogFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPlayerLogFolder.Location = new System.Drawing.Point(328, 300);
+            this.btnPlayerLogFolder.Name = "btnPlayerLogFolder";
+            this.btnPlayerLogFolder.Size = new System.Drawing.Size(119, 23);
+            this.btnPlayerLogFolder.TabIndex = 43;
+            this.btnPlayerLogFolder.Text = "Player.log Folder";
+            this.btnPlayerLogFolder.UseVisualStyleBackColor = true;
+            this.btnPlayerLogFolder.Click += new System.EventHandler(this.btnPlayerLogFolder_Click);
+            // 
             // btnOpenLogcatCmd
             // 
             this.btnOpenLogcatCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -951,17 +978,6 @@
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // btnPlayerLogFolder
-            // 
-            this.btnPlayerLogFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPlayerLogFolder.Location = new System.Drawing.Point(328, 300);
-            this.btnPlayerLogFolder.Name = "btnPlayerLogFolder";
-            this.btnPlayerLogFolder.Size = new System.Drawing.Size(119, 23);
-            this.btnPlayerLogFolder.TabIndex = 43;
-            this.btnPlayerLogFolder.Text = "Player.log Folder";
-            this.btnPlayerLogFolder.UseVisualStyleBackColor = true;
-            this.btnPlayerLogFolder.Click += new System.EventHandler(this.btnPlayerLogFolder_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1073,6 +1089,7 @@
         private System.Windows.Forms.Button btnOpenLogcatCmd;
         private System.Windows.Forms.Button btnDownloadNewUnity;
         private System.Windows.Forms.Button btnPlayerLogFolder;
+        private System.Windows.Forms.Label lblClearSearchField;
     }
 }
 

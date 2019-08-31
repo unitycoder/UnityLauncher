@@ -284,6 +284,7 @@ namespace UnityLauncher
         {
             SetStatus("Filtering recent projects list ...");
             string searchString = tbSearchBar.Text;
+
             foreach (DataGridViewRow row in gridRecent.Rows)
             {
                 if (row.Cells["_project"].Value.ToString().IndexOf(searchString, StringComparison.OrdinalIgnoreCase) > -1)
@@ -295,6 +296,9 @@ namespace UnityLauncher
                     row.Visible = false;
                 }
             }
+
+            lblClearSearchField.Visible = tbSearchBar.Text.Length > 0;
+
         }
 
         void FilterUnityUpdates(object sender, EventArgs e)
@@ -846,6 +850,7 @@ namespace UnityLauncher
                     if (tabControl1.SelectedIndex == 0 && tbSearchBar.Text != "")
                     {
                         tbSearchBar.Text = "";
+                        lblClearSearchField.Visible = false;
                     }
                     else if (tabControl1.SelectedIndex == 3 && tbSearchUpdates.Text != "")
                     {
@@ -864,6 +869,7 @@ namespace UnityLauncher
                         tbSearchBar.Focus();
                         tbSearchBar.Text += e.KeyChar;
                         tbSearchBar.Select(tbSearchBar.Text.Length, 0);
+                        lblClearSearchField.Visible = tbSearchBar.Text.Length > 0;
                     }
                     break;
             }
@@ -1453,6 +1459,21 @@ namespace UnityLauncher
                     SetStatus("Error> Directory not found: " + logfolder);
                 }
             }
+        }
+
+        private void lblClearSearchField_Click(object sender, EventArgs e)
+        {
+            tbSearchBar.Text = "";
+        }
+
+        private void lblClearSearchField_MouseEnter(object sender, EventArgs e)
+        {
+            ((Label)sender).ForeColor = Color.FromArgb(255, 0, 0, 0);
+        }
+
+        private void lblClearSearchField_MouseLeave(object sender, EventArgs e)
+        {
+            ((Label)sender).ForeColor = Color.FromArgb(128, 128, 128, 128);
         }
     } // class Form 
 } // namespace

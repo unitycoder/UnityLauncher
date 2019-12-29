@@ -1,3 +1,5 @@
+** Note: New Dark Theme WPF version is coming up here, all new features will be available on that version only : https://github.com/unitycoder/UnityLauncherPro **
+
 # UnityLauncher
 
 Handle all your Unity versions and Projects easily!

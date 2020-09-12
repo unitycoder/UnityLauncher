@@ -1,4 +1,6 @@
-** Note: New Dark Theme WPF version is coming up here, all new features will be available on that version only : https://github.com/unitycoder/UnityLauncherPro **
+# Note: New Dark Theme WPF version is here : https://github.com/unitycoder/UnityLauncherPro
+
+### this old winforms version is no longer updated!
 
 # UnityLauncher
 
